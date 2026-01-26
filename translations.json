@@ -1,0 +1,716 @@
+{
+  "en": {
+    "header": {
+      "name": "Daniel Romeyn",
+      "nav": {
+        "home": "Home",
+        "about": "About",
+        "career": "Career",
+        "portfolio": "Portfolio",
+        "services": "Services",
+        "contact": "Contact"
+      }
+    },
+    "pageTitle": "Daniel Romeyn - Senior UX Specialist",
+    "pageDescription": "Innovative UX Specialist & AI Design Leader. Check out my latest multi-modal AI concepts.",
+    "hero": {
+      "title": "Innovative UX Specialist | Conversational & AI Agent Design Leader | Transforming User Interactions",
+      "subtitle": "Passionate about crafting intuitive digital experiences that delight users and drive business goals.",
+      "cta": "View My Work"
+    },
+    "about": {
+      "title": "About Me",
+      "intro": "As a Senior UX Specialist and an Innovative UX Specialist, Conversational & AI Agent Design Leader, I am passionate about transforming user interactions and crafting intuitive digital experiences that truly delight users and drive business goals.",
+      "p1": "With a strong background in leading conversational and experience design, I thrive on solving complex problems and translating user needs into intuitive, engaging, and highly reliable solutions. My approach is deeply user-focused, driven by empathy and a comprehensive understanding of human behavior.",
+      "expertise": "My core expertise includes:",
+      "expertiseItems": {
+        "ux": "User Experience (UX) Design: User Research, Wireframing, Prototyping, Usability Testing, UX Writing.",
+        "ai": "AI & Conversational Design: Specializing in AI Design and Conversational Design.",
+        "tools": "Tools & Methodologies: Proficient in Figma, Adobe XD, Miro, Storytelling, and Workshop Facilitation."
+      },
+      "closing": "I am always open to new opportunities and collaborations where I can leverage my skills to create impactful digital products."
+    },
+    "career": {
+      "title": "Career",
+      "intro": "Throughout my career, I've had the privilege of contributing to the innovative landscape of Xfinity, focusing on enhancing customer experiences through thoughtful UX and conversational design.",
+      "collab": "My work often involves close collaboration with leading brands to deliver exceptional digital experiences and innovative AI solutions."
+    },
+    "featuredCaseStudy": {
+      "tag": "Featured Case Study",
+      "title": "Horadric AI: The 48-Hour Pivot",
+      "description": "How I used real-time analytics to diagnose an 80% bounce rate and re-engineered the onboarding flow to drive product-led growth.",
+      "challenge": "The Challenge",
+      "challengeText": "Upon soft-launching \"Horadric AI\" (a Gemini-powered loot analyzer), I drove 280+ users in 24 hours. However, analytics revealed a critical friction point: users were hitting the \"API Key\" login wall and bouncing in < 3 seconds.",
+      "strategy": "The Strategy",
+      "strategyItems": {
+        "gate": "Removed the Gate: Implemented a \"Golden Path\" Demo Mode allowing users to experience value instantly without authentication.",
+        "logic": "Context-Aware Logic: Upgraded the LLM prompt to detect \"Cross-Class\" utility (e.g., identifying items valuable for trading even if unusable by the player).",
+        "tech": "Tech Stack Pivot: Migrated from OpenAI to Gemini 2.5 Flash to eliminate server costs while increasing speed."
+      },
+      "stats": {
+        "timeline": "48 Hrs Timeline",
+        "engine": "Gemini 2.5 New Engine",
+        "friction": "-80% Friction"
+      },
+      "cta": "Try the Live Demo"
+    },
+    "portfolio": {
+      "title": "My Work",
+      "projects": {
+        "horadric": {
+          "title": "Concept: Horadric – AI Build Companion",
+          "role": "Lead Product Designer & AI Strategist",
+          "description": "A multi-modal AI agent concept for ARPG gamers that uses computer vision to analyze inventory screenshots and provide mathematically optimized build recommendations."
+        },
+        "fairway": {
+          "title": "Concept: Fairway – The AI Golf Concierge",
+          "role": "Lead Product Designer & Conversational Strategist",
+          "description": "Designed a multi-modal AI agent concept for a local golf course to automate tee-time bookings and real-time course status updates."
+        },
+        "deviceLights": {
+          "title": "Xfinity Device Lights",
+          "role": "Role: Experience and Conversational Designer",
+          "description": "Designed an intuitive conversational flow to clarify the meaning of Xfinity device light colors and sequences for customers."
+        },
+        "weatherAlerts": {
+          "title": "Xfinity Inclement Weather Alerts",
+          "role": "Role: Lead Message Experience Designer",
+          "description": "Led the design of a new messaging experience for Xfinity customers, alerting them to inclement weather when a smart window or door was open."
+        },
+        "networkImpairment": {
+          "title": "Single-Home Network Impairment Experience",
+          "role": "Role: UX Designer - Creation, Testing & Scaling",
+          "description": "Assisted in the creation, rigorous testing, and successful scaling of the first single-home network impairment experience leveraging telemetry data."
+        },
+        "xfinityCampus": {
+          "title": "Xfinity On Campus",
+          "role": "Role: UX Designer, Conversational Designer",
+          "description": "Designed a comprehensive digital solution for students, faculty, and IT to troubleshoot services and find account answers."
+        }
+      }
+    },
+    "services": {
+      "title": "Freelance Services",
+      "intro": "I help businesses improve reliability and user engagement through expert design.",
+      "conversational": {
+        "title": "Conversational AI Design",
+        "description": "Designing chatbots and voice agents that actually feel human. I handle personality design, flow mapping, and scriptwriting to ensure your AI solves problems instead of creating them."
+      },
+      "audit": {
+        "title": "UX Audits & Strategy",
+        "description": "Expert review of your existing product to identify usability gaps and reliability issues. I provide actionable reports to improve customer retention and reduce support calls."
+      },
+      "prototyping": {
+        "title": "Prototyping & Wireframing",
+        "description": "Turning loose ideas into high-fidelity prototypes. From rapid wireframes to polished Figma mockups, I help you visualize and validate your product before you write a single line of code."
+      },
+      "cta": "Start a Project"
+    },
+    "contact": {
+      "title": "Ready to Build Something Great? 🚀",
+      "intro": "I'm currently accepting select freelance projects for conversational design and UX strategy. Let's create something reliable and engaging.",
+      "cta": "Start a Project",
+      "or": "OR",
+      "email": "Email:",
+      "linkedin": "LinkedIn:"
+    },
+    "footer": {
+      "copyright": "All rights reserved."
+    }
+  },
+  "es": {
+    "header": {
+      "name": "Daniel Romeyn",
+      "nav": {
+        "home": "Inicio",
+        "about": "Acerca de",
+        "career": "Carrera",
+        "portfolio": "Portafolio",
+        "services": "Servicios",
+        "contact": "Contacto"
+      }
+    },
+    "pageTitle": "Daniel Romeyn - Especialista Senior en UX",
+    "pageDescription": "Especialista en UX innovador y líder en diseño de IA. Mira mis últimos conceptos de IA multimodal.",
+    "hero": {
+      "title": "Especialista en UX Innovador | Líder en Diseño de Agentes Conversacionales e IA | Transformando Interacciones de Usuario",
+      "subtitle": "Apasionado por crear experiencias digitales intuitivas que deleiten a los usuarios e impulsen objetivos comerciales.",
+      "cta": "Ver Mi Trabajo"
+    },
+    "about": {
+      "title": "Acerca de Mí",
+      "intro": "Como Especialista Senior en UX y líder innovador en diseño conversacional e IA, soy apasionado en transformar interacciones de usuario y crear experiencias digitales intuitivas que deleiten a los usuarios e impulsen objetivos comerciales.",
+      "p1": "Con una sólida experiencia liderando diseño conversacional y de experiencia, prospero resolviendo problemas complejos y traduciendo necesidades del usuario en soluciones intuitivas, atractivas y altamente confiables. Mi enfoque es profundamente centrado en el usuario, impulsado por empatía y comprensión integral del comportamiento humano.",
+      "expertise": "Mi experiencia principal incluye:",
+      "expertiseItems": {
+        "ux": "Diseño de Experiencia de Usuario (UX): Investigación de Usuarios, Wireframing, Prototipado, Pruebas de Usabilidad, Escritura UX.",
+        "ai": "Diseño de IA y Conversacional: Especializado en Diseño de IA y Diseño Conversacional.",
+        "tools": "Herramientas y Metodologías: Competente en Figma, Adobe XD, Miro, Storytelling y Facilitación de Talleres."
+      },
+      "closing": "Siempre estoy abierto a nuevas oportunidades y colaboraciones donde pueda aprovechar mis habilidades para crear productos digitales impactantes."
+    },
+    "career": {
+      "title": "Carrera",
+      "intro": "A lo largo de mi carrera, he tenido el privilegio de contribuir al panorama innovador de Xfinity, enfocándome en mejorar las experiencias del cliente a través de diseño UX y conversacional reflexivo.",
+      "collab": "Mi trabajo a menudo implica una estrecha colaboración con marcas líderes para entregar experiencias digitales excepcionales y soluciones innovadoras de IA."
+    },
+    "featuredCaseStudy": {
+      "tag": "Caso de Estudio Destacado",
+      "title": "Horadric AI: El Pivote de 48 Horas",
+      "description": "Cómo utilicé análisis en tiempo real para diagnosticar una tasa de rebote del 80% e reingenié el flujo de incorporación para impulsar el crecimiento dirigido por el producto.",
+      "challenge": "El Desafío",
+      "challengeText": "Al lanzar suavemente \"Horadric AI\" (analizador de botín con tecnología Gemini), atraje a más de 280 usuarios en 24 horas. Sin embargo, el análisis reveló un punto crítico de fricción: los usuarios estaban golpeando la pared de inicio de sesión \"Clave API\" y rebotaban en < 3 segundos.",
+      "strategy": "La Estrategia",
+      "strategyItems": {
+        "gate": "Eliminé la Barrera: Implementé un \"Modo Demo Dorado\" que permite a los usuarios experimentar valor instantáneamente sin autenticación.",
+        "logic": "Lógica Consciente del Contexto: Actualicé el indicador del LLM para detectar utilidad \"Entre Clases\" (por ejemplo, identificar artículos valiosos para comerciar incluso si no son utilizables por el jugador).",
+        "tech": "Pivote de Stack Tecnológico: Migré de OpenAI a Gemini 2.5 Flash para eliminar costos de servidor e incrementar velocidad."
+      },
+      "stats": {
+        "timeline": "48 Hrs Cronograma",
+        "engine": "Gemini 2.5 Nuevo Motor",
+        "friction": "-80% Fricción"
+      },
+      "cta": "Probar Demo en Vivo"
+    },
+    "portfolio": {
+      "title": "Mi Trabajo",
+      "projects": {
+        "horadric": {
+          "title": "Concepto: Horadric – Compañero de Construcción de IA",
+          "role": "Diseñador de Producto Líder y Estratega de IA",
+          "description": "Un concepto de agente de IA multimodal para jugadores de ARPG que utiliza visión por computadora para analizar capturas de pantalla de inventario y proporcionar recomendaciones de construcción optimizadas matemáticamente."
+        },
+        "fairway": {
+          "title": "Concepto: Fairway – El Conserje de Golf con IA",
+          "role": "Diseñador de Producto Líder y Estratega Conversacional",
+          "description": "Diseñé un concepto de agente de IA multimodal para un campo de golf local para automatizar reservas de horarios y actualizaciones de estado del campo en tiempo real."
+        },
+        "deviceLights": {
+          "title": "Luces de Dispositivo Xfinity",
+          "role": "Diseñador de Experiencia y Conversacional",
+          "description": "Diseñé un flujo conversacional intuitivo para aclarar el significado de los colores y secuencias de las luces del dispositivo Xfinity para los clientes."
+        },
+        "weatherAlerts": {
+          "title": "Alertas de Clima Severo de Xfinity",
+          "role": "Diseñador de Experiencia de Mensaje Líder",
+          "description": "Lideré el diseño de una nueva experiencia de mensajería para clientes de Xfinity, alertándoles sobre clima severo cuando una ventana o puerta inteligente estaba abierta."
+        },
+        "networkImpairment": {
+          "title": "Experiencia de Deterioro de Red de Casa Única",
+          "role": "Diseñador UX - Creación, Pruebas y Escalado",
+          "description": "Asistí en la creación, pruebas rigurosas y escalado exitoso de la primera experiencia de deterioro de red de casa única aprovechando datos de telemetría."
+        },
+        "xfinityCampus": {
+          "title": "Xfinity En Campus",
+          "role": "Diseñador UX, Diseñador Conversacional",
+          "description": "Diseñé una solución digital integral para estudiantes, profesores e IT para solucionar problemas de servicios y encontrar respuestas de cuenta."
+        }
+      }
+    },
+    "services": {
+      "title": "Servicios Freelance",
+      "intro": "Ayudo a las empresas a mejorar la confiabilidad y el compromiso del usuario a través del diseño experto.",
+      "conversational": {
+        "title": "Diseño de IA Conversacional",
+        "description": "Diseño de chatbots y agentes de voz que realmente se sienten humanos. Manejo el diseño de personalidad, mapeo de flujo y redacción de guiones para asegurar que tu IA resuelva problemas en lugar de crearlos."
+      },
+      "audit": {
+        "title": "Auditoría de UX y Estrategia",
+        "description": "Revisión experta de tu producto existente para identificar brechas de usabilidad y problemas de confiabilidad. Proporciono informes procesables para mejorar la retención de clientes y reducir llamadas de soporte."
+      },
+      "prototyping": {
+        "title": "Prototipado y Wireframing",
+        "description": "Convirtiendo ideas sueltas en prototipos de alta fidelidad. Desde wireframes rápidos hasta mockups de Figma pulidos, te ayudo a visualizar y validar tu producto antes de escribir una sola línea de código."
+      },
+      "cta": "Iniciar un Proyecto"
+    },
+    "contact": {
+      "title": "¿Listo para Construir Algo Grandioso? 🚀",
+      "intro": "Actualmente estoy aceptando proyectos freelance seleccionados para diseño conversacional y estrategia UX. Creemos algo confiable y atractivo.",
+      "cta": "Iniciar un Proyecto",
+      "or": "O",
+      "email": "Correo Electrónico:",
+      "linkedin": "LinkedIn:"
+    },
+    "footer": {
+      "copyright": "Todos los derechos reservados."
+    }
+  },
+  "fr": {
+    "header": {
+      "name": "Daniel Romeyn",
+      "nav": {
+        "home": "Accueil",
+        "about": "À Propos",
+        "career": "Carrière",
+        "portfolio": "Portefeuille",
+        "services": "Services",
+        "contact": "Contact"
+      }
+    },
+    "pageTitle": "Daniel Romeyn - Spécialiste Senior en UX",
+    "pageDescription": "Spécialiste UX innovant et leader en conception d'IA. Découvrez mes derniers concepts d'IA multimodale.",
+    "hero": {
+      "title": "Spécialiste UX Innovant | Leader en Conception d'Agents Conversationnels et d'IA | Transformer les Interactions Utilisateur",
+      "subtitle": "Passionné par la création d'expériences numériques intuitives qui enchantent les utilisateurs et atteignent les objectifs commerciaux.",
+      "cta": "Voir Mon Travail"
+    },
+    "about": {
+      "title": "À Propos de Moi",
+      "intro": "En tant que Spécialiste Senior en UX et leader innovant en conception conversationnelle et d'IA, je suis passionné par la transformation des interactions utilisateur et la création d'expériences numériques intuitives qui enchantent les utilisateurs et atteignent les objectifs commerciaux.",
+      "p1": "Avec une solide expérience en conception conversationnelle et expérientielle, j'excelle à résoudre des problèmes complexes et à traduire les besoins des utilisateurs en solutions intuitives, engageantes et hautement fiables. Mon approche est profondément centrée sur l'utilisateur, motivée par l'empathie et une compréhension complète du comportement humain.",
+      "expertise": "Mes domaines d'expertise principaux incluent :",
+      "expertiseItems": {
+        "ux": "Conception d'Expérience Utilisateur (UX) : Recherche Utilisateur, Wireframing, Prototypage, Tests d'Utilisabilité, Rédaction UX.",
+        "ai": "Conception d'IA et Conversationnelle : Spécialisé en Conception d'IA et Conception Conversationnelle.",
+        "tools": "Outils et Méthodologies : Compétent en Figma, Adobe XD, Miro, Storytelling et Facilitation d'Ateliers."
+      },
+      "closing": "Je suis toujours ouvert à de nouvelles opportunités et collaborations où je peux utiliser mes compétences pour créer des produits numériques impactants."
+    },
+    "career": {
+      "title": "Carrière",
+      "intro": "Tout au long de ma carrière, j'ai eu le privilège de contribuer au paysage innovant de Xfinity, en me concentrant sur l'amélioration des expériences clients par la conception UX et conversationnelle réfléchie.",
+      "collab": "Mon travail implique souvent une collaboration étroite avec les principales marques pour offrir des expériences numériques exceptionnelles et des solutions d'IA innovantes."
+    },
+    "featuredCaseStudy": {
+      "tag": "Étude de Cas Présentée",
+      "title": "Horadric AI : Le Pivotage de 48 Heures",
+      "description": "Comment j'ai utilisé l'analyse en temps réel pour diagnostiquer un taux de rebond de 80% et réingénierie le flux d'intégration pour stimuler la croissance dirigée par le produit.",
+      "challenge": "Le Défi",
+      "challengeText": "En lançant doucement \"Horadric AI\" (analyseur de butin alimenté par Gemini), j'ai attiré 280+ utilisateurs en 24 heures. Cependant, l'analyse a révélé un point critique de friction : les utilisateurs frappaient le mur de connexion \"Clé API\" et rebondissaient en < 3 secondes.",
+      "strategy": "La Stratégie",
+      "strategyItems": {
+        "gate": "J'ai Supprimé la Barrière : Implémenté un \"Mode Démo Doré\" permettant aux utilisateurs d'expérimenter la valeur instantanément sans authentification.",
+        "logic": "Logique Consciente du Contexte : Amélioré l'invite du LLM pour détecter l'utilité \"Inter-Classe\" (par exemple, identifier les articles précieux à échanger même s'ils ne sont pas utilisables par le joueur).",
+        "tech": "Pivotage de Stack Technologique : Migration d'OpenAI à Gemini 2.5 Flash pour éliminer les coûts serveur et augmenter la vitesse."
+      },
+      "stats": {
+        "timeline": "48 Heures Chronologie",
+        "engine": "Gemini 2.5 Nouveau Moteur",
+        "friction": "-80% Friction"
+      },
+      "cta": "Essayer la Démo en Direct"
+    },
+    "portfolio": {
+      "title": "Mon Travail",
+      "projects": {
+        "horadric": {
+          "title": "Concept : Horadric – Compagnon de Build IA",
+          "role": "Designer de Produit Principal et Stratège IA",
+          "description": "Un concept d'agent IA multimodal pour les joueurs d'ARPG qui utilise la vision par ordinateur pour analyser les captures d'écran d'inventaire et fournir des recommandations de build optimisées mathématiquement."
+        },
+        "fairway": {
+          "title": "Concept : Fairway – Le Concierge de Golf IA",
+          "role": "Designer de Produit Principal et Stratège Conversationnel",
+          "description": "J'ai conçu un concept d'agent IA multimodal pour un terrain de golf local pour automatiser les réservations de créneaux horaires et les mises à jour du statut du parcours en temps réel."
+        },
+        "deviceLights": {
+          "title": "Voyants d'Appareil Xfinity",
+          "role": "Designer d'Expérience et Conversationnel",
+          "description": "J'ai conçu un flux conversationnel intuitif pour clarifier la signification des couleurs et des séquences des voyants d'appareil Xfinity pour les clients."
+        },
+        "weatherAlerts": {
+          "title": "Alertes Météorologiques Sévères Xfinity",
+          "role": "Designer d'Expérience de Message Principal",
+          "description": "J'ai dirigé la conception d'une nouvelle expérience de messagerie pour les clients Xfinity, les alertant sur les conditions météorologiques sévères lorsqu'une fenêtre ou une porte intelligente était ouverte."
+        },
+        "networkImpairment": {
+          "title": "Expérience de Dégradation Réseau Maison Unique",
+          "role": "Designer UX - Création, Tests et Mise à l'Échelle",
+          "description": "J'ai assisté à la création, aux tests rigoureux et à la mise à l'échelle réussie de la première expérience de dégradation réseau maison unique exploitant les données de télémétrie."
+        },
+        "xfinityCampus": {
+          "title": "Xfinity Sur Campus",
+          "role": "Designer UX, Designer Conversationnel",
+          "description": "J'ai conçu une solution numérique complète pour les étudiants, les professeurs et l'informatique pour dépanner les services et trouver les réponses de compte."
+        }
+      }
+    },
+    "services": {
+      "title": "Services Freelance",
+      "intro": "J'aide les entreprises à améliorer la fiabilité et l'engagement des utilisateurs grâce à un design expert.",
+      "conversational": {
+        "title": "Conception d'IA Conversationnelle",
+        "description": "Conception de chatbots et d'agents vocaux qui se sentent vraiment humains. Je gère la conception de la personnalité, la cartographie des flux et la rédaction de scripts pour assurer que votre IA résout les problèmes au lieu de les créer."
+      },
+      "audit": {
+        "title": "Audits UX et Stratégie",
+        "description": "Examen expert de votre produit existant pour identifier les lacunes d'utilisabilité et les problèmes de fiabilité. Je fournis des rapports actionnables pour améliorer la rétention des clients et réduire les appels de support."
+      },
+      "prototyping": {
+        "title": "Prototypage et Wireframing",
+        "description": "Transformer des idées vagues en prototypes haute fidélité. Des wireframes rapides aux maquettes Figma polies, je vous aide à visualiser et valider votre produit avant d'écrire une seule ligne de code."
+      },
+      "cta": "Démarrer un Projet"
+    },
+    "contact": {
+      "title": "Prêt à Créer Quelque Chose de Extraordinaire ? 🚀",
+      "intro": "J'accepte actuellement des projets freelance sélectionnés pour la conception conversationnelle et la stratégie UX. Créons quelque chose de fiable et d'engageant.",
+      "cta": "Démarrer un Projet",
+      "or": "OU",
+      "email": "E-mail :",
+      "linkedin": "LinkedIn :"
+    },
+    "footer": {
+      "copyright": "Tous les droits réservés."
+    }
+  },
+  "de": {
+    "header": {
+      "name": "Daniel Romeyn",
+      "nav": {
+        "home": "Startseite",
+        "about": "Über Mich",
+        "career": "Karriere",
+        "portfolio": "Portfolio",
+        "services": "Dienstleistungen",
+        "contact": "Kontakt"
+      }
+    },
+    "pageTitle": "Daniel Romeyn - Senior UX Spezialist",
+    "pageDescription": "Innovativer UX-Spezialist und KI-Designleiter. Entdecke meine neuesten Multimodal-KI-Konzepte.",
+    "hero": {
+      "title": "Innovativer UX-Spezialist | Führung in der Gestaltung von Gesprächs- und KI-Agenten | Umgestaltung von Benutzerinteraktionen",
+      "subtitle": "Leidenschaftlich für die Schaffung intuitiver digitaler Erfahrungen, die Benutzer begeistern und geschäftliche Ziele erreichen.",
+      "cta": "Meine Arbeit Ansehen"
+    },
+    "about": {
+      "title": "Über Mich",
+      "intro": "Als Senior UX-Spezialist und innovativer Anführer in der Gesprächs- und KI-Gestaltung bin ich leidenschaftlich daran interessiert, Benutzerinteraktionen zu transformieren und intuitive digitale Erfahrungen zu schaffen, die Benutzer begeistern und geschäftliche Ziele erreichen.",
+      "p1": "Mit umfangreicher Erfahrung in der Leitung von Gesprächs- und Erfahrungsgestaltung gedeihe ich bei der Lösung komplexer Probleme und der Übersetzung von Benutzeranforderungen in intuitive, ansprechende und hochzuverlässige Lösungen. Mein Ansatz ist tiefgreifend benutzerorientiert und wird durch Empathie und umfassendes Verständnis menschlichen Verhaltens angetrieben.",
+      "expertise": "Meine Kernkompetenzen umfassen:",
+      "expertiseItems": {
+        "ux": "Benutzerfreundliches Design (UX): Benutzerforschung, Wireframing, Prototyping, Usability-Tests, UX-Schreiben.",
+        "ai": "KI- und Gesprächsgestaltung: Spezialisiert auf KI-Gestaltung und Gesprächsgestaltung.",
+        "tools": "Werkzeuge und Methodologien: Kompetenz in Figma, Adobe XD, Miro, Storytelling und Workshop-Moderation."
+      },
+      "closing": "Ich bin immer offen für neue Möglichkeiten und Zusammenarbeit, bei denen ich meine Fähigkeiten einsetzen kann, um wirkungsvolle digitale Produkte zu schaffen."
+    },
+    "career": {
+      "title": "Karriere",
+      "intro": "Während meiner Karriere hatte ich das Privileg, zur innovativen Landschaft von Xfinity beizutragen und mich auf die Verbesserung der Kundenerfahrung durch durchdachtes UX- und Gesprächsdesign zu konzentrieren.",
+      "collab": "Meine Arbeit beinhaltet oft enge Zusammenarbeit mit führenden Marken, um außergewöhnliche digitale Erfahrungen und innovative KI-Lösungen bereitzustellen."
+    },
+    "featuredCaseStudy": {
+      "tag": "Präsentierte Fallstudie",
+      "title": "Horadric KI: Die 48-Stunden-Drehung",
+      "description": "Wie ich Echtzeit-Analysen nutzte, um eine Absprungrate von 80% zu diagnostizieren und den Onboarding-Fluss für produktgesteuerten Wachstum umgestaltete.",
+      "challenge": "Die Herausforderung",
+      "challengeText": "Bei der sanften Einführung von \"Horadric AI\" (einem Gemini-gesteuerten Loot-Analysator) zog ich 280+ Benutzer in 24 Stunden an. Allerdings ergab die Analyse einen kritischen Reibungspunkt: Benutzer schlugen gegen die \"API-Schlüssel\"-Anmeldewand und sprangen in < 3 Sekunden ab.",
+      "strategy": "Die Strategie",
+      "strategyItems": {
+        "gate": "Ich Entfernte das Tor: Implementierte einen \"Goldenen Weg\" Demo-Modus, der Benutzern ermöglicht, sofort Wert zu erleben, ohne Authentifizierung.",
+        "logic": "Kontextbewusste Logik: Aktualisierte das LLM-Prompt, um \"Klassen\"-Übergreifende Nützlichkeit zu erkennen (z. B. Identifizierung von Gegenständen, die wertvoll zum Handeln sind, auch wenn sie vom Spieler nicht nutzbar sind).",
+        "tech": "Tech-Stack-Verschiebung: Migration von OpenAI zu Gemini 2.5 Flash, um Serverkosten zu eliminieren und die Geschwindigkeit zu erhöhen."
+      },
+      "stats": {
+        "timeline": "48 Std. Zeitrahmen",
+        "engine": "Gemini 2.5 Neues Modul",
+        "friction": "-80% Reibung"
+      },
+      "cta": "Live-Demo Ausprobieren"
+    },
+    "portfolio": {
+      "title": "Meine Arbeit",
+      "projects": {
+        "horadric": {
+          "title": "Konzept: Horadric – KI-Build-Begleiter",
+          "role": "Lead-Produktdesigner und KI-Stratege",
+          "description": "Ein multimodes KI-Agenten-Konzept für ARPG-Spieler, das Computer Vision nutzt, um Inventar-Screenshots zu analysieren und mathematisch optimierte Build-Empfehlungen zu geben."
+        },
+        "fairway": {
+          "title": "Konzept: Fairway – Der KI-Golf-Concierge",
+          "role": "Lead-Produktdesigner und Conversational Strategist",
+          "description": "Ich entwarf ein multimodes KI-Agenten-Konzept für einen lokalen Golfplatz, um Tee-Zeit-Buchungen und Echtzeit-Platzstatus-Updates zu automatisieren."
+        },
+        "deviceLights": {
+          "title": "Xfinity Geräteleuchten",
+          "role": "Erfahrungs- und Gesprächsdesigner",
+          "description": "Ich entwarf einen intuitiven Gesprächsfluss, um die Bedeutung der Farben und Sequenzen der Xfinity-Geräteleuchten für Kunden zu klären."
+        },
+        "weatherAlerts": {
+          "title": "Xfinity Schwerwiegend-Wetter-Warnungen",
+          "role": "Lead-Nachrichtenerlebnis-Designer",
+          "description": "Ich führte das Design einer neuen Messaging-Erfahrung für Xfinity-Kunden, die sie vor Unwettern warnt, wenn ein intelligentes Fenster oder eine Tür offen ist."
+        },
+        "networkImpairment": {
+          "title": "Einzelhaus-Netzwerkbeeinträchtigung Erlebnis",
+          "role": "UX-Designer - Erstellung, Tests und Skalierung",
+          "description": "Ich unterstützte die Erstellung, rigorose Tests und erfolgreiche Skalierung des ersten Einzelhaus-Netzwerkbeeinträchtigung-Erlebnis unter Nutzung von Telemetriedaten."
+        },
+        "xfinityCampus": {
+          "title": "Xfinity auf dem Campus",
+          "role": "UX-Designer, Gesprächsdesigner",
+          "description": "Ich entwarf eine umfassende digitale Lösung für Studenten, Fakultät und IT, um Dienste zu beheben und Kontoantworten zu finden."
+        }
+      }
+    },
+    "services": {
+      "title": "Freiberufliche Dienstleistungen",
+      "intro": "Ich helfe Unternehmen, die Zuverlässigkeit und Benutzereinbindung durch fachgerechtes Design zu verbessern.",
+      "conversational": {
+        "title": "Gesprächs-KI-Design",
+        "description": "Design von Chatbots und Sprachagenten, die sich wirklich menschlich anfühlen. Ich übernehme Persönlichkeitsgestaltung, Flow-Kartierung und Skripterstellung, um sicherzustellen, dass deine KI Probleme löst, statt sie zu schaffen."
+      },
+      "audit": {
+        "title": "UX-Audits und Strategie",
+        "description": "Fachkundige Überprüfung deines bestehenden Produkts, um Benutzerfreundlichkeitslücken und Zuverlässigkeitsprobleme zu identifizieren. Ich stelle aktionierbare Berichte zur Verfügung, um die Kundenbindung zu verbessern und Supportanrufe zu reduzieren."
+      },
+      "prototyping": {
+        "title": "Prototyping und Wireframing",
+        "description": "Umwandlung loser Ideen in hochwertige Prototypen. Von schnellen Wireframes bis zu poliertem Figma-Mockups helfe ich dir, dein Produkt zu visualisieren und zu validieren, bevor du eine einzige Codezeile schreibst."
+      },
+      "cta": "Projekt Starten"
+    },
+    "contact": {
+      "title": "Bereit, Etwas Großartiges zu Bauen? 🚀",
+      "intro": "Ich akzeptiere derzeit ausgewählte freiberufliche Projekte für Gesprächsgestaltung und UX-Strategie. Lass uns etwas Zuverlässiges und Fesselndes schaffen.",
+      "cta": "Projekt Starten",
+      "or": "ODER",
+      "email": "E-Mail:",
+      "linkedin": "LinkedIn:"
+    },
+    "footer": {
+      "copyright": "Alle Rechte vorbehalten."
+    }
+  },
+  "ja": {
+    "header": {
+      "name": "Daniel Romeyn",
+      "nav": {
+        "home": "ホーム",
+        "about": "について",
+        "career": "キャリア",
+        "portfolio": "ポートフォリオ",
+        "services": "サービス",
+        "contact": "お問い合わせ"
+      }
+    },
+    "pageTitle": "Daniel Romeyn - シニアUXスペシャリスト",
+    "pageDescription": "革新的なUXスペシャリスト兼AIデザインリーダー。最新のマルチモーダルAIコンセプトをご覧ください。",
+    "hero": {
+      "title": "革新的なUXスペシャリスト | 会話型およびAIエージェント設計のリーダー | ユーザーインタラクションの変革",
+      "subtitle": "直感的なデジタル体験を作成し、ユーザーを喜ばせ、ビジネス目標を達成することに情熱を持っています。",
+      "cta": "作品を見る"
+    },
+    "about": {
+      "title": "について",
+      "intro": "シニアUXスペシャリストであり、革新的な会話型およびAI設計のリーダーとして、ユーザーインタラクションの変革と、ユーザーを喜ばせ、ビジネス目標を達成する直感的なデジタル体験の作成に情熱を注いでいます。",
+      "p1": "会話型および経験設計の指導における豊かな背景を持ち、複雑な問題を解決し、ユーザーのニーズを直感的で魅力的で高度に信頼できるソリューションに変換することに優れています。私のアプローチは深くユーザー中心で、共感と人間の行動の包括的な理解によって駆動されています。",
+      "expertise": "私のコア専門知識には以下が含まれます：",
+      "expertiseItems": {
+        "ux": "ユーザーエクスペリエンス(UX)デザイン：ユーザーリサーチ、ワイヤーフレーミング、プロトタイピング、ユーザビリティテスト、UXライティング。",
+        "ai": "AIおよび会話型デザイン：AIデザインおよび会話型デザインの専門。",
+        "tools": "ツールと方法論：Figma、Adobe XD、Miro、ストーリーテリング、ワークショップファシリテーションに精通。"
+      },
+      "closing": "スキルを活かして影響力のあるデジタル製品を作成できる新しい機会やコラボレーションに常にオープンです。"
+    },
+    "career": {
+      "title": "キャリア",
+      "intro": "キャリアを通じて、思慮深いUXおよび会話型デザインを通じて顧客体験を向上させることに焦点を当て、Xfinityの革新的な状況に貢献する特権を持ってきました。",
+      "collab": "私の仕事は、優れたデジタル体験と革新的なAIソリューションを提供するために、主要なブランドとの密接な協力を含むことが多いです。"
+    },
+    "featuredCaseStudy": {
+      "tag": "注目のケーススタディ",
+      "title": "Horadric AI：48時間ピボット",
+      "description": "リアルタイム分析を使用して80％のバウンス率を診断し、オンボーディングフローを再設計して製品主導の成長を促進した方法。",
+      "challenge": "課題",
+      "challengeText": "Horadric AI（Gemini搭載のルート分析ツール）をソフトローンチすると、24時間で280以上のユーザーを獲得しました。ただし、分析により重大な摩擦点が明らかになりました。ユーザーが「APIキー」ログインウォールにぶつかり、3秒以内にバウンスしていました。",
+      "strategy": "戦略",
+      "strategyItems": {
+        "gate": "ゲートを削除：ユーザーが認証なしで即座に価値を体験できる「ゴールデンパス」デモモードを実装しました。",
+        "logic": "コンテキスト認識ロジック：LLMプロンプトをアップグレードして、「クロスクラス」ユーティリティを検出します（例：プレイヤーが使用できない場合でも、取引に価値のあるアイテムを識別）。",
+        "tech": "テックスタックピボット：OpenAIからGemini 2.5 Flashに移行して、サーバーコストを排除しながら速度を向上させました。"
+      },
+      "stats": {
+        "timeline": "48時間タイムライン",
+        "engine": "Gemini 2.5新エンジン",
+        "friction": "-80%摩擦"
+      },
+      "cta": "ライブデモを試す"
+    },
+    "portfolio": {
+      "title": "作品",
+      "projects": {
+        "horadric": {
+          "title": "コンセプト：Horadric – AIビルドコンパニオン",
+          "role": "リード製品デザイナー兼AIストラテジスト",
+          "description": "ARPGゲーマー向けのマルチモーダルAIエージェントコンセプトで、コンピュータビジョンを使用してインベントリスクリーンショットを分析し、数学的に最適化されたビルド推奨を提供します。"
+        },
+        "fairway": {
+          "title": "コンセプト：Fairway – AIゴルフコンシェルジュ",
+          "role": "リード製品デザイナー兼会話型ストラテジスト",
+          "description": "ローカルゴルフコース向けのマルチモーダルAIエージェントコンセプトを設計し、ティータイムの予約とリアルタイムコースステータス更新を自動化します。"
+        },
+        "deviceLights": {
+          "title": "Xfinity デバイスライト",
+          "role": "エクスペリエンスおよび会話型デザイナー",
+          "description": "Xfinityデバイスライトの色とシーケンスの意味を顧客に明確にするための直感的な会話フローを設計しました。"
+        },
+        "weatherAlerts": {
+          "title": "Xfinity激しい天候アラート",
+          "role": "リード メッセージエクスペリエンス デザイナー",
+          "description": "スマートウィンドウまたはドアが開いている場合、悪天候についてXfinity顧客に警告する新しいメッセージエクスペリエンスの設計をリードしました。"
+        },
+        "networkImpairment": {
+          "title": "シングルホーム ネットワーク障害体験",
+          "role": "UXデザイナー - 作成、テスト、スケーリング",
+          "description": "テレメトリデータを活用して、最初のシングルホームネットワーク障害体験の作成、厳密なテスト、および成功したスケーリングを支援しました。"
+        },
+        "xfinityCampus": {
+          "title": "Xfinity オン キャンパス",
+          "role": "UXデザイナー、会話型デザイナー",
+          "description": "学生、教職員、ITがサービスのトラブルシューティングと口座の回答を見つけるための包括的なデジタルソリューションを設計しました。"
+        }
+      }
+    },
+    "services": {
+      "title": "フリーランスサービス",
+      "intro": "エキスパートデザインを通じて、企業の信頼性とユーザーエンゲージメントを改善するのに役立ちます。",
+      "conversational": {
+        "title": "会話型AIデザイン",
+        "description": "実際に人間らしく感じるチャットボットと音声エージェントの設計。パーソナリティデザイン、フローマッピング、スクリプト作成を処理して、AIが問題を解決するのではなく、問題を作成していないことを確認します。"
+      },
+      "audit": {
+        "title": "UX監査とストラテジー",
+        "description": "既存の製品の専門的レビューで、ユーザビリティの懸念と信頼性の問題を特定します。顧客保持を改善し、サポート呼び出しを減らすための実行可能なレポートを提供します。"
+      },
+      "prototyping": {
+        "title": "プロトタイピングとワイヤーフレーミング",
+        "description": "ばかげた考えを高忠実度プロトタイプに変える。迅速なワイヤーフレームから磨かれたFigmaモックアップまで、コードの1行を書く前に製品を視覚化して検証するのに役立ちます。"
+      },
+      "cta": "プロジェクトを開始"
+    },
+    "contact": {
+      "title": "素晴らしいものを作る準備はできていますか？🚀",
+      "intro": "現在、会話型デザインとUX戦略のための選択的なフリーランスプロジェクトを受け付けています。信頼でき、魅力的なものを作成しましょう。",
+      "cta": "プロジェクトを開始",
+      "or": "または",
+      "email": "メール：",
+      "linkedin": "LinkedIn："
+    },
+    "footer": {
+      "copyright": "著作権所有。"
+    }
+  },
+  "pt": {
+    "header": {
+      "name": "Daniel Romeyn",
+      "nav": {
+        "home": "Início",
+        "about": "Sobre",
+        "career": "Carreira",
+        "portfolio": "Portfólio",
+        "services": "Serviços",
+        "contact": "Contato"
+      }
+    },
+    "pageTitle": "Daniel Romeyn - Especialista Sênior em UX",
+    "pageDescription": "Especialista em UX inovador e líder em design de IA. Confira meus últimos conceitos de IA multimodal.",
+    "hero": {
+      "title": "Especialista em UX Inovador | Líder em Design de Agentes Conversacionais e IA | Transformando Interações do Usuário",
+      "subtitle": "Apaixonado por criar experiências digitais intuitivas que encantam usuários e impulsionam objetivos comerciais.",
+      "cta": "Ver Meu Trabalho"
+    },
+    "about": {
+      "title": "Sobre Mim",
+      "intro": "Como Especialista Sênior em UX e líder inovador em design conversacional e de IA, sou apaixonado em transformar interações de usuários e criar experiências digitais intuitivas que encantam usuários e impulsionam objetivos comerciais.",
+      "p1": "Com uma sólida experiência em design conversacional e de experiência, prospero resolvendo problemas complexos e traduzindo necessidades dos usuários em soluções intuitivas, envolventes e altamente confiáveis. Minha abordagem é profundamente centrada no usuário, impulsionada pela empatia e uma compreensão abrangente do comportamento humano.",
+      "expertise": "Minha experiência principal inclui:",
+      "expertiseItems": {
+        "ux": "Design de Experiência do Usuário (UX): Pesquisa do Usuário, Wireframing, Prototipagem, Testes de Usabilidade, Redação UX.",
+        "ai": "Design de IA e Conversacional: Especializado em Design de IA e Design Conversacional.",
+        "tools": "Ferramentas e Metodologias: Proficiente em Figma, Adobe XD, Miro, Storytelling e Facilitação de Oficinas."
+      },
+      "closing": "Sou sempre aberto a novas oportunidades e colaborações onde posso aproveitar minhas habilidades para criar produtos digitais impactantes."
+    },
+    "career": {
+      "title": "Carreira",
+      "intro": "Ao longo de minha carreira, tive o privilégio de contribuir para a paisagem inovadora da Xfinity, focando em melhorar as experiências dos clientes através de design UX e conversacional reflexivo.",
+      "collab": "Meu trabalho frequentemente envolve colaboração próxima com marcas líderes para entregar experiências digitais excepcionais e soluções inovadoras de IA."
+    },
+    "featuredCaseStudy": {
+      "tag": "Estudo de Caso em Destaque",
+      "title": "Horadric IA: O Pivô de 48 Horas",
+      "description": "Como usei análise em tempo real para diagnosticar uma taxa de rejeição de 80% e reingeniei o fluxo de integração para impulsionar o crescimento orientado por produtos.",
+      "challenge": "O Desafio",
+      "challengeText": "Ao lançar suavemente \"Horadric AI\" (um analisador de saques alimentado por Gemini), atraí 280+ usuários em 24 horas. No entanto, a análise revelou um ponto crítico de atrito: os usuários estavam atingindo a parede de login \"Chave de API\" e pulando em < 3 segundos.",
+      "strategy": "A Estratégia",
+      "strategyItems": {
+        "gate": "Removi o Portão: Implementei um \"Modo Demo Dourado\" permitindo aos usuários experimentar valor instantaneamente sem autenticação.",
+        "logic": "Lógica Ciente do Contexto: Atualizei o prompt do LLM para detectar utilidade \"Entre Classe\" (por exemplo, identificar itens valiosos para negociar mesmo se não utilizáveis pelo jogador).",
+        "tech": "Pivô de Stack Tecnológico: Migrei de OpenAI para Gemini 2.5 Flash para eliminar custos de servidor enquanto aumenta velocidade."
+      },
+      "stats": {
+        "timeline": "48 Hrs Cronograma",
+        "engine": "Gemini 2.5 Novo Motor",
+        "friction": "-80% Atrito"
+      },
+      "cta": "Tentar Demo ao Vivo"
+    },
+    "portfolio": {
+      "title": "Meu Trabalho",
+      "projects": {
+        "horadric": {
+          "title": "Conceito: Horadric – Companheiro de Build de IA",
+          "role": "Designer de Produto Líder e Estrategista de IA",
+          "description": "Um conceito de agente de IA multimodal para jogadores de ARPG que usa visão computacional para analisar capturas de tela de inventário e fornecer recomendações de build otimizadas matematicamente."
+        },
+        "fairway": {
+          "title": "Conceito: Fairway – O Concierge de Golf de IA",
+          "role": "Designer de Produto Líder e Estrategista Conversacional",
+          "description": "Criei um conceito de agente de IA multimodal para um campo de golfe local para automatizar reservas de horários e atualizações de status do campo em tempo real."
+        },
+        "deviceLights": {
+          "title": "Luzes de Dispositivo Xfinity",
+          "role": "Designer de Experiência e Conversacional",
+          "description": "Criei um fluxo conversacional intuitivo para esclarecer o significado das cores e sequências de luz do dispositivo Xfinity para os clientes."
+        },
+        "weatherAlerts": {
+          "title": "Alertas de Tempo Severo Xfinity",
+          "role": "Designer de Experiência de Mensagem Líder",
+          "description": "Liderei o design de uma nova experiência de mensagens para clientes Xfinity, alertando-os sobre condições meteorológicas severas quando uma janela ou porta inteligente estava aberta."
+        },
+        "networkImpairment": {
+          "title": "Experiência de Prejuízo de Rede de Casa Única",
+          "role": "Designer UX - Criação, Testes e Escala",
+          "description": "Assisti na criação, testes rigorosos e escalonamento bem-sucedido da primeira experiência de prejuízo de rede de casa única aproveitando dados de telemetria."
+        },
+        "xfinityCampus": {
+          "title": "Xfinity No Campus",
+          "role": "Designer UX, Designer Conversacional",
+          "description": "Criei uma solução digital abrangente para alunos, professores e TI para solucionar problemas de serviços e encontrar respostas de conta."
+        }
+      }
+    },
+    "services": {
+      "title": "Serviços Freelance",
+      "intro": "Ajudo os negócios a melhorar a confiabilidade e o envolvimento do usuário através de design especializado.",
+      "conversational": {
+        "title": "Design de IA Conversacional",
+        "description": "Projetando chatbots e agentes de voz que realmente parecem humanos. Lidar com design de personalidade, mapeamento de fluxo e redação de scripts para garantir que sua IA resolva problemas em vez de criá-los."
+      },
+      "audit": {
+        "title": "Auditorias de UX e Estratégia",
+        "description": "Revisão especializada de seu produto existente para identificar lacunas de usabilidade e problemas de confiabilidade. Forneço relatórios acionáveis para melhorar a retenção de clientes e reduzir chamadas de suporte."
+      },
+      "prototyping": {
+        "title": "Prototipagem e Wireframing",
+        "description": "Transformando ideias vagas em protótipos de alta fidelidade. De wireframes rápidos a mockups Figma polidos, ajudo você a visualizar e validar seu produto antes de escrever uma única linha de código."
+      },
+      "cta": "Iniciar um Projeto"
+    },
+    "contact": {
+      "title": "Pronto para Criar Algo Incrível? 🚀",
+      "intro": "Atualmente estou aceitando projetos freelance selecionados para design conversacional e estratégia UX. Vamos criar algo confiável e envolvente.",
+      "cta": "Iniciar um Projeto",
+      "or": "OU",
+      "email": "E-mail:",
+      "linkedin": "LinkedIn:"
+    },
+    "footer": {
+      "copyright": "Todos os direitos reservados."
+    }
+  }
+}

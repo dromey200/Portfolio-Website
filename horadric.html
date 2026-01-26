@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered Diablo 4 loot analyzer - Identify and evaluate your items instantly with Google Gemini">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFFL9DMHQX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-JFFL9DMHQX', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+    </script>
+    
+    <title>Horadric AI - Diablo 4 Loot Analyzer</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #d32f2f;
+            --button-hover: #b71c1c;
+            --disabled-color: #555;
+            --modal-overlay: rgba(0, 0, 0, 0.85);
+            
+            /* Diablo Rarity Colors */
+            --color-common: #adadad;
+            --color-magic: #6969ff;
+            --color-rare: #ffff00;
+            --color-legendary: #ff8000;
+            --color-unique: #c7b377;
+            --color-mythic: #e770ff;
+            --color-error: #ff3333;
+            --color-success: #4caf50;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-family: 'Garamond', serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        /* Email Capture - Kit Form */
+        .beta-signup {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 25px;
+            text-align: center;
+            padding: 15px;
+            border: 1px dashed #444;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .beta-form { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 10px; 
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .beta-form input {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        /* Kit Form Messages */
+        .kit-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .kit-message.success-message {
+            background: #2d5016;
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+        
+        .kit-message.error-message {
+            background: #3d1a1a;
+            border: 1px solid #f44336;
+            color: #f44336;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            border: 1px solid #333;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #aaa;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .help-icon {
+            background-color: #333;
+            color: #ccc;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #555;
+            transition: all 0.2s;
+        }
+
+        .help-icon:hover,
+        .help-icon:focus {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            outline: 2px solid white;
+            outline-offset: 2px;
+        }
+
+        input[type="text"], 
+        input[type="password"], 
+        input[type="email"], 
+        select {
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background-color: #2c2c2c;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+        }
+
+        input.error {
+            border-color: var(--color-error);
+            box-shadow: 0 0 0 2px rgba(255, 51, 51, 0.2);
+        }
+
+        input[type="file"] {
+            margin-top: 5px;
+            padding: 10px;
+            background-color: #2c2c2c;
+            border-radius: 4px;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .input-hint {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .demo-link {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        .demo-link:hover,
+        .demo-link:focus { 
+            color: #fff;
+            outline: 1px dotted var(--accent-color);
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: 0.85rem;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: rgba(255, 51, 51, 0.1);
+            border-left: 3px solid var(--color-error);
+            border-radius: 4px;
+            display: none;
+        }
+
+        .error-message.show { display: block; }
+
+        .success-message {
+            color: var(--color-success);
+            font-size: 0.85rem;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 3px solid var(--color-success);
+            border-radius: 4px;
+            display: none;
+        }
+
+        .success-message.show { display: block; }
+
+        /* Buttons */
+        button, .btn-link {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+
+        button:hover:not(:disabled), 
+        .btn-link:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-1px);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: var(--disabled-color);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button:focus, .btn-link:focus {
+            outline: 2px solid white;
+            outline-offset: 2px;
+        }
+
+        button.secondary {
+            background-color: #555;
+            padding: 12px 18px;
+            font-size: 14px;
+        }
+
+        button.secondary:hover:not(:disabled) {
+            background-color: #666;
+        }
+
+        button.hidden {
+            display: none !important;
+        }
+
+        .cancel-btn {
+            background-color: #444;
+            margin-top: 10px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #555;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            color: #aaa;
+        }
+
+        /* Results */
+        .result-area {
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            background-color: #2c2c2c;
+            border: 2px solid #444;
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .result-area.rarity-common { border-color: var(--color-common); }
+        .result-area.rarity-magic { border-color: var(--color-magic); }
+        .result-area.rarity-rare { border-color: var(--color-rare); }
+        .result-area.rarity-legendary { border-color: var(--color-legendary); }
+        .result-area.rarity-unique { border-color: var(--color-unique); }
+        .result-area.rarity-mythic { border-color: var(--color-mythic); }
+        .result-area.error-state { border-color: var(--color-error); }
+
+        .preview-img {
+            max-width: 100%;
+            margin-top: 15px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            display: none;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .action-buttons.hidden {
+            display: none;
+        }
+
+        /* History Section */
+        .history-section {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            background-color: #2c2c2c;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .history-item:hover,
+        .history-item:focus {
+            border-color: var(--accent-color);
+            transform: translateX(5px);
+            outline: none;
+        }
+
+        .history-item.rarity-common { border-left: 4px solid var(--color-common); }
+        .history-item.rarity-magic { border-left: 4px solid var(--color-magic); }
+        .history-item.rarity-rare { border-left: 4px solid var(--color-rare); }
+        .history-item.rarity-legendary { border-left: 4px solid var(--color-legendary); }
+        .history-item.rarity-unique { border-left: 4px solid var(--color-unique); }
+        .history-item.rarity-mythic { border-left: 4px solid var(--color-mythic); }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .history-name {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        .history-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: transparent;
+            color: #888;
+            border: none;
+            font-size: 20px;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .history-delete:hover,
+        .history-delete:focus {
+            background-color: var(--color-error);
+            color: white;
+            transform: none;
+        }
+
+        .clear-history {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            width: auto;
+        }
+
+        .clear-history:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            border: 1px solid #444;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            color: #888;
+            border: none;
+            font-size: 28px;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            background-color: var(--accent-color);
+            color: white;
+            transform: none;
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        .modal code {
+            background-color: #2c2c2c;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal ol {
+            padding-left: 20px;
+        }
+
+        .modal ol li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        /* Tour Overlay */
+        .tour-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+        }
+
+        .tour-spotlight {
+            position: absolute;
+            border: 3px solid var(--accent-color);
+            border-radius: 8px;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+
+        .tour-tooltip {
+            position: absolute;
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 350px;
+            z-index: 10001;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .tour-tooltip h3 {
+            margin: 0 0 10px 0;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .tour-tooltip p {
+            margin: 0 0 15px 0;
+            line-height: 1.5;
+            color: #ccc;
+        }
+
+        .tour-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tour-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        .tour-skip {
+            background-color: #555;
+        }
+
+        .tour-skip:hover {
+            background-color: #666;
+        }
+
+        .tour-progress {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .tour-tooltip.tour-center {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .tour-tooltip.tour-center::after { display: none; }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin: 0 0 10px 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .beta-form {
+                flex-direction: column;
+            }
+
+            .beta-form input,
+            .beta-form button {
+                width: 100%;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .footer-divider {
+                display: none;
+            }
+
+            .tour-tooltip {
+                position: fixed !important;
+                top: auto !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                border-radius: 16px 16px 0 0;
+                transform: none !important;
+            }
+
+            .tour-tooltip::after {
+                display: none !important;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons button {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>⚔️ Horadric AI ⚔️</h1>
+    
+    <!-- Beta Signup Form (Kit Integration) -->
+    <div class="beta-signup">
+        <label style="justify-content: center; color: var(--accent-color);">🔥 Join the Beta List</label>
+        <p style="margin: 5px 0 10px; font-size: 0.9rem; color: #bbb;">Get updates when we release new features.</p>
+        
+        <form id="kit-signup-form" action="https://app.kit.com/forms/8985038/subscriptions" method="post" class="beta-form" data-sv-form="8985038">
+            <input type="email" name="email_address" id="kit-email" placeholder="Wanderer@email.com" required aria-label="Email address for beta signup">
+            <button type="submit" id="kit-submit-btn" style="width: auto; padding: 12px 25px;">Join</button>
+        </form>
+        
+        <!-- Success/Error Messages -->
+        <div id="kit-success-message" class="kit-message success-message">
+            ✅ Success! Check your email to confirm your subscription.<br>
+            <span style="font-size: 0.85em; margin-top: 5px; display: block;">📬 Don't forget to check your spam/junk folder!</span>
+        </div>
+        <div id="kit-error-message" class="kit-message error-message">
+            ⚠️ Something went wrong. Please try again.
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="input-group" id="tour-step-api">
+            <label for="api-key">
+                Gemini API Key
+                <button class="help-icon" type="button" id="help-trigger" aria-label="How to get API key">?</button>
+            </label>
+            <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off">
+            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                <span class="input-hint">🔒 Encrypted & stored locally</span>
+                <a href="https://aistudio.google.com/app/apikey" class="demo-link" target="_blank" rel="noopener">Get API Key →</a>
+            </div>
+            <div id="api-key-error" class="error-message"></div>
+            <div id="api-key-success" class="success-message"></div>
+        </div>
+
+        <div class="input-group" id="tour-step-class">
+            <label for="player-class">Your Class</label>
+            <select id="player-class">
+                <option value="Any">Any Class</option>
+                <option value="Barbarian">Barbarian</option>
+                <option value="Druid">Druid</option>
+                <option value="Necromancer">Necromancer</option>
+                <option value="Rogue">Rogue</option>
+                <option value="Sorcerer">Sorcerer</option>
+                <option value="Spiritborn">Spiritborn</option>
+            </select>
+            <span class="input-hint">Select for class-specific recommendations</span>
+        </div>
+
+        <div class="input-group" id="tour-step-upload">
+            <label for="image-upload">Upload Loot Screenshot</label>
+            <input type="file" id="image-upload" accept="image/png,image/jpeg,image/jpg,image/webp">
+            <span class="input-hint">Max 10MB. Formats: PNG, JPEG, WebP</span>
+            <div id="image-error" class="error-message"></div>
+            <div id="image-success" class="success-message"></div>
+            <img id="image-preview" class="preview-img" alt="Item preview">
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <button id="demo-btn" class="secondary" type="button">🎮 Try Demo Mode</button>
+            <span class="input-hint" style="display: block; margin-top: 5px;">See how it works without an API key</span>
+        </div>
+
+        <button id="analyze-btn" type="button">Identify Item</button>
+        <button id="cancel-btn" class="cancel-btn hidden" type="button">Cancel</button>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Consulting the archives...</div>
+        </div>
+
+        <div class="result-area" id="result-area"></div>
+
+        <div class="action-buttons hidden" id="action-buttons">
+            <button id="share-btn" class="secondary" type="button">📋 Copy Analysis</button>
+            <button id="search-btn" class="secondary" type="button">🔍 Search on Diablo.Trade</button>
+        </div>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-section" id="history-section" style="display:none;">
+        <div class="history-title">
+            <h2 style="margin: 0; font-size: 1.1rem;">📜 Recent Scans</h2>
+            <button id="clear-history" class="clear-history" type="button">Clear All</button>
+        </div>
+        <div class="history-list" id="history-list"></div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+            <h2>Getting Your Gemini API Key</h2>
+            <ol>
+                <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--accent-color);">Google AI Studio</a></li>
+                <li>Sign in with your Google account</li>
+                <li>Click "Create API Key"</li>
+                <li>Select "Create key in new project"</li>
+                <li>Copy the key starting with <code>AIza...</code></li>
+                <li>Paste it into the API Key field above</li>
+            </ol>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #888;">
+                Free tier includes generous usage limits (~15 requests/minute, 1500/day)
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with ❤️ for the Sanctuary</p>
+        <div class="footer-links">
+            <a href="https://forms.gle/4r3pkCsFuD4Ckaqa8" target="_blank" rel="noopener noreferrer">
+                🐛 Report Issue
+            </a>
+            <span class="footer-divider">•</span>
+            <a href="https://forms.gle/MappsrQeiSyskmYb6" target="_blank" rel="noopener noreferrer">
+                💡 Submit Enhancement
+            </a>
+        </div>
+    </footer>
+
+    <!-- Tour Overlay -->
+    <div class="tour-overlay" id="tour-overlay">
+        <div class="tour-spotlight" id="tour-spotlight"></div>
+        <div class="tour-tooltip" id="tour-tooltip">
+            <h3 id="tour-title"></h3>
+            <p id="tour-description"></p>
+            <div class="tour-controls">
+                <button class="tour-btn tour-skip" id="tour-skip">Skip Tour</button>
+                <span class="tour-progress" id="tour-progress"></span>
+                <button class="tour-btn" id="tour-next">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====================================
+        // CONFIGURATION
+        // ====================================
+        const CONFIG = {
+            MAX_FILE_SIZE: 10 * 1024 * 1024,
+            ALLOWED_TYPES: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'],
+            COMPRESSION_QUALITY: 0.8,
+            MAX_DIMENSION: 1024,
+            MAX_HISTORY: 10,
+            JSON_DELIMITER: '---METADATA---',
+            VALID_RARITIES: ['common', 'magic', 'rare', 'legendary', 'unique', 'mythic'],
+            GEMINI_ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/',
+            GEMINI_MODEL: 'gemini-2.0-flash-exp',
+            DEMO_ITEM: {
+                name: 'Harlequin Crest (Shako)',
+                rarity: 'unique',
+                imageUrl: 'harlequin_crest.jpg',
+                analysis: `**Harlequin Crest (Shako)** (Unique Helm) 🎭 🏆
+
+**(Unique Helm)**
+
+**Score:**
+God Roll (S-Tier) 🚀
+
+**Verdict:**
+KEEP! This is one of the most sought-after items in the game.
+
+**Key Stats:**
+• +Maximum Life • +All Stats • +Cooldown Reduction • +Resource Generation
+
+**Why It's Valuable:**
+The Shako is universally good for all classes. Its combination of defensive stats and utility makes it a best-in-slot item for virtually every build. This helm dramatically increases your survivability while boosting damage output.
+
+**Trade Value:**
+Extremely High - Worth multiple high-value items or significant trading power`
+            }
+        };
+
+        // ====================================
+        // ANALYTICS MODULE
+        // ====================================
+        const Analytics = {
+            isReady: false,
+            sessionStart: Date.now(),
+            sessionEvents: 0,
+            
+            init() {
+                if (typeof gtag === 'undefined') {
+                    console.warn('Google Analytics not loaded');
+                    return;
+                }
+                this.isReady = true;
+                this.trackPageLoad();
+                console.log('✅ Analytics initialized');
+            },
+            
+            track(eventName, params = {}) {
+                if (!this.isReady) return;
+                this.sessionEvents++;
+                
+                const enrichedParams = {
+                    ...params,
+                    session_duration: Math.round((Date.now() - this.sessionStart) / 1000),
+                    session_events: this.sessionEvents,
+                    timestamp: new Date().toISOString()
+                };
+                
+                gtag('event', eventName, enrichedParams);
+                
+                // Log in development
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    console.log(`📊 GA Event: ${eventName}`, enrichedParams);
+                }
+            },
+            
+            trackPageLoad() {
+                this.track('page_view', {
+                    page_title: document.title,
+                    page_location: window.location.href,
+                    device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+                    is_mobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+                });
+            },
+            
+            trackBetaSignupSubmit(email) {
+                const emailDomain = email.split('@')[1] || 'unknown';
+                this.track('beta_signup_submit', {
+                    email_domain: emailDomain,
+                    event_category: 'conversion',
+                    event_label: 'beta_list'
+                });
+            },
+            
+            trackBetaSignupSuccess() {
+                this.track('beta_signup_success', {
+                    event_category: 'conversion',
+                    event_label: 'beta_confirmed'
+                });
+            },
+            
+            trackBetaSignupError(errorType) {
+                this.track('beta_signup_error', {
+                    error_type: errorType,
+                    event_category: 'error',
+                    event_label: 'beta_signup_failed'
+                });
+            },
+            
+            trackAnalysisStarted(provider, model) {
+                this.track('analysis_started', {
+                    provider: provider,
+                    model: model,
+                    event_category: 'analysis'
+                });
+            },
+            
+            trackAnalysisCompleted(provider, model, duration, rarity) {
+                this.track('analysis_completed', {
+                    provider: provider,
+                    model: model,
+                    duration_seconds: duration,
+                    item_rarity: rarity,
+                    event_category: 'analysis',
+                    event_label: `${provider}_${model}_success`
+                });
+            },
+            
+            trackAnalysisFailed(provider, model, errorType) {
+                this.track('analysis_failed', {
+                    provider: provider,
+                    model: model,
+                    error_type: errorType,
+                    event_category: 'error',
+                    event_label: `${provider}_${errorType}`
+                });
+            },
+            
+            trackDemoModeActivated() {
+                this.track('demo_mode_activated', {
+                    event_category: 'feature_usage',
+                    event_label: 'demo_gemini'
+                });
+            },
+            
+            trackError(errorType, errorMessage, context) {
+                this.track('error_occurred', {
+                    error_type: errorType,
+                    error_message: errorMessage?.substring(0, 100),
+                    context: context,
+                    event_category: 'error',
+                    event_label: errorType
+                });
+            },
+            
+            trackMilestone(milestoneName, metadata = {}) {
+                this.track('milestone_reached', {
+                    milestone: milestoneName,
+                    ...metadata,
+                    event_category: 'user_journey',
+                    event_label: milestoneName
+                });
+            },
+            
+            trackReportIssueClicked() {
+                this.track('report_issue_clicked', {
+                    event_category: 'support',
+                    event_label: 'feedback'
+                });
+            },
+            
+            trackEnhancementSubmitClicked() {
+                this.track('enhancement_submit_clicked', {
+                    event_category: 'support',
+                    event_label: 'enhancement'
+                });
+            }
+        };
+
+        // ====================================
+        // KIT FORM HANDLER
+        // ====================================
+        const KitFormHandler = {
+            formId: '8985038',
+            isSubmitting: false,
+            
+            init() {
+                const form = document.getElementById('kit-signup-form');
+                if (!form) {
+                    console.warn('Kit signup form not found');
+                    return;
+                }
+                
+                form.addEventListener('submit', (e) => this.handleSubmit(e));
+                console.log('✅ Kit form handler initialized');
+            },
+            
+            async handleSubmit(event) {
+                event.preventDefault();
+                
+                if (this.isSubmitting) return;
+                
+                const form = event.target;
+                const emailInput = document.getElementById('kit-email');
+                const submitBtn = document.getElementById('kit-submit-btn');
+                const successMsg = document.getElementById('kit-success-message');
+                const errorMsg = document.getElementById('kit-error-message');
+                
+                const email = emailInput.value.trim();
+                
+                if (!this.validateEmail(email)) {
+                    this.showError('Please enter a valid email address');
+                    return;
+                }
+                
+                this.isSubmitting = true;
+                this.setLoadingState(submitBtn, true);
+                this.hideMessages();
+                
+                try {
+                    await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            email_address: email
+                        }),
+                        mode: 'no-cors'
+                    });
+                    
+                    this.handleSuccess(emailInput, submitBtn, successMsg);
+                    
+                    if (typeof Analytics !== 'undefined') {
+                        Analytics.trackBetaSignupSubmit(email);
+                        Analytics.trackBetaSignupSuccess();
+                        Analytics.trackMilestone('beta_list_joined', {
+                            email_domain: email.split('@')[1] || 'unknown'
+                        });
+                    }
+                    
+                } catch (error) {
+                    console.error('Kit form submission error:', error);
+                    this.handleError(errorMsg);
+                    
+                    if (typeof Analytics !== 'undefined') {
+                        Analytics.trackError('kit_form_error', error.message, 'beta_signup');
+                        Analytics.trackBetaSignupError(error.name || 'unknown');
+                    }
+                } finally {
+                    this.isSubmitting = false;
+                    this.setLoadingState(submitBtn, false);
+                }
+            },
+            
+            handleSuccess(emailInput, submitBtn, successMsg) {
+                successMsg.style.display = 'block';
+                emailInput.value = '';
+                successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                setTimeout(() => { successMsg.style.display = 'none'; }, 10000);
+            },
+            
+            handleError(errorMsg) {
+                errorMsg.style.display = 'block';
+                errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                setTimeout(() => { errorMsg.style.display = 'none'; }, 8000);
+            },
+            
+            showError(message) {
+                const errorMsg = document.getElementById('kit-error-message');
+                errorMsg.textContent = `⚠️ ${message}`;
+                errorMsg.style.display = 'block';
+                setTimeout(() => { errorMsg.style.display = 'none'; }, 5000);
+            },
+            
+            hideMessages() {
+                document.getElementById('kit-success-message').style.display = 'none';
+                document.getElementById('kit-error-message').style.display = 'none';
+            },
+            
+            setLoadingState(button, isLoading) {
+                if (isLoading) {
+                    button.disabled = true;
+                    button.textContent = 'Joining...';
+                    button.style.opacity = '0.7';
+                } else {
+                    button.disabled = false;
+                    button.textContent = 'Join';
+                    button.style.opacity = '1';
+                }
+            },
+            
+            validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+        };
+
+        // ====================================
+        // MAIN APPLICATION
+        // ====================================
+        let currentAnalysis = null;
+        let currentTradeQuery = '';
+        let history = [];
+        let previousFocusedElement = null;
+        let abortController = null;
+        let analysisStartTime = null;
+
+        const elements = {
+            apiKey: document.getElementById('api-key'),
+            apiKeyError: document.getElementById('api-key-error'),
+            apiKeySuccess: document.getElementById('api-key-success'),
+            playerClass: document.getElementById('player-class'),
+            fileInput: document.getElementById('image-upload'),
+            imageError: document.getElementById('image-error'),
+            imageSuccess: document.getElementById('image-success'),
+            previewImg: document.getElementById('image-preview'),
+            analyzeBtn: document.getElementById('analyze-btn'),
+            cancelBtn: document.getElementById('cancel-btn'),
+            demoBtn: document.getElementById('demo-btn'),
+            shareBtn: document.getElementById('share-btn'),
+            searchBtn: document.getElementById('search-btn'),
+            loadingDiv: document.getElementById('loading'),
+            resultArea: document.getElementById('result-area'),
+            actionButtons: document.getElementById('action-buttons'),
+            historySection: document.getElementById('history-section'),
+            historyList: document.getElementById('history-list'),
+            clearHistory: document.getElementById('clear-history'),
+            modal: document.getElementById('modal'),
+            modalCloseBtn: document.getElementById('modal-close'),
+            helpTrigger: document.getElementById('help-trigger'),
+            tourOverlay: document.getElementById('tour-overlay'),
+            tourSpotlight: document.getElementById('tour-spotlight'),
+            tourTooltip: document.getElementById('tour-tooltip'),
+            tourTitle: document.getElementById('tour-title'),
+            tourDescription: document.getElementById('tour-description'),
+            tourProgress: document.getElementById('tour-progress'),
+            tourNext: document.getElementById('tour-next'),
+            tourSkip: document.getElementById('tour-skip')
+        };
+
+        function init() {
+            console.log('🎮 Initializing Horadric AI...');
+            
+            Analytics.init();
+            KitFormHandler.init();
+            
+            loadSettings();
+            loadHistory();
+            attachEventListeners();
+            checkFirstVisit();
+            
+            console.log('✅ Horadric AI ready! (v2.0.3)');
+        }
+
+        function loadSettings() {
+            try {
+                const key = localStorage.getItem('horadric_api_key');
+                if (key) elements.apiKey.value = decrypt(key);
+                
+                const playerClass = localStorage.getItem('horadric_class');
+                if (playerClass) elements.playerClass.value = playerClass;
+            } catch (e) {
+                console.warn('Failed to load settings:', e);
+            }
+        }
+
+        function saveSettings() {
+            try {
+                localStorage.setItem('horadric_api_key', encrypt(elements.apiKey.value.trim()));
+                localStorage.setItem('horadric_class', elements.playerClass.value);
+            } catch (e) {
+                console.warn('Failed to save settings:', e);
+            }
+        }
+
+        function loadHistory() {
+            try {
+                const saved = localStorage.getItem('horadric_history');
+                if (saved) {
+                    history = JSON.parse(saved).slice(0, CONFIG.MAX_HISTORY);
+                    renderHistory();
+                }
+            } catch (e) {
+                console.warn('Failed to load history:', e);
+            }
+        }
+
+        function attachEventListeners() {
+            elements.apiKey.addEventListener('blur', validateApiKey);
+            elements.apiKey.addEventListener('input', () => {
+                hideError(elements.apiKeyError);
+                elements.apiKey.classList.remove('error');
+            });
+            
+            elements.fileInput.addEventListener('change', handleFileSelection);
+            elements.analyzeBtn.addEventListener('click', handleAnalyze);
+            elements.cancelBtn.addEventListener('click', handleCancel);
+            elements.demoBtn.addEventListener('click', runDemoMode);
+            elements.shareBtn.addEventListener('click', handleShare);
+            elements.searchBtn.addEventListener('click', searchOnDiabloTrade);
+            elements.clearHistory.addEventListener('click', clearHistory);
+            elements.helpTrigger.addEventListener('click', openModal);
+            elements.modalCloseBtn.addEventListener('click', closeModal);
+            elements.modal.addEventListener('click', (e) => {
+                if (e.target === elements.modal) closeModal();
+            });
+            
+            // Footer links
+            document.querySelectorAll('a[href*="4r3pkCsFuD4Ckaqa8"]').forEach(link => {
+                link.addEventListener('click', () => Analytics.trackReportIssueClicked());
+            });
+            
+            document.querySelectorAll('a[href*="MappsrQeiSyskmYb6"]').forEach(link => {
+                link.addEventListener('click', () => Analytics.trackEnhancementSubmitClicked());
+            });
+            
+            document.addEventListener('keydown', handleGlobalKeyboard);
+        }
+
+        function checkFirstVisit() {
+            const hasVisited = localStorage.getItem('horadric_visited');
+            if (!hasVisited) {
+                setTimeout(() => {
+                    startTour();
+                    Analytics.trackMilestone('first_visit', {
+                        timestamp: new Date().toISOString()
+                    });
+                    localStorage.setItem('horadric_visited', 'true');
+                }, 1000);
+            }
+        }
+
+        // ====================================
+        // VALIDATION
+        // ====================================
+        function validateApiKey() {
+            const key = elements.apiKey.value.trim();
+            
+            if (!key) {
+                elements.apiKey.classList.remove('error');
+                hideError(elements.apiKeyError);
+                return false;
+            }
+            
+            const isValid = /^AIza[a-zA-Z0-9_-]{35}$/.test(key);
+            
+            if (!isValid) {
+                elements.apiKey.classList.add('error');
+                showError(elements.apiKeyError, 'Invalid Gemini API key format');
+                Analytics.trackError('validation_error', 'invalid_api_key', 'api_key_field');
+                return false;
+            }
+            
+            elements.apiKey.classList.remove('error');
+            hideError(elements.apiKeyError);
+            showSuccess(elements.apiKeySuccess, 'API key validated ✓');
+            setTimeout(() => hideSuccess(elements.apiKeySuccess), 2000);
+            return true;
+        }
+
+        function validateFile(file) {
+            if (!file) {
+                showError(elements.imageError, 'Please select an image file');
+                return false;
+            }
+            
+            if (file.size > CONFIG.MAX_FILE_SIZE) {
+                showError(elements.imageError, `File too large. Maximum size is ${CONFIG.MAX_FILE_SIZE / (1024 * 1024)}MB`);
+                Analytics.trackError('validation_error', 'file_too_large', 'file_upload');
+                return false;
+            }
+            
+            if (!CONFIG.ALLOWED_TYPES.includes(file.type)) {
+                showError(elements.imageError, 'Invalid file type. Please upload PNG, JPEG, or WebP');
+                Analytics.trackError('validation_error', 'invalid_file_type', 'file_upload');
+                return false;
+            }
+            
+            hideError(elements.imageError);
+            return true;
+        }
+
+        // ====================================
+        // MAIN ANALYSIS FLOW
+        // ====================================
+        async function handleAnalyze() {
+            const key = elements.apiKey.value.trim();
+            const file = elements.fileInput.files[0];
+            
+            if (!key) {
+                showError(elements.apiKeyError, 'Please enter your Gemini API key');
+                elements.apiKey.focus();
+                return;
+            }
+            
+            if (!validateApiKey()) {
+                elements.apiKey.focus();
+                return;
+            }
+            
+            if (!file) {
+                showError(elements.imageError, 'Please select an image file');
+                elements.fileInput.focus();
+                return;
+            }
+            
+            if (!validateFile(file)) {
+                elements.fileInput.focus();
+                return;
+            }
+            
+            saveSettings();
+            resetResultArea();
+            setLoadingState(true);
+            
+            analysisStartTime = Date.now();
+            abortController = new AbortController();
+            
+            Analytics.trackAnalysisStarted('gemini', CONFIG.GEMINI_MODEL);
+            
+            try {
+                const base64 = await fileToBase64(file);
+                const responseText = await analyzeWithGemini(key, base64);
+                
+                if (!responseText) {
+                    throw new Error('Empty response from Gemini API');
+                }
+                
+                const duration = (Date.now() - analysisStartTime) / 1000;
+                const { displayText, rarity, tradeQuery } = parseResponse(responseText);
+                
+                displayResults(displayText, rarity, tradeQuery);
+                saveToHistory(displayText, rarity, tradeQuery);
+                
+                Analytics.trackAnalysisCompleted('gemini', CONFIG.GEMINI_MODEL, duration, rarity);
+                
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    handleAnalysisError(error);
+                    Analytics.trackAnalysisFailed('gemini', CONFIG.GEMINI_MODEL, error.name);
+                }
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        function handleCancel() {
+            if (abortController) {
+                abortController.abort();
+                abortController = null;
+            }
+        }
+
+        async function analyzeWithGemini(apiKey, base64) {
+            const prompt = `Role: Expert Diablo 4 Item Analyst
+Context: Player class is ${elements.playerClass.value}
+Task: Analyze the item in this screenshot and provide detailed evaluation.
+
+CRITICAL FORMAT REQUIREMENTS:
+Use EXACTLY this structure with NO extra blank lines:
+
+**[Item Name]** ([Item Type]) [Emojis]
+
+**(Rarity Level)**
+
+**Score:**
+[Rating] [Emoji]
+
+**Verdict:**
+[KEEP or SALVAGE]! [One sentence why]
+
+**Key Stats:**
+• [Stat 1] • [Stat 2] • [Stat 3] • [Stat 4]
+
+**Why It's Valuable:**
+[2-3 sentences explaining value, synergies, and build fit for ${elements.playerClass.value}]
+
+**Trade Value:**
+[Trade value assessment with brief explanation]
+
+FORMATTING RULES:
+- Use **bold** for all section headers
+- Put content IMMEDIATELY after section headers (no blank line)
+- Only ONE blank line between sections
+- Use bullet points (•) for stats list, separate with spaces
+- Keep descriptions concise (2-3 sentences max per section)
+- Use relevant emojis sparingly
+- Verdict format MUST be: "KEEP!" or "SALVAGE!" followed by explanation
+- End with: ${CONFIG.JSON_DELIMITER}
+{"rarity":"[rarity]","trade_query":"[item name]"}
+
+Valid rarities: ${CONFIG.VALID_RARITIES.join(', ')}
+
+Focus on ${elements.playerClass.value} builds and current meta relevance.`;
+
+            const response = await fetch(
+                `${CONFIG.GEMINI_ENDPOINT}${CONFIG.GEMINI_MODEL}:generateContent`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-goog-api-key': apiKey
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: prompt },
+                                { inline_data: { mime_type: 'image/jpeg', data: base64 } }
+                            ]
+                        }]
+                    }),
+                    signal: abortController.signal
+                }
+            );
+            
+            if (!response.ok) {
+                const errorMessages = {
+                    400: 'Invalid request format. Please check your inputs.',
+                    401: 'Invalid API key. Please verify your key.',
+                    403: 'API key lacks necessary permissions.',
+                    429: 'Rate limit exceeded on Gemini. Please wait a moment.',
+                    500: 'Gemini API temporarily unavailable. Please try again.',
+                    503: 'Gemini service unavailable. Please try again later.'
+                };
+                
+                const message = errorMessages[response.status] || `API Error (${response.status})`;
+                throw new Error(message);
+            }
+            
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text;
+        }
+
+        function parseResponse(text) {
+            const parts = text.split(CONFIG.JSON_DELIMITER);
+            let displayText = parts[0].trim();
+            let rarity = '';
+            let tradeQuery = '';
+            
+            if (parts[1]) {
+                try {
+                    let jsonStr = parts[1].replace(/```json|```/g, '').trim();
+                    const metadata = JSON.parse(jsonStr);
+                    
+                    if (metadata.rarity && CONFIG.VALID_RARITIES.includes(metadata.rarity.toLowerCase())) {
+                        rarity = `rarity-${metadata.rarity.toLowerCase()}`;
+                    }
+                    
+                    tradeQuery = metadata.trade_query || '';
+                } catch (e) {
+                    console.warn('Failed to parse metadata:', e);
+                }
+            }
+            
+            return { displayText, rarity, tradeQuery };
+        }
+
+        // ====================================
+        // DISPLAY RESULTS
+        // ====================================
+        function displayResults(text, rarity, tradeQuery) {
+            const sanitized = escapeHTML(text);
+            let formatted = sanitized.replace(/\n/g, '<br>');
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            elements.resultArea.innerHTML = formatted;
+            elements.resultArea.className = rarity;
+            elements.resultArea.style.display = 'block';
+            elements.actionButtons.classList.remove('hidden');
+            
+            currentAnalysis = text;
+            currentTradeQuery = tradeQuery;
+            
+            elements.resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ====================================
+        // DEMO MODE
+        // ====================================
+        function runDemoMode() {
+            Analytics.trackDemoModeActivated();
+            
+            const demoItem = CONFIG.DEMO_ITEM;
+            
+            elements.previewImg.src = demoItem.imageUrl;
+            elements.previewImg.style.display = 'block';
+            
+            setLoadingState(true);
+            
+            setTimeout(() => {
+                const rarity = `rarity-${demoItem.rarity}`;
+                displayResults(demoItem.analysis, rarity, demoItem.name);
+                setLoadingState(false);
+            }, 1500);
+        }
+
+        // ====================================
+        // SHARING
+        // ====================================
+        function handleShare() {
+            if (!currentAnalysis) return;
+            
+            const text = `**[Horadric AI Analysis]**\n${currentAnalysis}\n\n*Analyzed with Google Gemini via Horadric AI*`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = elements.shareBtn.textContent;
+                elements.shareBtn.textContent = '✅ Copied!';
+                
+                setTimeout(() => {
+                    elements.shareBtn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                showError(elements.imageError, 'Failed to copy. Please select text manually.');
+            });
+        }
+
+        function searchOnDiabloTrade() {
+            if (!currentTradeQuery) return;
+            
+            const searchUrl = `https://diablo.trade/listings/items?search=${encodeURIComponent(currentTradeQuery)}`;
+            window.open(searchUrl, '_blank');
+        }
+
+        // ====================================
+        // HISTORY MANAGEMENT
+        // ====================================
+        function saveToHistory(text, rarity, tradeQuery) {
+            const title = (text.match(/\*\*(.*?)\*\*/)?.[1] || 'Item').substring(0, 100);
+            
+            const item = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString(),
+                title,
+                text: text.substring(0, 5000),
+                rarity,
+                trade: tradeQuery,
+                playerClass: elements.playerClass.value
+            };
+            
+            history.unshift(item);
+            history = history.slice(0, CONFIG.MAX_HISTORY);
+            
+            try {
+                localStorage.setItem('horadric_history', JSON.stringify(history));
+                renderHistory();
+            } catch (e) {
+                console.warn('Failed to save history:', e);
+            }
+        }
+
+        function renderHistory() {
+            if (history.length === 0) {
+                elements.historySection.style.display = 'none';
+                return;
+            }
+            
+            elements.historySection.style.display = 'block';
+            elements.historyList.innerHTML = '';
+            
+            history.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `history-item ${item.rarity || ''}`;
+                div.setAttribute('role', 'button');
+                div.setAttribute('tabindex', '0');
+                
+                const headerHTML = `
+                    <div class="history-header">
+                        <span>${escapeHTML(item.date)}</span>
+                        <span>${escapeHTML(item.playerClass)}</span>
+                    </div>
+                    <div class="history-name">${escapeHTML(item.title)}</div>
+                `;
+
+                div.innerHTML = headerHTML;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'history-delete';
+                deleteBtn.textContent = '×';
+                deleteBtn.setAttribute('aria-label', `Delete ${item.title} from history`);
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteHistoryItem(item.id);
+                });
+                div.appendChild(deleteBtn);
+
+                div.addEventListener('click', () => {
+                    window.scrollTo({ top: 200, behavior: 'smooth' });
+                    displayResults(item.text, item.rarity, item.trade);
+                });
+
+                div.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        div.click();
+                    }
+                });
+
+                elements.historyList.appendChild(div);
+            });
+        }
+
+        function deleteHistoryItem(id) {
+            history = history.filter(item => item.id !== id);
+            try {
+                localStorage.setItem('horadric_history', JSON.stringify(history));
+                showSuccess(elements.imageSuccess, 'Item removed from history');
+                setTimeout(() => hideSuccess(elements.imageSuccess), 2000);
+            } catch (e) {
+                console.warn('Failed to update history:', e);
+            }
+            renderHistory();
+        }
+
+        function clearHistory() {
+            if (confirm("Clear all history? This cannot be undone.")) {
+                history = [];
+                try {
+                    localStorage.removeItem('horadric_history');
+                    showSuccess(elements.imageSuccess, 'History cleared');
+                    setTimeout(() => hideSuccess(elements.imageSuccess), 2000);
+                } catch (e) {
+                    console.warn('Failed to clear history:', e);
+                }
+                renderHistory();
+            }
+        }
+
+        // ====================================
+        // MODAL FUNCTIONS
+        // ====================================
+        function openModal() {
+            previousFocusedElement = document.activeElement;
+            elements.modal.style.display = 'flex';
+            elements.modalCloseBtn.focus();
+        }
+
+        function closeModal() {
+            elements.modal.style.display = 'none';
+            if (previousFocusedElement) {
+                previousFocusedElement.focus();
+            }
+        }
+
+        // ====================================
+        // TOUR FUNCTIONS
+        // ====================================
+        let tourStep = 0;
+        const tourSteps = [
+            {
+                title: "Welcome to Horadric AI! ⚔️",
+                description: "Let's get you started in 3 easy steps. This tour will show you how to analyze your Diablo 4 loot using AI.",
+                target: null
+            },
+            {
+                title: "Step 1: Get Your Free API Key 🔑",
+                description: "Click the '?' button to learn how to get a free Google Gemini API key. It takes less than 2 minutes!",
+                target: 'tour-step-api'
+            },
+            {
+                title: "Step 2: Select Your Class ⚔️",
+                description: "Choose your character class for personalized recommendations.",
+                target: 'tour-step-class'
+            },
+            {
+                title: "Step 3: Upload Your Item 📸",
+                description: "Take a screenshot of your item in-game and upload it here.",
+                target: 'tour-step-upload'
+            },
+            {
+                title: "You're All Set! 🚀",
+                description: "That's it! Get your API key, select your class, upload an item, and let Horadric AI help you find the best loot. Happy hunting!",
+                target: null
+            }
+        ];
+
+        function startTour() {
+            tourStep = 0;
+            elements.tourOverlay.style.display = 'block';
+            showTourStep(0);
+        }
+
+        function showTourStep(step) {
+            if (step >= tourSteps.length) {
+                skipTour();
+                return;
+            }
+            
+            const currentStep = tourSteps[step];
+            tourStep = step;
+            
+            elements.tourTitle.textContent = currentStep.title;
+            elements.tourDescription.textContent = currentStep.description;
+            elements.tourProgress.textContent = `${step + 1} / ${tourSteps.length}`;
+            elements.tourNext.textContent = step === tourSteps.length - 1 ? 'Finish' : 'Next';
+            
+            if (currentStep.target) {
+                const targetEl = document.getElementById(currentStep.target);
+                if (targetEl) {
+                    const rect = targetEl.getBoundingClientRect();
+                    
+                    elements.tourSpotlight.style.display = 'block';
+                    elements.tourSpotlight.style.top = `${rect.top - 8}px`;
+                    elements.tourSpotlight.style.left = `${rect.left - 8}px`;
+                    elements.tourSpotlight.style.width = `${rect.width + 16}px`;
+                    elements.tourSpotlight.style.height = `${rect.height + 16}px`;
+                    
+                    elements.tourTooltip.classList.remove('tour-center');
+                    elements.tourTooltip.style.top = `${rect.bottom + 20}px`;
+                    elements.tourTooltip.style.left = `${rect.left + rect.width / 2}px`;
+                    elements.tourTooltip.style.transform = 'translateX(-50%)';
+                    
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else {
+                elements.tourSpotlight.style.display = 'none';
+                elements.tourTooltip.classList.add('tour-center');
+            }
+        }
+
+        function skipTour() {
+            elements.tourOverlay.style.display = 'none';
+            localStorage.setItem('horadric_tour_completed', 'true');
+        }
+
+        // ====================================
+        // KEYBOARD HANDLING
+        // ====================================
+        function handleGlobalKeyboard(e) {
+            if (e.key === 'Escape' && elements.modal.style.display === 'flex') {
+                closeModal();
+            }
+            
+            if (e.key === 'Escape' && elements.tourOverlay.style.display === 'block') {
+                skipTour();
+            }
+        }
+
+        // ====================================
+        // FILE HANDLING
+        // ====================================
+        function handleFileSelection() {
+            const file = elements.fileInput.files[0];
+
+            if (!file) {
+                elements.previewImg.style.display = 'none';
+                hideError(elements.imageError);
+                hideSuccess(elements.imageSuccess);
+                return;
+            }
+
+            if (!validateFile(file)) {
+                elements.fileInput.value = '';
+                elements.previewImg.style.display = 'none';
+                return;
+            }
+
+            showSuccess(elements.imageSuccess, `File selected: ${file.name}`);
+            setTimeout(() => hideSuccess(elements.imageSuccess), 3000);
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                elements.previewImg.src = e.target.result;
+                elements.previewImg.style.display = 'block';
+            };
+            reader.onerror = () => {
+                showError(elements.imageError, 'Failed to read file. Please try again.');
+                elements.fileInput.value = '';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ====================================
+        // UI STATE MANAGEMENT
+        // ====================================
+        function setLoadingState(isLoading) {
+            if (isLoading) {
+                elements.loadingDiv.style.display = 'block';
+                elements.resultArea.style.display = 'none';
+                elements.actionButtons.classList.add('hidden');
+                elements.analyzeBtn.disabled = true;
+                elements.analyzeBtn.textContent = 'Identifying...';
+                elements.cancelBtn.classList.remove('hidden');
+            } else {
+                elements.loadingDiv.style.display = 'none';
+                elements.analyzeBtn.disabled = false;
+                elements.analyzeBtn.textContent = 'Identify Item';
+                elements.cancelBtn.classList.add('hidden');
+            }
+        }
+
+        function resetResultArea() {
+            elements.resultArea.className = '';
+            elements.resultArea.innerHTML = '';
+            currentAnalysis = null;
+            currentTradeQuery = '';
+            hideError(elements.imageError);
+            hideError(elements.apiKeyError);
+            hideSuccess(elements.imageSuccess);
+        }
+
+        // ====================================
+        // ERROR HANDLING
+        // ====================================
+        function handleAnalysisError(error) {
+            console.error('Analysis error:', error);
+            
+            let errorMsg = error.message || 'An unexpected error occurred. Please try again.';
+            
+            elements.resultArea.textContent = `⚠️ ${errorMsg}`;
+            elements.resultArea.classList.add('error-state');
+            elements.resultArea.style.display = 'block';
+            
+            Analytics.trackError('analysis_error', error.message, 'gemini');
+        }
+
+        function showError(errorElement, message) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+            return false;
+        }
+
+        function hideError(errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.remove('show');
+            return true;
+        }
+
+        function showSuccess(successElement, message) {
+            successElement.textContent = message;
+            successElement.classList.add('show');
+        }
+
+        function hideSuccess(successElement) {
+            successElement.textContent = '';
+            successElement.classList.remove('show');
+        }
+
+        // ====================================
+        // UTILITY FUNCTIONS
+        // ====================================
+        function escapeHTML(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onloadend = () => {
+                    try {
+                        const base64Data = reader.result.split(',')[1];
+                        resolve(base64Data);
+                    } catch (error) {
+                        reject(new Error('Failed to process image'));
+                    }
+                };
+
+                reader.onerror = () => reject(new Error('Failed to read file'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function encrypt(text) {
+            return btoa(encodeURIComponent(text).replace(/%([0-9A-F]{2})/g, 
+                (_, p1) => String.fromCharCode('0x' + p1)));
+        }
+
+        function decrypt(text) {
+            try {
+                return decodeURIComponent(atob(text).split('').map(c => 
+                    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+            } catch {
+                return text;
+            }
+        }
+
+        // Event Listeners for Tour
+        elements.tourNext.addEventListener('click', () => showTourStep(tourStep + 1));
+        elements.tourSkip.addEventListener('click', () => skipTour());
+
+        // ====================================
+        // INITIALIZE APPLICATION
+        // ====================================
+        init();
+    </script>
+</body>
+</html>
