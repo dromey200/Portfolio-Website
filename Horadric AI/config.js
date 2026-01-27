@@ -50,8 +50,8 @@ const PROVIDERS = {
         getKeyUrl: 'https://aistudio.google.com/app/apikey',
         models: [
             {
-                id: 'gemini-2.0-flash-exp',
-                name: 'Gemini 2.0 Flash',
+                id: 'gemini-2.5-flash',
+                name: 'Gemini 2.5 Flash',
                 recommended: true,
                 costPer1kTokens: 0.00015,
                 estimatedCostPerScan: 0.0008
