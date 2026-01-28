@@ -2,20 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="AI-powered Diablo 4 loot analyzer - Identify and evaluate your items instantly with Google Gemini">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFFL9DMHQX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-JFFL9DMHQX', {
-            'send_page_view': true,
-            'cookie_flags': 'SameSite=None;Secure'
-        });
-    </script>
+    <meta name="theme-color" content="#121212">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <title>Horadric AI - Diablo 4 Loot Analyzer</title>
     <style>
@@ -39,10 +30,10 @@
             --color-success: #4caf50;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -50,7 +41,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Safari Fix: Use dvh for dynamic viewport height handling */
             min-height: 100vh;
+            min-height: 100dvh;
         }
 
         h1 {
@@ -175,6 +168,17 @@
             font-size: 16px;
             width: 100%;
             transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none; /* Safari Fix for form styles */
+            appearance: none;
+        }
+
+        /* Add custom arrow for Select in Safari */
+        select {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 10px auto;
+            padding-right: 30px;
         }
 
         input:focus, select:focus {
@@ -725,17 +729,15 @@
 <body>
     <h1>⚔️ Horadric AI ⚔️</h1>
     
-    <!-- Beta Signup Form (Kit Integration) -->
     <div class="beta-signup">
         <label style="justify-content: center; color: var(--accent-color);">🔥 Join the Beta List</label>
         <p style="margin: 5px 0 10px; font-size: 0.9rem; color: #bbb;">Get updates when we release new features.</p>
         
         <form id="kit-signup-form" action="https://app.kit.com/forms/8985038/subscriptions" method="post" class="beta-form" data-sv-form="8985038">
-            <input type="email" name="email_address" id="kit-email" placeholder="Wanderer@email.com" required aria-label="Email address for beta signup">
+            <input type="email" name="email_address" id="kit-email" placeholder="Wanderer@email.com" required aria-label="Email address for beta signup" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button type="submit" id="kit-submit-btn" style="width: auto; padding: 12px 25px;">Join</button>
         </form>
         
-        <!-- Success/Error Messages -->
         <div id="kit-success-message" class="kit-message success-message">
             ✅ Success! Check your email to confirm your subscription.<br>
             <span style="font-size: 0.85em; margin-top: 5px; display: block;">📬 Don't forget to check your spam/junk folder!</span>
@@ -745,14 +747,13 @@
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="container">
         <div class="input-group" id="tour-step-api">
             <label for="api-key">
                 Gemini API Key
                 <button class="help-icon" type="button" id="help-trigger" aria-label="How to get API key">?</button>
             </label>
-            <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off">
+            <input type="password" id="api-key" placeholder="AIzaSy..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <div style="display: flex; justify-content: space-between; margin-top: 5px;">
                 <span class="input-hint">🔒 Encrypted & stored locally</span>
                 <a href="https://aistudio.google.com/app/apikey" class="demo-link" target="_blank" rel="noopener">Get API Key →</a>
@@ -806,7 +807,6 @@
         </div>
     </div>
 
-    <!-- History Section -->
     <div class="history-section" id="history-section" style="display:none;">
         <div class="history-title">
             <h2 style="margin: 0; font-size: 1.1rem;">📜 Recent Scans</h2>
@@ -815,7 +815,6 @@
         <div class="history-list" id="history-list"></div>
     </div>
 
-    <!-- Help Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <button class="modal-close" id="modal-close" aria-label="Close">×</button>
@@ -834,7 +833,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <p>Made with ❤️ for the Sanctuary</p>
         <div class="footer-links">
@@ -848,7 +846,6 @@
         </div>
     </footer>
 
-    <!-- Tour Overlay -->
     <div class="tour-overlay" id="tour-overlay">
         <div class="tour-spotlight" id="tour-spotlight"></div>
         <div class="tour-tooltip" id="tour-tooltip">
@@ -879,7 +876,7 @@
             DEMO_ITEM: {
                 name: 'Harlequin Crest (Shako)',
                 rarity: 'unique',
-                imageUrl: 'harlequin_crest.jpg',
+                imageUrl: 'harlequin crest.jpg',
                 analysis: `**Harlequin Crest (Shako)** (Unique Helm) 🎭 🏆
 
 **(Unique Helm)**
@@ -911,7 +908,14 @@ Extremely High - Worth multiple high-value items or significant trading power`
             
             init() {
                 if (typeof gtag === 'undefined') {
-                    console.warn('Google Analytics not loaded');
+                    console.warn('Google Analytics not loaded yet');
+                    // Retry once after a delay if GA was moved to footer
+                    setTimeout(() => {
+                         if (typeof gtag !== 'undefined') {
+                             this.isReady = true;
+                             this.trackPageLoad();
+                         }
+                    }, 1000);
                     return;
                 }
                 this.isReady = true;
@@ -1214,7 +1218,7 @@ Extremely High - Worth multiple high-value items or significant trading power`
             attachEventListeners();
             checkFirstVisit();
             
-            console.log('✅ Horadric AI ready! (v2.0.3)');
+            console.log('✅ Horadric AI ready! (v2.0.4 - Safari Optimized)');
         }
 
         function loadSettings() {
@@ -1950,6 +1954,17 @@ Focus on ${elements.playerClass.value} builds and current meta relevance.`;
         // INITIALIZE APPLICATION
         // ====================================
         init();
+    </script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JFFL9DMHQX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-JFFL9DMHQX', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
 </body>
 </html>
