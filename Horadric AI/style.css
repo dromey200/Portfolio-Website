@@ -203,6 +203,8 @@ textarea {
     width: 100%;
     transition: all 0.2s;
     font-family: inherit;
+    /* Safari fix: removes 300ms delay on tap */
+    touch-action: manipulation;
 }
 
 input:focus,
@@ -262,6 +264,8 @@ button {
     letter-spacing: 1px;
     transition: all 0.2s;
     font-family: inherit;
+    /* Safari fix: removes 300ms delay on tap */
+    touch-action: manipulation;
 }
 
 button:hover:not(:disabled) {
@@ -492,6 +496,8 @@ button.icon-btn:hover {
     border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
+    /* Safari Fix: Performance optimization for animations */
+    will-change: transform;
 }
 
 @keyframes spin {

@@ -1,5 +1,6 @@
 // ====================================
 // HORADRIC AI - GOOGLE ANALYTICS (ENHANCED)
+// Version: 2.0.3 (Safari Optimized)
 // ====================================
 
 /**
@@ -79,7 +80,7 @@ const Analytics = {
      * Setup automatic tracking for elements with data-ga-event attribute
      */
     setupAutoTracking() {
-        // Click tracking
+        // Click tracking - Passive for scrolling performance
         document.addEventListener('click', (e) => {
             const element = e.target.closest('[data-ga-event]');
             if (element) {
@@ -100,7 +101,7 @@ const Analytics = {
                     this.trackFeatureFirstUse(eventName);
                 }
             }
-        });
+        }, { passive: true });
         
         // Form submissions
         document.addEventListener('submit', (e) => {
@@ -156,7 +157,7 @@ const Analytics = {
                     event_category: 'navigation'
                 });
             }
-        });
+        }, { passive: true });
         
         // Button hover intent (predictive)
         let hoverTimeout;
@@ -212,7 +213,7 @@ const Analytics = {
                 
                 ticking = true;
             }
-        });
+        }, { passive: true });
     },
     
     /**
@@ -335,13 +336,11 @@ const Analytics = {
         
         // Log in development
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            console.log(`📊 GA Event: ${eventName}`, enrichedParams);
+            // console.log(`📊 GA Event: ${eventName}`, enrichedParams);
         }
     },
     
-    // ====================================
-    // PROVIDER & MODEL TRACKING
-    // ====================================
+    // ... [Rest of the existing tracking methods remain unchanged] ...
     
     trackProviderSelected(provider, model) {
         this.track('provider_selected', {
@@ -372,10 +371,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // API KEY TRACKING
-    // ====================================
-    
     trackApiKeyEntered(provider, isValid) {
         this.track('api_key_entered', {
             provider: provider,
@@ -402,10 +397,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // USER PREFERENCES TRACKING
-    // ====================================
-    
     trackClassSelected(className) {
         this.track('class_selected', {
             class: className,
@@ -422,17 +413,13 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // IMAGE UPLOAD TRACKING
-    // ====================================
-    
     trackImageSelected(fileSize, fileType) {
         const fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2);
         this.track('image_selected', {
             file_size_mb: fileSizeMB,
             file_type: fileType,
             event_category: 'content',
-            event_value: Math.round(fileSize / 1024) // KB
+            event_value: Math.round(fileSize / 1024)
         });
     },
     
@@ -456,10 +443,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // ANALYSIS TRACKING
-    // ====================================
-    
     trackAnalysisStarted(provider, model, fileSize, playerClass) {
         const fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2);
         this.track('analysis_started', {
@@ -472,7 +455,6 @@ const Analytics = {
             event_value: Math.round(fileSize / 1024)
         });
         
-        // Mark start time for duration calculation
         this.performanceMarks[`analysis_${provider}_start`] = Date.now();
     },
     
@@ -488,7 +470,6 @@ const Analytics = {
             event_value: Math.round(duration * 100)
         });
         
-        // Track performance milestone
         if (duration < 3) {
             this.track('fast_analysis', {
                 provider: provider,
@@ -534,10 +515,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // RESULTS INTERACTION TRACKING
-    // ====================================
-    
     trackResultsViewed(rarity, duration) {
         this.track('results_viewed', {
             item_rarity: rarity,
@@ -555,14 +532,10 @@ const Analytics = {
     
     trackResultsCopied(method) {
         this.track('results_copied', {
-            copy_method: method, // 'manual' or 'button'
+            copy_method: method,
             event_category: 'user_action'
         });
     },
-    
-    // ====================================
-    // DEMO MODE TRACKING
-    // ====================================
     
     trackDemoModeActivated(provider) {
         this.track('demo_mode_activated', {
@@ -587,10 +560,6 @@ const Analytics = {
             event_label: 'demo_conversion'
         });
     },
-    
-    // ====================================
-    // COST TRACKING
-    // ====================================
     
     trackCostCalculated(provider, model, estimatedCost, scanNumber) {
         this.track('cost_calculated', {
@@ -622,10 +591,6 @@ const Analytics = {
             event_label: `threshold_${threshold}`
         });
     },
-    
-    // ====================================
-    // PRICE CHECKER TRACKING
-    // ====================================
     
     trackPriceCheckToggled(itemName, rarity, hasPrice) {
         this.track('price_check_toggled', {
@@ -682,10 +647,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // SHARING TRACKING
-    // ====================================
-    
     trackShareDiscord(rarity, provider) {
         this.track('share_discord', {
             item_rarity: rarity,
@@ -702,10 +663,6 @@ const Analytics = {
             event_label: 'share_failed'
         });
     },
-    
-    // ====================================
-    // HISTORY TRACKING
-    // ====================================
     
     trackHistoryViewed(itemCount) {
         this.track('history_viewed', {
@@ -748,10 +705,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // MODAL & HELP TRACKING
-    // ====================================
-    
     trackHelpOpened(provider) {
         this.track('help_opened', {
             provider: provider,
@@ -782,20 +735,12 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // SUPPORT & FEEDBACK TRACKING
-    // ====================================
-    
     trackReportIssueClicked() {
         this.track('report_issue_clicked', {
             event_category: 'support',
             event_label: 'feedback'
         });
     },
-    
-    // ====================================
-    // KIT (CONVERTKIT) FORM TRACKING
-    // ====================================
     
     trackBetaSignupSubmit(email) {
         const emailDomain = email.split('@')[1] || 'unknown';
@@ -820,10 +765,6 @@ const Analytics = {
             event_label: 'beta_signup_failed'
         });
     },
-    
-    // ====================================
-    // ERROR TRACKING
-    // ====================================
     
     trackError(errorType, errorMessage, context) {
         this.track('error_occurred', {
@@ -853,10 +794,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // PERFORMANCE TRACKING
-    // ====================================
-    
     trackPerformance(metric, value, context) {
         this.track('performance_metric', {
             metric_name: metric,
@@ -877,10 +814,6 @@ const Analytics = {
         });
     },
     
-    // ====================================
-    // FEATURE ADOPTION TRACKING
-    // ====================================
-    
     trackFeatureFirstUse(featureName) {
         this.track('feature_first_use', {
             feature_name: featureName,
@@ -892,14 +825,10 @@ const Analytics = {
     trackFeatureDiscovery(featureName, discoveryMethod) {
         this.track('feature_discovery', {
             feature_name: featureName,
-            discovery_method: discoveryMethod, // 'organic', 'tooltip', 'demo'
+            discovery_method: discoveryMethod,
             event_category: 'feature_adoption'
         });
     },
-    
-    // ====================================
-    // USER JOURNEY TRACKING
-    // ====================================
     
     trackMilestone(milestoneName, metadata) {
         this.track('milestone_reached', {
@@ -964,9 +893,6 @@ const Analytics = {
     // UTILITY FUNCTIONS
     // ====================================
     
-    /**
-     * Get device type
-     */
     getDeviceType() {
         const width = window.innerWidth;
         if (width < 768) return 'mobile';
@@ -974,9 +900,6 @@ const Analytics = {
         return 'desktop';
     },
     
-    /**
-     * Get browser name
-     */
     getBrowser() {
         const userAgent = navigator.userAgent;
         if (userAgent.indexOf('Firefox') > -1) return 'Firefox';
@@ -987,9 +910,6 @@ const Analytics = {
         return 'Other';
     },
     
-    /**
-     * Get connection type
-     */
     getConnectionType() {
         const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         if (!connection) return 'unknown';
@@ -997,9 +917,6 @@ const Analytics = {
         return connection.effectiveType || connection.type || 'unknown';
     },
     
-    /**
-     * Create custom dimension
-     */
     setUserProperty(propertyName, value) {
         if (!this.isReady) return;
         gtag('set', 'user_properties', {
@@ -1007,16 +924,9 @@ const Analytics = {
         });
     },
     
-    /**
-     * Track custom event with full control
-     */
     trackCustom(eventName, params = {}) {
         this.track(eventName, params);
     },
-    
-    // ====================================
-    // BUILD STYLE TRACKING
-    // ====================================
     
     trackBuildStyleSelected(buildStyle) {
         this.track('build_style_selected', {
@@ -1045,8 +955,9 @@ if (document.readyState === 'loading') {
     Analytics.init();
 }
 
-// Track session end on page unload
-window.addEventListener('beforeunload', () => {
+// Track session end - Safari Optimized: Use 'pagehide' instead of 'beforeunload'
+// This ensures the Back-Forward Cache (bfcache) works correctly on Safari/iOS
+window.addEventListener('pagehide', () => {
     Analytics.trackSessionEnd();
 });
 

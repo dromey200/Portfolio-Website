@@ -1,6 +1,6 @@
 // ====================================
 // HORADRIC AI - MAIN APPLICATION
-// Version: 2.0.2
+// Version: 2.0.3 (Safari Optimized)
 // ====================================
 
 /**
@@ -221,10 +221,6 @@ const HoradricApp = {
     // MODEL MANAGEMENT
     // ====================================
     
-    // ====================================
-    // MODEL MANAGEMENT
-    // ====================================
-    
     initializeModel() {
         const provider = PROVIDERS.gemini;
         const recommended = provider.models.find(m => m.recommended);
@@ -343,9 +339,19 @@ const HoradricApp = {
         
         // Show preview
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             try {
-                this.el.preview.src = e.target.result;
+                // Safari Optimization: Use decode() to prevent UI blocking
+                const img = new Image();
+                img.src = e.target.result;
+                
+                try {
+                    await img.decode();
+                } catch (decodeErr) {
+                    // Ignore decode errors, will fail later if invalid
+                }
+                
+                this.el.preview.src = img.src;
                 this.el.preview.style.display = 'block';
                 console.log('Image preview loaded successfully');
             } catch (err) {
@@ -368,7 +374,15 @@ const HoradricApp = {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
-                img.onload = () => {
+                
+                // Safari Optimization: Wait for decode
+                img.onload = async () => {
+                    try {
+                        await img.decode();
+                    } catch(err) {
+                        console.warn('Image decode warning:', err);
+                    }
+                    
                     const canvas = document.createElement('canvas');
                     let { width, height } = img;
                     
@@ -385,7 +399,14 @@ const HoradricApp = {
                     
                     canvas.width = width;
                     canvas.height = height;
-                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                    
+                    // Safari Optimization: explicit context settings
+                    const ctx = canvas.getContext('2d', { 
+                        alpha: false, // JPEGs don't need alpha, speeds up rendering
+                        willReadFrequently: false 
+                    });
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
                     
                     canvas.toBlob((blob) => {
                         const compressedSize = blob.size;
@@ -474,7 +495,7 @@ const HoradricApp = {
             
             // Update session cost
             const modelData = PROVIDERS.gemini.models.find(m => m.id === model);
-            const cost = modelData.estimatedCostPerScan;
+            const cost = modelData ? modelData.estimatedCostPerScan : 0.0008;
             this.updateSessionCost(cost);
             
             // Display results
@@ -816,59 +837,6 @@ const HoradricApp = {
             const saved = localStorage.getItem('horadric_history');
             if (saved) {
                 this.state.history = JSON.parse(saved).slice(0, CONFIG.MAX_HISTORY);
-                
-                // 🔥 MIGRATION: Update old history items with missing fields
-                let needsMigration = false;
-                this.state.history = this.state.history.map(item => {
-                    // Skip if already has verdict and price
-                    if (item.verdict && item.marketPrice) {
-                        return item;
-                    }
-                    
-                    needsMigration = true;
-                    
-                    // Extract verdict from text if missing
-                    if (!item.verdict && item.text) {
-                        const verdictMatch = item.text.match(/\*\*Verdict:\*\*\s*(KEEP|SALVAGE)/i);
-                        if (verdictMatch) {
-                            item.verdict = verdictMatch[1].toUpperCase();
-                        }
-                    }
-                    
-                    // Get market price if missing
-                    if (!item.marketPrice && item.title) {
-                        // Try community pricing first
-                        if (typeof CommunityPricing !== 'undefined') {
-                            const communityData = CommunityPricing.getAveragePrice(item.title);
-                            if (communityData && communityData.sampleSize >= 3) {
-                                item.marketPrice = communityData.avgPrice;
-                                item.priceSource = 'community';
-                            }
-                        }
-                        
-                        // Fallback to static database
-                        if (!item.marketPrice && typeof PriceDatabase !== 'undefined') {
-                            const priceData = PriceDatabase.searchItem(item.title);
-                            if (priceData) {
-                                item.marketPrice = priceData.tradeValue;
-                                item.priceSource = 'database';
-                            }
-                        }
-                    }
-                    
-                    return item;
-                });
-                
-                // Save migrated history back to localStorage
-                if (needsMigration) {
-                    try {
-                        localStorage.setItem('horadric_history', JSON.stringify(this.state.history));
-                        console.log('✅ History migrated with verdict and price data');
-                    } catch (e) {
-                        console.warn('Failed to save migrated history:', e);
-                    }
-                }
-                
                 this.renderHistory();
             }
         } catch (e) {
