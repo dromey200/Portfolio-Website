@@ -1,6 +1,6 @@
 // ====================================
 // HORADRIC AI - APP ENGINE
-// Version: 1.2.0 (Universal Compatibility)
+// Version: 1.6.0 (Gemini 2.5 Flash + Restored Config)
 // ====================================
 
 const HoradricApp = {
@@ -18,31 +18,31 @@ const HoradricApp = {
         this.loadState();
         this.attachEventListeners();
         this.updateClassOptions(); 
-        console.log('👁️ Horadric Eye Opened (Universal Mode)');
+        console.log('👁️ Horadric Eye Opened (Gemini 2.5 Flash Active)');
     },
     
     cacheElements() {
-        // Safe caching - works with old or new HTML
+        // Core Inputs
         this.el.playerClass = document.getElementById('player-class');
         this.el.buildStyle = document.getElementById('build-style');
         this.el.imageUpload = document.getElementById('image-upload');
         this.el.imagePreview = document.getElementById('image-preview');
-        this.el.uploadZone = document.getElementById('upload-zone'); // Might be null in old HTML
+        this.el.uploadZone = document.getElementById('upload-zone');
         this.el.apiKey = document.getElementById('api-key');
         
-        // Advanced
+        // Advanced Inputs
         this.el.toggleAdvanced = document.getElementById('toggle-advanced');
         this.el.advancedPanel = document.getElementById('advanced-panel');
         this.el.keyMechanic = document.getElementById('key-mechanic');
         
-        // Stat Checkboxes (Safe selection)
+        // Stat Checkboxes
         this.el.needsStr = document.getElementById('need-str');
         this.el.needsInt = document.getElementById('need-int');
         this.el.needsWill = document.getElementById('need-will');
         this.el.needsDex = document.getElementById('need-dex');
         this.el.needsRes = document.getElementById('need-res');
 
-        // Results (Critical)
+        // UI Zones
         this.el.resultArea = document.getElementById('result-area');
         this.el.resultsCard = document.getElementById('results-card');
         this.el.loading = document.getElementById('loading');
@@ -55,7 +55,6 @@ const HoradricApp = {
     },
 
     attachEventListeners() {
-        // Validation: Ensure elements exist before attaching listeners
         if (this.el.playerClass) this.el.playerClass.addEventListener('change', () => this.updateBuildOptions());
         if (this.el.imageUpload) this.el.imageUpload.addEventListener('change', (e) => this.handleFileSelect(e));
         
@@ -63,11 +62,11 @@ const HoradricApp = {
         if (this.el.modeCompare) this.el.modeCompare.addEventListener('click', () => this.setMode('compare'));
         if (this.el.toggleAdvanced) this.el.toggleAdvanced.addEventListener('click', () => this.toggleAdvanced());
 
-        // Main Action
         if (this.el.analyzeBtn) this.el.analyzeBtn.addEventListener('click', () => this.handleAnalyze());
         
-        // Drag and Drop (Only if zone exists)
         if (this.el.uploadZone) this.setupDragDrop();
+        
+        if (this.el.apiKey) this.el.apiKey.addEventListener('change', () => this.saveApiKey());
     },
 
     setupDragDrop() {
@@ -86,10 +85,6 @@ const HoradricApp = {
         });
     },
 
-    // ============================================
-    // UI LOGIC
-    // ============================================
-
     updateClassOptions() {
         if (!CONFIG.CLASS_DEFINITIONS['d4'] || !this.el.playerClass) return;
 
@@ -97,7 +92,7 @@ const HoradricApp = {
         const classes = Object.keys(classData);
         const previousSelection = this.el.playerClass.value;
         
-        this.el.playerClass.innerHTML = '<option value="">Select Class...</option>';
+        this.el.playerClass.innerHTML = '<option value="Any">Select Class...</option>';
         
         classes.forEach(cls => {
             const opt = document.createElement('option');
@@ -114,7 +109,7 @@ const HoradricApp = {
         if (!this.el.playerClass || !this.el.buildStyle) return;
         
         const cls = this.el.playerClass.value;
-        if (!cls) {
+        if (!cls || cls === "Any") {
             this.el.buildStyle.innerHTML = '<option value="">Any / General</option>';
             return;
         }
@@ -142,7 +137,6 @@ const HoradricApp = {
                 this.el.imagePreview.src = ev.target.result;
                 this.el.imagePreview.style.display = 'block';
             }
-            // CRASH FIX: Check if uploadZone exists before querying inside it
             if (this.el.uploadZone) {
                 const label = this.el.uploadZone.querySelector('.upload-label');
                 if (label) label.style.display = 'none';
@@ -152,36 +146,31 @@ const HoradricApp = {
         if (this.el.imageError) this.el.imageError.style.display = 'none';
     },
 
-    // ============================================
-    // PIPELINE LOGIC
-    // ============================================
-
     async handleAnalyze() {
         if (!this.state.apiKey) {
-            // Check localStorage if not in DOM
             const savedKey = localStorage.getItem('gemini_api_key');
             if (savedKey) {
                 this.state.apiKey = atob(savedKey);
+                if(this.el.apiKey) this.el.apiKey.value = this.state.apiKey;
             } else {
-                return alert('Please enter your API Key.');
+                return alert('Please enter your Gemini API Key.');
             }
         }
         
-        if (!this.el.imagePreview || !this.el.imagePreview.src) return alert('Please upload an image.');
+        if (!this.el.imagePreview || !this.el.imagePreview.src) return alert('Please upload an item image.');
 
-        this.showLoading(true, "Scanning Sanctuary...");
+        this.showLoading(true, "Consulting Deckard Cain...");
         this.clearResults();
 
         try {
             const imageBase64 = this.el.imagePreview.src.split(',')[1];
             const mimeType = this.el.imagePreview.src.split(';')[0].split(':')[1] || 'image/jpeg';
             
-            // --- STAGE 1: SENTRY ---
+            // STAGE 1: Recognition
             const detectPrompt = PROMPT_TEMPLATES.detect();
             const detectResult = await this.callGemini(detectPrompt, imageBase64, mimeType);
             
             if (!detectResult) throw new Error("AI Recognition Failed.");
-            
             const category = (detectResult.category || detectResult.game || 'unknown').toLowerCase();
 
             if (category === 'not_loot') {
@@ -190,22 +179,27 @@ const HoradricApp = {
                 return;
             }
 
-            if (category !== 'd4') {
-                this.renderRejection("Wrong Game", "This does not look like a Diablo IV item tooltip. Please check your image.");
-                this.showLoading(false);
-                return; 
-            }
-
-            // --- STAGE 2: ANALYZE ---
+            // STAGE 2: Deep Analysis
             this.showLoading(true, "Analyzing Stats...");
             
-            const pClass = this.el.playerClass ? this.el.playerClass.value : 'Any';
-            const build = this.el.buildStyle ? this.el.buildStyle.value : 'General';
+            const pClass = (this.el.playerClass && this.el.playerClass.value !== 'Any') ? this.el.playerClass.value : 'Any';
+            const build = (this.el.buildStyle && this.el.buildStyle.value) ? this.el.buildStyle.value : 'General';
             
-            const analyzePrompt = PROMPT_TEMPLATES.analyze(pClass, build, {});
+            const advancedSettings = {
+                mechanic: this.el.keyMechanic ? this.el.keyMechanic.value : '',
+                needs: {
+                    str: this.el.needsStr ? this.el.needsStr.checked : false,
+                    int: this.el.needsInt ? this.el.needsInt.checked : false,
+                    will: this.el.needsWill ? this.el.needsWill.checked : false,
+                    dex: this.el.needsDex ? this.el.needsDex.checked : false,
+                    res: this.el.needsRes ? this.el.needsRes.checked : false
+                }
+            };
+            
+            const analyzePrompt = PROMPT_TEMPLATES.analyze(pClass, build, advancedSettings);
             const analysisResult = await this.callGemini(analyzePrompt, imageBase64, mimeType);
             
-            if (!analysisResult) throw new Error("Analysis failed.");
+            if (!analysisResult) throw new Error("Analysis failed. Please try again.");
             
             this.renderSuccess(analysisResult);
 
@@ -223,7 +217,10 @@ const HoradricApp = {
     },
 
     async callGemini(prompt, imageBase64, mimeType) {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.state.apiKey}`, {
+        // USING GEMINI 2.5 FLASH
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.state.apiKey}`;
+        
+        const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -235,29 +232,49 @@ const HoradricApp = {
                 }],
                 generationConfig: {
                     response_mime_type: "application/json",
-                    temperature: 0.0
+                    temperature: 0.1,
+                    // OPTIMIZATION: Zero budget disables "thinking" for speed
+                    thinking_config: { include_thoughts: false, thinking_budget: 0 }
                 }
             })
         });
 
-        if (!response.ok) throw new Error('Gemini API Error');
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error?.message || 'Gemini API Error');
+        }
+        
         const data = await response.json();
+        
+        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+            throw new Error("Gemini returned an empty response.");
+        }
+        
         return this.safeJSONParse(data.candidates[0].content.parts[0].text);
     },
 
     safeJSONParse(str) {
         try {
+            // Remove markdown formatting
             let clean = str.replace(/```json/g, '').replace(/```/g, '').trim();
+            
+            // Locate the pure JSON object
             const start = clean.indexOf('{');
             const end = clean.lastIndexOf('}');
-            if (start !== -1 && end !== -1) clean = clean.substring(start, end + 1);
+            
+            if (start === -1 || end === -1) return null;
+            
+            // Extract and parse
+            clean = clean.substring(start, end + 1);
             return JSON.parse(clean);
-        } catch (e) { return null; }
+        } catch (e) { 
+            console.error("JSON Parse Error:", e);
+            return null; 
+        }
     },
 
     renderRejection(title, reason) {
         if (!this.el.resultArea) return alert(`${title}: ${reason}`);
-        
         this.el.resultArea.innerHTML = `
             <div style="background:#330000; color:#ff9999; padding:15px; border:1px solid red; border-radius:5px; margin-top:10px;">
                 <h3>🚫 ${title}</h3>
@@ -269,9 +286,8 @@ const HoradricApp = {
     },
 
     renderSuccess(result) {
-        if (!this.el.resultArea) return console.error('Missing result area');
+        if (!this.el.resultArea) return;
 
-        // Markdown-ish parsing
         const formatMD = (text) => text ? text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') : '';
 
         this.el.resultArea.innerHTML = `
@@ -289,7 +305,6 @@ const HoradricApp = {
     },
 
     clearResults() {
-        // CRASH FIX: Check existence before accessing style
         if (this.el.resultArea) {
             this.el.resultArea.innerHTML = '';
             this.el.resultArea.style.display = 'none';
@@ -312,11 +327,11 @@ const HoradricApp = {
     },
 
     loadState() {
-        // Basic state loading
         const k = localStorage.getItem('gemini_api_key');
         if(k && this.el.apiKey) {
-            this.el.apiKey.value = atob(k);
-            this.state.apiKey = atob(k);
+            const decoded = atob(k);
+            this.el.apiKey.value = decoded;
+            this.state.apiKey = decoded;
         }
     },
 
@@ -330,7 +345,6 @@ const HoradricApp = {
     
     setMode(mode) { 
         this.state.mode = mode; 
-        // Visual toggle logic if buttons exist
     },
     
     toggleAdvanced() {

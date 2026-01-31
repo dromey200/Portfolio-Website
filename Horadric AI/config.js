@@ -1,67 +1,93 @@
 // ====================================
 // HORADRIC AI - CONFIGURATION
-// Version: 1.2.0 (Aggressive Reality Check)
+// Version: 9.7.0 (Corrected Class Database)
 // ====================================
 
 const CONFIG = {
-    // D4 CLASS DATABASE
+    // System Limits
+    MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
+    ALLOWED_TYPES: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'],
+    
+    // VISUAL SIGNATURES
+    GAME_SIGNATURES: {
+        'd4': {
+            name: 'Diablo IV',
+            visual_cues: 'Dark/Gritty UI, "Item Power", "Sanctified" label, "Ancestral" text.',
+            anchors: ['Item Power', 'Ancestral', 'Sacred', 'Sanctified', 'Aspect', 'Lucky Hit', 'Vulnerable Damage', 'Account Bound']
+        },
+        'd2r': { name: 'Diablo II', anchors: ['Defense', 'Durability', 'Required Level', 'Fingerprint'] },
+        'd3': { name: 'Diablo III', anchors: ['Primary', 'Secondary', 'Augmented', 'Ancient'] },
+        'di': { name: 'Diablo Immortal', anchors: ['Combat Rating', 'Score', 'Resonance'] }
+    },
+
+    // D4 CLASS DATABASE (With Full Paladin Spec)
     CLASS_DEFINITIONS: {
         'd4': {
-            'Barbarian': { builds: ['Whirlwind', 'HOTA', 'Thorns'], mechanics: ['Berserking', 'Bleed'] },
-            'Druid': { builds: ['Pulverize', 'Stormclaw', 'Tornado'], mechanics: ['Fortify', 'Overpower'] },
-            'Necromancer': { builds: ['Bone Spear', 'Minion', 'Blood'], mechanics: ['Essence', 'Corpse'] },
-            'Paladin': { builds: ['Shield Bash', 'Holy Fire'], mechanics: ['Block', 'Thorns'] },
-            'Rogue': { builds: ['Twisting Blades', 'Rapid Fire'], mechanics: ['Lucky Hit', 'Crit'] },
-            'Sorcerer': { builds: ['Ice Shards', 'Firewall', 'Ball Lightning'], mechanics: ['Mana', 'Barrier'] },
-            'Spiritborn': { builds: ['Jaguar', 'Eagle', 'Centipede'], mechanics: ['Vigor', 'Dodge'] }
+            'Barbarian': { builds: ['Whirlwind Dust Devils', 'HOTA', 'Bash Cleave', 'Thorns', 'Double Swing'], mechanics: ['Berserking', 'Overpower', 'Bleed'] },
+            'Druid': { builds: ['Wind Shear', 'Werewolf Tornado', 'Pulverize', 'Landslide Storm', 'Companion'], mechanics: ['Spirit Boons', 'Shapeshifting', 'Fortify'] },
+            'Necromancer': { builds: ['Bone Spirit', 'Minion Master', 'Blood Surge', 'Shadowblight', 'Sever'], mechanics: ['Book of the Dead', 'Corpse Consumption', 'Curses'] },
+            'Paladin': { builds: ['Juggernaut', 'Zealot', 'Judicator', 'Disciple'], mechanics: ['Block Chance', 'Holy Damage', 'Auras'] },
+            'Rogue': { builds: ['Heartseeker', 'Twisting Blades', 'Rapid Fire', 'Barrage', 'Penetrating Shot'], mechanics: ['Combo Points', 'Imbuements', 'Vulnerable'] },
+            'Sorcerer': { builds: ['Frozen Orb', 'Incinerate', 'Ball Lightning', 'Firewall', 'Ice Shards'], mechanics: ['Enchantments', 'Barrier', 'Burning'] },
+            'Spiritborn': { builds: ['Jaguar Rush', 'Eagle Evade', 'Centipede Poison', 'Gorilla Slam'], mechanics: ['Vigor', 'Resolve', 'Ferocity'] }
         }
     }
 };
 
 const PROMPT_TEMPLATES = {
-    /**
-     * STAGE 1: THE SENTRY
-     * Strictly separates D4 Loot vs. Real World
-     */
     detect: () => `
-    ROLE: Computer Vision Classifier.
-    TASK: Determine if the image is a valid Diablo IV screenshot.
-    
-    CATEGORIES:
-    1. "d4" -> Valid Diablo 4 Loot Tooltip.
-       - MUST contain text like: "Item Power", "Ancestral", "Sacred", "Account Bound".
-       - Visuals: Dark UI, serif fonts, stat lists.
-       
-    2. "not_loot" -> ANYTHING ELSE.
-       - Real World Objects: Cans, Bottles (Bubly/Pepsi), Keyboards, Hands, Desks.
-       - Photos of Screens: If the image is tilted, has glare, or shows a monitor bezel -> "not_loot".
-       - Other Games: Diablo 2 (Pixelated), Diablo 3 (Cartoonish), WoW, PoE.
-
-    CRITICAL RULES:
-    - If you see a beverage can (e.g. Bubly), IMMEDIATELY return "not_loot".
-    - If you see a physical jacket or clothing item, return "not_loot".
-    - If you cannot read specific RPG stats (Str, Int, Dmg), return "not_loot".
-
-    OUTPUT FORMAT (JSON ONLY):
-    {"category": "d4" | "not_loot", "reason": "short explanation"}
+    TASK: Analyze the image and identify if it is a loot tooltip from a known ARPG.
+    CRITERIA:
+    1. Look for keywords: "Item Power", "Damage per Second", "Armor", "Affixes".
+    2. Ignore real-world photos or non-gaming screenshots.
+    OUTPUT FORMAT (STRICT JSON, NO PREAMBLE):
+    {
+        "game": "d4",
+        "category": "d4", 
+        "confidence": 0.99
+    }
+    OR if not a game item:
+    {
+        "game": "unknown",
+        "category": "not_loot"
+    }
     `,
 
-    /**
-     * STAGE 2: THE APPRAISER
-     */
-    analyze: (playerClass, buildStyle) => `
-        ROLE: Expert Diablo IV Theorycrafter.
-        TASK: Analyze this item for a ${playerClass} (${buildStyle}).
+    analyze: (playerClass, buildStyle, settings) => {
+        let contextLayer = `Game: Diablo IV (Season 11). Class: ${playerClass}. Build: ${buildStyle || 'General'}.`;
         
-        OUTPUT FORMAT (JSON Only):
-        {
-            "title": "Item Name",
-            "type": "Item Type",
-            "rarity": "Rarity",
-            "score": "S/A/B/C/D Tier",
-            "verdict": "KEEP or SALVAGE",
-            "insight": "1 sentence summary.",
-            "analysis": "Markdown stats analysis."
+        if (settings?.mechanic) contextLayer += ` Focus Mechanic: ${settings.mechanic}.`;
+        
+        if (settings?.needs) {
+            const activeNeeds = Object.entries(settings.needs)
+                .filter(([_, active]) => active)
+                .map(([stat]) => stat.toUpperCase())
+                .join(', ');
+            if (activeNeeds) contextLayer += ` User specifically needs: ${activeNeeds}.`;
         }
-    `
+
+        return `
+        ROLE: Expert Diablo IV Theorycrafter (Season 11).
+        CONTEXT: ${contextLayer}
+        TASK:
+        1. OCR the item name, power, and affixes from the image.
+        2. Analyze quality based on the provided Class/Build context.
+        3. Check for "Sanctified" or "Ancestral" status.
+        4. Determine if it is a "God Roll" (KEEP) or trash (SALVAGE).
+        
+        OUTPUT FORMAT (STRICT JSON ONLY, NO MARKDOWN):
+        {
+            "title": "Full Item Name",
+            "type": "Slot (e.g. Helm, Sword)",
+            "rarity": "Ancestral Legendary / Unique",
+            "verdict": "KEEP or SALVAGE",
+            "score": "S/A/B/C/D Tier",
+            "insight": "One concise sentence explaining why it fits or fails the specific build.",
+            "analysis": "Markdown formatted table listing Affixes vs Ideal Affixes. Use bold for good stats.",
+            "trade_query": "Exact Item Name"
+        }
+        `;
+    }
 };
+
+if (typeof module !== 'undefined') module.exports = { CONFIG, PROMPT_TEMPLATES };
