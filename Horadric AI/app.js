@@ -1,6 +1,6 @@
 // ====================================
 // HORADRIC AI - APP ENGINE
-// Version: 1.6.0 (Gemini 2.5 Flash + Restored Config)
+// Version: 1.6.1 (Fixed Buttons & Demo Mode)
 // ====================================
 
 const HoradricApp = {
@@ -27,7 +27,8 @@ const HoradricApp = {
         this.el.buildStyle = document.getElementById('build-style');
         this.el.imageUpload = document.getElementById('image-upload');
         this.el.imagePreview = document.getElementById('image-preview');
-        this.el.uploadZone = document.getElementById('upload-zone');
+        // FIX: HTML id is 'upload-group', not 'upload-zone'
+        this.el.uploadZone = document.getElementById('upload-group'); 
         this.el.apiKey = document.getElementById('api-key');
         
         // Advanced Inputs
@@ -50,8 +51,15 @@ const HoradricApp = {
         
         // Buttons
         this.el.analyzeBtn = document.getElementById('analyze-btn');
+        this.el.demoBtn = document.getElementById('demo-btn'); // Added
+        this.el.helpTrigger = document.getElementById('help-trigger'); // Added
         this.el.modeIdentify = document.getElementById('mode-identify');
         this.el.modeCompare = document.getElementById('mode-compare');
+
+        // Modals
+        this.el.helpModal = document.getElementById('help-modal'); // Added
+        this.el.modalClose = document.getElementById('modal-close-btn'); // Added
+        this.el.modalContent = document.getElementById('modal-content-dynamic'); // Added
     },
 
     attachEventListeners() {
@@ -64,6 +72,28 @@ const HoradricApp = {
 
         if (this.el.analyzeBtn) this.el.analyzeBtn.addEventListener('click', () => this.handleAnalyze());
         
+        // FIX: Add Demo Listener
+        if (this.el.demoBtn) this.el.demoBtn.addEventListener('click', () => this.runDemo());
+
+        // FIX: Add Help Modal Listeners
+        if (this.el.helpTrigger) {
+            this.el.helpTrigger.addEventListener('click', () => {
+                this.populateHelpContent();
+                this.el.helpModal.style.display = 'flex';
+            });
+        }
+        if (this.el.modalClose) {
+            this.el.modalClose.addEventListener('click', () => {
+                this.el.helpModal.style.display = 'none';
+            });
+        }
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === this.el.helpModal) {
+                this.el.helpModal.style.display = 'none';
+            }
+        });
+        
         if (this.el.uploadZone) this.setupDragDrop();
         
         if (this.el.apiKey) this.el.apiKey.addEventListener('change', () => this.saveApiKey());
@@ -71,12 +101,15 @@ const HoradricApp = {
 
     setupDragDrop() {
         const zone = this.el.uploadZone;
+        if (!zone) return; // Safety check
+
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
             zone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
         });
         zone.addEventListener('dragover', () => zone.classList.add('drag-over'));
         zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
         zone.addEventListener('drop', (e) => {
+            zone.classList.remove('drag-over');
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
                 this.el.imageUpload.files = e.dataTransfer.files;
@@ -137,13 +170,63 @@ const HoradricApp = {
                 this.el.imagePreview.src = ev.target.result;
                 this.el.imagePreview.style.display = 'block';
             }
-            if (this.el.uploadZone) {
-                const label = this.el.uploadZone.querySelector('.upload-label');
-                if (label) label.style.display = 'none';
-            }
+            // Optional: Hide label if you want to clean up UI after upload
+            // if (this.el.uploadZone) {
+            //     const label = this.el.uploadZone.querySelector('label');
+            //     if (label) label.style.display = 'none';
+            // }
         };
         reader.readAsDataURL(file);
         if (this.el.imageError) this.el.imageError.style.display = 'none';
+    },
+    // ====================================
+    // DEMO MODE LOGIC
+    // ====================================
+    runDemo() {
+        this.showLoading(true, "Running Simulation (Demo)...");
+        this.clearResults();
+        
+        // Simulate network delay
+        setTimeout(() => {
+            const demoResult = {
+                title: "Harlequin Crest (Shako)",
+                type: "Helm",
+                rarity: "Mythic Unique",
+                verdict: "KEEP (GOD ROLL)",
+                score: "S Tier",
+                insight: "This is a best-in-slot item for almost every build in the game due to +4 Ranks and massive Damage Reduction.",
+                analysis: "**+4 Ranks to All Skills**: Essential for boosting damage.\n**Cooldown Reduction**: High roll, perfect for resource management.\n**Resource Generation**: Critical for spamming core skills.\n**Maximum Life**: Adds significant survivability."
+            };
+            
+            this.renderSuccess(demoResult);
+            this.showLoading(false);
+            
+            // Auto-populate class for visual effect
+            if(this.el.playerClass) this.el.playerClass.value = "Any";
+            if(this.el.imagePreview) {
+                // UPDATED IMAGE URL HERE
+                this.el.imagePreview.src = "https://danielromeyn.com/Horadric%20AI/harlequin%20crest.jpg"; 
+                this.el.imagePreview.style.display = 'block';
+            }
+        }, 1500);
+    },
+
+    // ====================================
+    // HELP MODAL LOGIC
+    // ====================================
+    populateHelpContent() {
+        if(!this.el.modalContent) return;
+        this.el.modalContent.innerHTML = `
+            <h3>How to get an API Key</h3>
+            <ol>
+                <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#d32f2f">Google AI Studio</a>.</li>
+                <li>Click <strong>"Create API Key"</strong>.</li>
+                <li>Copy the key starting with <code>AIza...</code></li>
+                <li>Paste it into the box on the main screen.</li>
+            </ol>
+            <p><strong>Is it free?</strong> Yes, Google provides a generous free tier for Gemini Flash.</p>
+            <p><strong>Privacy:</strong> Your key is stored locally in your browser and never sent to our servers.</p>
+        `;
     },
 
     async handleAnalyze() {
@@ -153,7 +236,7 @@ const HoradricApp = {
                 this.state.apiKey = atob(savedKey);
                 if(this.el.apiKey) this.el.apiKey.value = this.state.apiKey;
             } else {
-                return alert('Please enter your Gemini API Key.');
+                return alert('Please enter your Gemini API Key or try Demo Mode.');
             }
         }
         
@@ -218,7 +301,7 @@ const HoradricApp = {
 
     async callGemini(prompt, imageBase64, mimeType) {
         // USING GEMINI 2.5 FLASH
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.state.apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.state.apiKey}`;
         
         const response = await fetch(url, {
             method: 'POST',
@@ -232,9 +315,7 @@ const HoradricApp = {
                 }],
                 generationConfig: {
                     response_mime_type: "application/json",
-                    temperature: 0.1,
-                    // OPTIMIZATION: Zero budget disables "thinking" for speed
-                    thinking_config: { include_thoughts: false, thinking_budget: 0 }
+                    temperature: 0.1
                 }
             })
         });
