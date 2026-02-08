@@ -187,36 +187,17 @@
         <!-- Results Area -->
         <div id="result-area" role="region" aria-live="polite" aria-label="Analysis results"></div>
 
-        <!-- Price Checker (Initially Hidden) -->
-        <div id="price-section" class="price-section hidden">
-            <div class="price-header">
-                <h3>💰 Market Value</h3>
-                <button id="refresh-price-btn" class="icon-btn" aria-label="Refresh price data" data-ga-event="price_refresh">🔄</button>
-            </div>
-            <div id="price-content" class="price-content">
-                <!-- Populated dynamically -->
-            </div>
-            <div class="price-actions">
-                <button id="report-price-btn" class="secondary small" data-ga-event="price_reported">
-                    📝 Report Incorrect Price
-                </button>
-                <button id="view-trade-btn" class="secondary small hidden" data-ga-event="view_trade_clicked">
-                    🔍 View on Diablo.Trade
-                </button>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div id="action-buttons" class="action-buttons hidden">
-            <button id="share-btn" class="secondary" type="button" data-ga-event="share_discord">
+        <!-- Action Buttons (shown after successful scan) -->
+        <div id="action-buttons" class="action-buttons" style="display:none; margin-top:12px; gap:8px; flex-wrap:wrap;">
+            <button id="share-discord-btn" class="secondary" type="button" data-ga-event="share_discord">
                 📢 Copy for Discord
-            </button>
-            <button id="price-check-btn" class="secondary" type="button" data-ga-event="price_check_toggled">
-                💰 Check Market Price
             </button>
             <button id="search-trade-btn" class="secondary" type="button" data-ga-event="search_diablo_trade">
                 🔍 Search on Diablo.Trade
             </button>
+        </div>
+        <div id="copy-toast" style="display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#4caf50; color:#fff; padding:10px 24px; border-radius:6px; font-size:0.9em; font-weight:bold; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.4);">
+            ✅ Copied to clipboard!
         </div>
     </main>
 

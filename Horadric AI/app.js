@@ -1,6 +1,6 @@
 // ====================================
 // HORADRIC AI - APP ENGINE
-// Version: 2.1.0 (Scan Journal)
+// Version: 2.2.0 (Discord Share + Diablo.Trade Search)
 // ====================================
 
 const HoradricApp = {
@@ -73,6 +73,12 @@ const HoradricApp = {
         this.el.journalList = document.getElementById('journal-list');
         this.el.journalEmpty = document.getElementById('journal-empty');
         this.el.clearJournal = document.getElementById('clear-journal');
+
+        // Post-Scan Action Buttons
+        this.el.actionButtons = document.getElementById('action-buttons');
+        this.el.shareDiscordBtn = document.getElementById('share-discord-btn');
+        this.el.searchTradeBtn = document.getElementById('search-trade-btn');
+        this.el.copyToast = document.getElementById('copy-toast');
     },
 
     attachEventListeners() {
@@ -120,6 +126,10 @@ const HoradricApp = {
 
         // Journal clear
         if (this.el.clearJournal) this.el.clearJournal.addEventListener('click', () => this.clearJournal());
+
+        // Post-scan action buttons
+        if (this.el.shareDiscordBtn) this.el.shareDiscordBtn.addEventListener('click', () => this.copyForDiscord());
+        if (this.el.searchTradeBtn) this.el.searchTradeBtn.addEventListener('click', () => this.searchDiabloTrade());
     },
 
     // ====================================
@@ -311,6 +321,8 @@ const HoradricApp = {
             if (!result) throw new Error('Analysis failed. Please try again.');
             this.renderAnalyzeResult(result);
             this.addJournalEntry('analyze', result, { pClass, build });
+            this.state.currentItem = { mode: 'analyze', result };
+            this.showActionButtons(true);
 
         } catch (error) {
             this.renderError(error.message);
@@ -353,6 +365,8 @@ const HoradricApp = {
             if (!result) throw new Error('Comparison failed. Please try again.');
             this.renderCompareResult(result);
             this.addJournalEntry('compare', result, { pClass, build });
+            this.state.currentItem = { mode: 'compare', result };
+            this.showActionButtons(true);
 
         } catch (error) {
             this.renderError(error.message);
@@ -604,6 +618,7 @@ const HoradricApp = {
                     trade_query: 'Deathless Visage'
                 };
                 this.renderCompareResult(demoResult);
+                this.state.currentItem = { mode: 'compare', result: demoResult };
             } else {
                 const demoResult = {
                     title: 'Harlequin Crest (Shako)',
@@ -622,8 +637,10 @@ const HoradricApp = {
                     trade_query: 'Harlequin Crest'
                 };
                 this.renderAnalyzeResult(demoResult);
+                this.state.currentItem = { mode: 'analyze', result: demoResult };
             }
 
+            this.showActionButtons(true);
             this.showLoading(false);
             
             if (this.el.imagePreview) {
@@ -663,6 +680,8 @@ const HoradricApp = {
             this.el.resultArea.innerHTML = '';
             this.el.resultArea.style.display = 'none';
         }
+        this.showActionButtons(false);
+        this.state.currentItem = null;
     },
 
     showLoading(show, text) {
@@ -695,6 +714,110 @@ const HoradricApp = {
         localStorage.setItem('gemini_api_key', btoa(k));
     },
     
+    // ====================================
+    // POST-SCAN ACTIONS
+    // ====================================
+    showActionButtons(show) {
+        if (this.el.actionButtons) {
+            this.el.actionButtons.style.display = show ? 'flex' : 'none';
+        }
+    },
+
+    copyForDiscord() {
+        const item = this.state.currentItem;
+        if (!item) return;
+
+        let text = '';
+        const r = item.result;
+
+        if (item.mode === 'analyze') {
+            text = `**${r.title || 'Item'}**\n`;
+            text += `${r.type || ''} · ${r.rarity || ''}`;
+            if (r.item_power) text += ` · ⚡ ${r.item_power}`;
+            text += `\n**Verdict: ${r.verdict || '?'}** (${r.score || '?'})\n`;
+            text += `> ${r.insight || ''}\n`;
+            if (Array.isArray(r.affixes)) {
+                text += `\n**Affixes:**\n`;
+                r.affixes.forEach(a => {
+                    const icon = a.quality === 'GOOD' ? '✅' : a.quality === 'BAD' ? '❌' : '➖';
+                    text += `${icon} ${a.name} (${a.value}) — ${a.reason || ''}\n`;
+                });
+            }
+            text += `\n_Scanned with Horadric AI_`;
+        } else if (item.mode === 'compare') {
+            const i1 = r.item_1;
+            const i2 = r.item_2;
+            text = `⚖️ **Item Comparison**\n\n`;
+            text += `**Item 1: ${i1?.title || '?'}** (${i1?.rarity || ''} · ⚡ ${i1?.item_power || '?'})\n`;
+            if (Array.isArray(i1?.affixes)) {
+                i1.affixes.forEach(a => {
+                    const icon = a.quality === 'GOOD' ? '✅' : a.quality === 'BAD' ? '❌' : '➖';
+                    text += `  ${icon} ${a.name} (${a.value})\n`;
+                });
+            }
+            text += `\n**Item 2: ${i2?.title || '?'}** (${i2?.rarity || ''} · ⚡ ${i2?.item_power || '?'})\n`;
+            if (Array.isArray(i2?.affixes)) {
+                i2.affixes.forEach(a => {
+                    const icon = a.quality === 'GOOD' ? '✅' : a.quality === 'BAD' ? '❌' : '➖';
+                    text += `  ${icon} ${a.name} (${a.value})\n`;
+                });
+            }
+            text += `\n🏆 **${r.verdict || '?'}**\n`;
+            text += `> ${r.insight || ''}\n`;
+            text += `\n_Scanned with Horadric AI_`;
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+            this.showToast('✅ Copied to clipboard!');
+        }).catch(() => {
+            // Fallback for older browsers
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            this.showToast('✅ Copied to clipboard!');
+        });
+    },
+
+    searchDiabloTrade() {
+        const item = this.state.currentItem;
+        if (!item) return;
+
+        const r = item.result;
+        let query = '';
+
+        if (item.mode === 'analyze') {
+            query = r.trade_query || r.title || '';
+        } else if (item.mode === 'compare') {
+            // Search for the losing item (candidate for selling)
+            query = r.trade_query || '';
+            if (!query) {
+                const loser = r.winner === '1' ? r.item_2 : r.item_1;
+                query = loser?.title || '';
+            }
+        }
+
+        if (!query) {
+            this.showToast('⚠️ No item name to search for.');
+            return;
+        }
+
+        const url = `https://diablo.trade/listings/items?exactItem=${encodeURIComponent(query)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+    },
+
+    showToast(message) {
+        const toast = this.el.copyToast;
+        if (!toast) return;
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    },
+
     // ====================================
     // SCAN JOURNAL
     // ====================================
