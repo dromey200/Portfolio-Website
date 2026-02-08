@@ -106,35 +106,40 @@
             <span class="input-hint">Select for class-specific recommendations</span>
         </div>
 
-        <!-- Build/Playstyle Selection -->
+        <!-- Build/Playstyle Selection (Dynamically populated by JS based on class) -->
         <div class="input-group" id="build-group">
             <label for="build-style">Your Build Focus (Optional)</label>
             <select id="build-style" data-ga-event="build_selected">
-                <option value="">Any Build</option>
-                <option value="damage">🗡️ Damage Dealer</option>
-                <option value="tanky">🛡️ Tanky/Defensive</option>
-                <option value="speed">⚡ Speed/Mobility</option>
-                <option value="dots">🔥 Damage Over Time</option>
-                <option value="crit">💥 Critical Strike</option>
-                <option value="minions">👥 Minions/Pets</option>
-                <option value="cooldown">⏱️ Cooldown Reduction</option>
-                <option value="lucky-hit">🎯 Lucky Hit</option>
-                <option value="crowd-control">❄️ Crowd Control</option>
-                <option value="resource">💧 Resource Generation</option>
+                <option value="">Any / General</option>
             </select>
-            <span class="input-hint">Help AI understand what stats matter most to you</span>
+            <span class="input-hint">Select a class first for build-specific options</span>
         </div>
+
+        <!-- Mode Toggle -->
+        <div class="mode-toggle" style="display:flex; gap:0; margin-bottom:15px; border-radius:6px; overflow:hidden; border:1px solid #444;">
+            <button id="mode-analyze" type="button" class="mode-btn active" data-ga-event="mode_analyze" style="flex:1; padding:12px; border:none; cursor:pointer; font-weight:bold; font-size:0.95em; transition: background 0.2s, color 0.2s;">
+                🔍 Analyze
+            </button>
+            <button id="mode-compare" type="button" class="mode-btn" data-ga-event="mode_compare" style="flex:1; padding:12px; border:none; border-left:1px solid #444; cursor:pointer; font-weight:bold; font-size:0.95em; transition: background 0.2s, color 0.2s;">
+                ⚖️ Compare
+            </button>
+        </div>
+        <style>
+            .mode-btn { background: #1a1a1a; color: #888; }
+            .mode-btn.active { background: #d32f2f; color: #fff; }
+            .mode-btn:hover:not(.active) { background: #2a2a2a; color: #ccc; }
+        </style>
 
         <!-- Image Upload -->
         <div class="input-group" id="upload-group">
-            <label for="image-upload">Upload Loot Screenshot</label>
+            <label for="image-upload" id="upload-label">Upload Loot Screenshot</label>
             <input 
                 type="file" 
                 id="image-upload" 
                 accept="image/png,image/jpeg,image/jpg,image/webp"
                 data-ga-event="image_selected"
             >
-            <span class="input-hint">Max 10MB. Formats: PNG, JPEG, WebP</span>
+            <span class="input-hint" id="upload-hint">Max 10MB. Formats: PNG, JPEG, WebP</span>
             <div id="image-error" class="error-message" role="alert"></div>
             <div id="image-success" class="success-message" role="status"></div>
             
@@ -157,15 +162,16 @@
             </span>
         </div>
 
-        <!-- Analyze Button -->
+        <!-- Analyze Button (shown in analyze mode) -->
         <button id="analyze-btn" type="button" class="primary-btn" data-ga-event="analyze_clicked">
-            Identify Item
+            🔍 Analyze Item
+        </button>
+
+        <!-- Compare Button (shown in compare mode, hidden by default) -->
+        <button id="compare-btn" type="button" class="primary-btn" data-ga-event="compare_clicked" style="display:none;">
+            ⚖️ Compare Items
         </button>
         
-        <!-- Cancel Button -->
-        <button id="cancel-btn" class="cancel-btn hidden" type="button" data-ga-event="analysis_cancelled">
-            Cancel Analysis
-        </button>
 
         <!-- Loading State -->
         <div id="loading" role="status" aria-live="polite" aria-label="Analysis in progress">
