@@ -66,7 +66,10 @@
         </div>
     </div>
 
-    <!-- Main Application Container -->
+    <!-- App Layout: Two-Column -->
+    <div class="app-layout" id="app-layout">
+
+    <!-- Left Column: Main Controls -->
     <main class="container" id="main-content">
 
         <!-- API Key Input -->
@@ -217,20 +220,188 @@
         </div>
     </main>
 
-    <!-- History Section -->
-    <section class="history-section" id="history-section" style="display:none;" aria-labelledby="history-title">
-        <div class="history-title">
-            <h2 id="history-title" style="font-size: 0.9rem; font-weight: bold; margin: 0;">
-                📜 Journal (Recent Scans)
-            </h2>
-            <button id="clear-history" class="clear-history" data-ga-event="history_cleared">
-                Clear All
-            </button>
+    <!-- Right Column: Scan Journal -->
+    <aside class="journal-sidebar" id="journal-sidebar">
+        <div class="journal-header">
+            <h2 class="journal-title">📜 Scan Journal</h2>
+            <button id="clear-journal" class="journal-clear" title="Clear all entries">🗑️ Clear</button>
         </div>
-        <div class="history-list" id="history-list" role="list">
+        <div class="journal-empty" id="journal-empty">
+            <p>No scans yet.</p>
+            <p style="font-size:0.8em; color:#666;">Analyze or compare items to build your journal.</p>
+        </div>
+        <div class="journal-list" id="journal-list" role="list">
             <!-- Populated dynamically -->
         </div>
-    </section>
+    </aside>
+
+    </div><!-- /.app-layout -->
+
+    <!-- Journal Layout Styles -->
+    <style>
+        .app-layout {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            align-items: flex-start;
+        }
+        .app-layout > .container {
+            flex: 1;
+            min-width: 0;
+            max-width: 600px;
+        }
+        .journal-sidebar {
+            width: 340px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 15px;
+            max-height: calc(100vh - 30px);
+            overflow-y: auto;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 0;
+        }
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #2a2a2a;
+            position: sticky;
+            top: 0;
+            background: #111;
+            z-index: 2;
+            border-radius: 8px 8px 0 0;
+        }
+        .journal-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin: 0;
+            color: #d4af37;
+        }
+        .journal-clear {
+            background: none;
+            border: 1px solid #444;
+            color: #888;
+            font-size: 0.78em;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .journal-clear:hover { border-color: #f44336; color: #f44336; }
+        .journal-empty {
+            padding: 30px 16px;
+            text-align: center;
+            color: #555;
+        }
+        .journal-list { padding: 0; }
+
+        /* Individual journal entry */
+        .journal-entry {
+            border-bottom: 1px solid #1e1e1e;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .journal-entry:hover { background: #1a1a1a; }
+        .journal-entry-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+        }
+        .journal-entry-icon {
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+        .journal-entry-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .journal-entry-name {
+            font-size: 0.88em;
+            font-weight: bold;
+            color: #d4af37;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .journal-entry-meta {
+            font-size: 0.75em;
+            color: #666;
+            margin-top: 2px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .journal-entry-verdict {
+            font-size: 0.78em;
+            font-weight: bold;
+            flex-shrink: 0;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .journal-entry-verdict.keep { background: rgba(76,175,80,0.15); color: #4caf50; }
+        .journal-entry-verdict.salvage { background: rgba(244,67,54,0.15); color: #f44336; }
+        .journal-entry-verdict.equip { background: rgba(33,150,243,0.15); color: #2196f3; }
+
+        /* Expanded detail panel */
+        .journal-entry-detail {
+            display: none;
+            padding: 0 16px 14px;
+            font-size: 0.83em;
+            color: #bbb;
+            line-height: 1.55;
+            border-top: 1px dashed #2a2a2a;
+            margin: 0 12px;
+            padding-top: 10px;
+        }
+        .journal-entry-detail.open { display: block; }
+        .journal-entry-detail .detail-label {
+            color: #888;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-top: 8px;
+            margin-bottom: 3px;
+        }
+        .journal-entry-detail .detail-label:first-child { margin-top: 0; }
+        .journal-entry-delete {
+            background: none;
+            border: 1px solid #333;
+            color: #666;
+            font-size: 0.78em;
+            padding: 3px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        .journal-entry-delete:hover { border-color: #f44336; color: #f44336; }
+
+        /* Scrollbar styling for journal */
+        .journal-sidebar::-webkit-scrollbar { width: 5px; }
+        .journal-sidebar::-webkit-scrollbar-track { background: transparent; }
+        .journal-sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        /* Responsive: stack on mobile */
+        @media (max-width: 900px) {
+            .app-layout {
+                flex-direction: column;
+            }
+            .app-layout > .container {
+                max-width: 100%;
+            }
+            .journal-sidebar {
+                width: 100%;
+                position: static;
+                max-height: 400px;
+                order: 2;
+            }
+        }
+    </style>
 
     <!-- Footer -->
     <!-- Version: 2.0.2 -->

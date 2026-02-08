@@ -1,6 +1,6 @@
 // ====================================
 // HORADRIC AI - APP ENGINE
-// Version: 2.0.0 (Analyze + Compare Dual Mode)
+// Version: 2.1.0 (Scan Journal)
 // ====================================
 
 const HoradricApp = {
@@ -19,6 +19,8 @@ const HoradricApp = {
         this.attachEventListeners();
         this.updateClassOptions();
         this.syncModeUI();
+        this.loadJournal();
+        this.renderJournal();
         console.log('👁️ Horadric Eye Opened (Gemini 2.5 Flash Active)');
     },
     
@@ -66,6 +68,11 @@ const HoradricApp = {
         this.el.helpModal = document.getElementById('help-modal');
         this.el.modalClose = document.getElementById('modal-close-btn');
         this.el.modalContent = document.getElementById('modal-content-dynamic');
+
+        // Journal
+        this.el.journalList = document.getElementById('journal-list');
+        this.el.journalEmpty = document.getElementById('journal-empty');
+        this.el.clearJournal = document.getElementById('clear-journal');
     },
 
     attachEventListeners() {
@@ -110,6 +117,9 @@ const HoradricApp = {
         
         // API Key
         if (this.el.apiKey) this.el.apiKey.addEventListener('change', () => this.saveApiKey());
+
+        // Journal clear
+        if (this.el.clearJournal) this.el.clearJournal.addEventListener('click', () => this.clearJournal());
     },
 
     // ====================================
@@ -300,6 +310,7 @@ const HoradricApp = {
             
             if (!result) throw new Error('Analysis failed. Please try again.');
             this.renderAnalyzeResult(result);
+            this.addJournalEntry('analyze', result, { pClass, build });
 
         } catch (error) {
             this.renderError(error.message);
@@ -341,6 +352,7 @@ const HoradricApp = {
             
             if (!result) throw new Error('Comparison failed. Please try again.');
             this.renderCompareResult(result);
+            this.addJournalEntry('compare', result, { pClass, build });
 
         } catch (error) {
             this.renderError(error.message);
@@ -683,6 +695,169 @@ const HoradricApp = {
         localStorage.setItem('gemini_api_key', btoa(k));
     },
     
+    // ====================================
+    // SCAN JOURNAL
+    // ====================================
+    loadJournal() {
+        try {
+            const data = localStorage.getItem('horadric_journal');
+            this.state.history = data ? JSON.parse(data) : [];
+        } catch (_) {
+            this.state.history = [];
+        }
+    },
+
+    saveJournal() {
+        try {
+            // Keep max 50 entries
+            if (this.state.history.length > 50) {
+                this.state.history = this.state.history.slice(0, 50);
+            }
+            localStorage.setItem('horadric_journal', JSON.stringify(this.state.history));
+        } catch (_) {
+            console.warn('Could not save journal to localStorage.');
+        }
+    },
+
+    addJournalEntry(mode, result, context) {
+        const entry = {
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+            mode,
+            timestamp: new Date().toISOString(),
+            context: {
+                playerClass: context?.pClass || 'Any',
+                build: context?.build || 'General'
+            },
+            result
+        };
+        this.state.history.unshift(entry);
+        this.saveJournal();
+        this.renderJournal();
+    },
+
+    deleteJournalEntry(id) {
+        this.state.history = this.state.history.filter(e => e.id !== id);
+        this.saveJournal();
+        this.renderJournal();
+    },
+
+    clearJournal() {
+        if (!confirm('Clear all journal entries?')) return;
+        this.state.history = [];
+        this.saveJournal();
+        this.renderJournal();
+    },
+
+    renderJournal() {
+        if (!this.el.journalList) return;
+
+        const entries = this.state.history;
+        
+        // Toggle empty state
+        if (this.el.journalEmpty) {
+            this.el.journalEmpty.style.display = entries.length === 0 ? 'block' : 'none';
+        }
+
+        if (entries.length === 0) {
+            this.el.journalList.innerHTML = '';
+            return;
+        }
+
+        this.el.journalList.innerHTML = entries.map(entry => {
+            const isCompare = entry.mode === 'compare';
+            const r = entry.result;
+
+            // Build display values
+            let itemName, verdictText, verdictClass, icon;
+            if (isCompare) {
+                const w = r.winner === '1' ? r.item_1 : r.item_2;
+                const l = r.winner === '1' ? r.item_2 : r.item_1;
+                itemName = `${r.item_1?.title || 'Item 1'} vs ${r.item_2?.title || 'Item 2'}`;
+                verdictText = r.verdict || `Equip ${w?.title || 'Winner'}`;
+                verdictClass = 'equip';
+                icon = '⚖️';
+            } else {
+                itemName = r.title || 'Unknown Item';
+                verdictText = r.verdict || r.score || '';
+                verdictClass = (r.verdict || '').toLowerCase().includes('keep') ? 'keep' : 'salvage';
+                icon = verdictClass === 'keep' ? '✅' : '❌';
+            }
+
+            // Format timestamp
+            const date = new Date(entry.timestamp);
+            const timeStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) 
+                + ' ' + date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+
+            // Context tags
+            const ctxClass = entry.context?.playerClass !== 'Any' ? entry.context.playerClass : '';
+            const ctxBuild = entry.context?.build !== 'General' ? entry.context.build : '';
+            const ctxParts = [ctxClass, ctxBuild].filter(Boolean).join(' · ');
+
+            // Build detail content
+            let detailHTML = '';
+            if (isCompare) {
+                detailHTML = `
+                    <div class="detail-label">Insight</div>
+                    <div>${r.insight || 'No insight available.'}</div>
+                    <div class="detail-label">Item 1</div>
+                    <div style="color:#d4af37;">${r.item_1?.title || '?'}</div>
+                    <div style="color:#888; font-size:0.9em;">${r.item_1?.rarity || ''} · ${r.item_1?.type || ''}</div>
+                    <div class="detail-label">Item 2</div>
+                    <div style="color:#d4af37;">${r.item_2?.title || '?'}</div>
+                    <div style="color:#888; font-size:0.9em;">${r.item_2?.rarity || ''} · ${r.item_2?.type || ''}</div>
+                `;
+            } else {
+                let affixSummary = '';
+                if (Array.isArray(r.affixes)) {
+                    affixSummary = r.affixes.map(a => {
+                        const ic = a.quality === 'GOOD' ? '✅' : a.quality === 'BAD' ? '❌' : '➖';
+                        return `${ic} ${a.name} (${a.value})`;
+                    }).join('<br>');
+                }
+                detailHTML = `
+                    <div class="detail-label">Insight</div>
+                    <div>${r.insight || 'No insight available.'}</div>
+                    ${r.rarity ? `<div class="detail-label">Rarity</div><div>${r.rarity}${r.item_power ? ` · ⚡ ${r.item_power}` : ''}</div>` : ''}
+                    ${r.score ? `<div class="detail-label">Score</div><div>${r.score}</div>` : ''}
+                    ${affixSummary ? `<div class="detail-label">Affixes</div><div>${affixSummary}</div>` : ''}
+                `;
+            }
+
+            return `
+                <div class="journal-entry" data-id="${entry.id}">
+                    <div class="journal-entry-header" onclick="HoradricApp.toggleJournalDetail('${entry.id}')">
+                        <span class="journal-entry-icon">${icon}</span>
+                        <div class="journal-entry-info">
+                            <div class="journal-entry-name" title="${itemName}">${itemName}</div>
+                            <div class="journal-entry-meta">
+                                <span>${timeStr}</span>
+                                ${ctxParts ? `<span>${ctxParts}</span>` : ''}
+                                <span>${isCompare ? 'Compare' : 'Analyze'}</span>
+                            </div>
+                        </div>
+                        <span class="journal-entry-verdict ${verdictClass}">${verdictText}</span>
+                    </div>
+                    <div class="journal-entry-detail" id="journal-detail-${entry.id}">
+                        ${detailHTML}
+                        <button class="journal-entry-delete" onclick="event.stopPropagation(); HoradricApp.deleteJournalEntry('${entry.id}')">Remove Entry</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    },
+
+    toggleJournalDetail(id) {
+        const el = document.getElementById(`journal-detail-${id}`);
+        if (!el) return;
+        
+        // Close all others first
+        document.querySelectorAll('.journal-entry-detail.open').forEach(d => {
+            if (d.id !== `journal-detail-${id}`) d.classList.remove('open');
+        });
+        
+        el.classList.toggle('open');
+    },
+
     toggleAdvanced() {
         if (this.el.advancedPanel) this.el.advancedPanel.classList.toggle('hidden');
     }
