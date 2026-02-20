@@ -844,6 +844,24 @@
             .outcome-card { -webkit-flex: 1 1 100%; flex: 1 1 100%; }
             .btn { padding: 11px 20px; font-size: 0.83rem; }
         }
+    
+        /* ── Landscape mobile ── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .case-hero { padding: 40px 0; min-height: unset; }
+            .case-hero h1 { font-size: 1.8rem; }
+            .case-hero .subtitle { font-size: 0.95rem; }
+            .case-block { padding: 40px 0; }
+            .img-phone img { max-height: 320px; }
+            .img-wide img  { max-height: 220px; }
+            .path-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .img-phone { max-width: 100%; }
+            .img-phone img { max-height: 440px; }
+            .outcome-stats { gap: 10px; }
+            .outcome-card { min-width: 120px; }
+        }
     </style>
 </head>
 
@@ -867,7 +885,7 @@
             <p class="subtitle">How radical simplicity and a data-driven two-path redesign transformed a 3-second bounce into 12-minute engaged sessions &mdash; with zero paid marketing.</p>
             <div class="meta-strip">
                 <span class="meta-pill"><i class="fas fa-user"></i> Lead Product Designer &amp; Developer</span>
-                <span class="meta-pill"><i class="fas fa-calendar-alt"></i> Jan 2026 &ndash; Present</span>
+                <span class="meta-pill"><i class="fas fa-calendar-alt"></i> Jan 2025 &ndash; Present</span>
                 <span class="meta-pill"><i class="fas fa-code"></i> Vanilla JS &middot; Gemini API</span>
                 <span class="meta-pill"><i class="fas fa-gamepad"></i> Diablo 4 / ARPG</span>
             </div>
@@ -917,7 +935,7 @@
                     </div>
                     <div class="overview-card">
                         <div class="oc-label">Timeline</div>
-                        <div class="oc-value">Jan 2026 &ndash; Present &mdash; Iterated to V1 &amp; ongoing</div>
+                        <div class="oc-value">Jan 2025 &ndash; Present &mdash; Started on a Friday night, iterated to V1 &amp; ongoing</div>
                     </div>
                     <div class="overview-card">
                         <div class="oc-label">Tech Stack</div>
