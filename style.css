@@ -1171,7 +1171,6 @@ footer p {
 }
 
 
-
 /* ── Landscape mobile: prevent oversized hero / nav ── */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero {
