@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StatVerdict Case Study | Daniel Romeyn</title>
+    <meta property="og:title" content="StatVerdict Case Study | Daniel Romeyn">
+    <meta property="og:description" content="How radical simplicity and a two-path UX redesign turned a 3-second bounce into 12-minute engaged sessions.">
+    <meta property="og:image" content="https://www.statverdict.com/horadric-thumb.jpg">
+    <meta property="og:url" content="https://www.danielromeyn.com/statverdict-case-study.html">
+    <meta property="og:type" content="website">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <style>
+        /* ── Design tokens ── */
+        :root {
+            --primary:        #6a89cc;
+            --secondary:      #4a6fa5;
+            --dark-blue:      #34495e;
+            --charcoal:       #212529;
+            --light-grey:     #f8f9fa;
+            --off-white:      #ffffff;
+            --text:           #333333;
+            --grey-text:      #6c757d;
+            --light-blue-bg:  #e0e6f1;
+            --lighter-blue:   #f0f4f8;
+            --accent-red:     #e74c3c;
+            --accent-green:   #27ae60;
+            --shadow-sm:      0 2px 6px rgba(0,0,0,0.08);
+            --shadow-md:      0 6px 22px rgba(0,0,0,0.13);
+            --radius-md:      8px;
+            --radius-lg:      14px;
+            --radius-pill:    100px;
+        }
+
+        /* ── Reset ── */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            background-color: var(--light-grey);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.02em;
+            color: var(--charcoal);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            -webkit-transition: color 0.25s;
+            transition: color 0.25s;
+        }
+        a:hover { color: var(--secondary); }
+
+        /* Safari: prevent images ever overflowing */
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ── Layout ── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ════════════════════════
+           HEADER
+        ════════════════════════ */
+        .site-header {
+            background-color: var(--off-white);
+            border-bottom: 1px solid #e8edf2;
+            padding: 17px 0;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .site-header .container {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+        }
+        .site-header .brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+        }
+        .site-header .brand i {
+            color: var(--primary);
+            margin-left: 5px;
+            font-size: 0.82em;
+        }
+        .back-link {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--grey-text);
+            display: -webkit-inline-flex;
+            display: inline-flex;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 6px;
+            -webkit-transition: color 0.25s;
+            transition: color 0.25s;
+        }
+        .back-link:hover { color: var(--primary); }
+
+        /* ════════════════════════
+           HERO
+        ════════════════════════ */
+        .case-hero {
+            background: -webkit-linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            background:         linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: #ffffff;
+            padding: 70px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .case-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(ellipse at 72% 50%, rgba(106,137,204,0.2) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .case-hero .tag {
+            display: inline-block;
+            background: rgba(106,137,204,0.25);
+            border: 1px solid rgba(106,137,204,0.5);
+            color: #a8c0e8;
+            padding: 5px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+        }
+        .case-hero h1 {
+            font-size: 2.7rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            margin-bottom: 15px;
+            max-width: 660px;
+        }
+        .case-hero h1 span { color: var(--primary); }
+        .case-hero .subtitle {
+            font-size: 1.08rem;
+            opacity: 0.82;
+            max-width: 560px;
+            margin-bottom: 30px;
+            line-height: 1.65;
+        }
+        .meta-strip {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+        .meta-pill {
+            display: -webkit-inline-flex;
+            display: inline-flex;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.85);
+            padding: 5px 13px;
+            border-radius: var(--radius-pill);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .meta-pill i { color: var(--primary); font-size: 0.85em; }
+
+        /* ════════════════════════
+           STATS BAR
+        ════════════════════════ */
+        .stats-bar {
+            background-color: var(--off-white);
+            border-bottom: 1px solid #e8edf2;
+            padding: 26px 0;
+        }
+        .stats-grid {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .stat-block {
+            -webkit-flex: 1 1 25%;
+            flex: 1 1 25%;
+            text-align: center;
+            padding: 8px 12px;
+            border-right: 1px solid #e8edf2;
+        }
+        .stat-block:last-child { border-right: none; }
+        .stat-block .number {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+        .stat-block .label {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--grey-text);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-top: 4px;
+        }
+
+        /* ════════════════════════
+           MAIN BODY
+        ════════════════════════ */
+        .case-body { padding: 62px 0 88px; }
+
+        .section-label {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .section-label .num {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+        .section-label h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin: 0;
+        }
+
+        .case-block {
+            margin-bottom: 58px;
+            padding-bottom: 58px;
+            border-bottom: 1px solid #e8edf2;
+        }
+        .case-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .case-block p {
+            font-size: 1.01rem;
+            line-height: 1.8;
+            color: #444444;
+            margin-bottom: 15px;
+        }
+        .case-block p:last-child { margin-bottom: 0; }
+        .case-block h3 {
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin: 24px 0 9px;
+        }
+
+        /* ── Overview grid ── */
+        .overview-grid {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-top: 20px;
+        }
+        .overview-card {
+            -webkit-flex: 1 1 calc(50% - 7px);
+            flex: 1 1 calc(50% - 7px);
+            background-color: var(--lighter-blue);
+            border: 1px solid var(--light-blue-bg);
+            border-radius: var(--radius-md);
+            padding: 17px 19px;
+        }
+        .overview-card .oc-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .overview-card .oc-value {
+            font-size: 0.93rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+
+        /* ════════════════════════
+           IMAGE COMPONENTS
+           — sized tightly so nothing towers
+        ════════════════════════ */
+
+        /* Full-width screenshot — phone/UI images capped at 400px height */
+        .img-block {
+            margin: 26px 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #dde3ed;
+            background-color: #1b1b2e;
+        }
+        .img-block img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            -o-object-fit: contain;
+            object-fit: contain;
+        }
+        .img-block .cap {
+            padding: 9px 15px;
+            font-size: 0.78rem;
+            color: var(--grey-text);
+            background-color: var(--lighter-blue);
+            border-top: 1px solid #dde3ed;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Wide analytics / dashboard image — crop to show full width, short height */
+        .img-wide {
+            margin: 26px 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #dde3ed;
+            background-color: #0d1117;
+        }
+        .img-wide img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 310px;
+            -o-object-fit: cover;
+            object-fit: cover;
+            -o-object-position: top center;
+            object-position: top center;
+        }
+        .img-wide .cap {
+            padding: 9px 15px;
+            font-size: 0.78rem;
+            color: var(--grey-text);
+            background-color: var(--lighter-blue);
+            border-top: 1px solid #dde3ed;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Single phone screenshot — centered, narrow, very short */
+        .img-phone {
+            margin: 26px auto;
+            max-width: 300px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #dde3ed;
+            background-color: #1b1b2e;
+        }
+        .img-phone img {
+            display: block;
+            width: 100%;
+            height: auto;
+            /* phones are very tall — cap firmly */
+            max-height: 480px;
+            -o-object-fit: contain;
+            object-fit: contain;
+        }
+        .img-phone .cap {
+            padding: 9px 14px;
+            font-size: 0.77rem;
+            color: var(--grey-text);
+            background-color: var(--lighter-blue);
+            border-top: 1px solid #dde3ed;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Side-by-side phone pair — equal columns, constrained height */
+        .img-pair {
+            display: -webkit-flex;
+            display: flex;
+            gap: 14px;
+            margin: 26px 0;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+        }
+        .img-pair .img-col {
+            -webkit-flex: 1 1 0;
+            flex: 1 1 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #dde3ed;
+            background-color: #1b1b2e;
+        }
+        .img-pair .img-col img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            -o-object-fit: contain;
+            object-fit: contain;
+        }
+        .img-pair .img-col .cap {
+            padding: 8px 13px;
+            font-size: 0.75rem;
+            color: var(--grey-text);
+            background-color: var(--lighter-blue);
+            border-top: 1px solid #dde3ed;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .cap-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 13px;
+            border-top: 1px solid #dde3ed;
+        }
+        .cap-label.before { color: var(--accent-red);   background-color: #fdf2f1; }
+        .cap-label.after  { color: var(--accent-green); background-color: #f0faf4; }
+
+        /* ── Pull quote ── */
+        .pull-quote {
+            border-left: 4px solid var(--primary);
+            background-color: var(--lighter-blue);
+            padding: 17px 21px;
+            margin: 22px 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+        .pull-quote p {
+            font-size: 1.04rem !important;
+            font-weight: 600 !important;
+            color: var(--dark-blue) !important;
+            font-style: italic;
+            margin: 0 !important;
+            line-height: 1.6 !important;
+        }
+
+        /* ── Two-path cards ── */
+        .path-grid {
+            display: -webkit-flex;
+            display: flex;
+            gap: 16px;
+            margin: 22px 0;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .path-card {
+            -webkit-flex: 1 1 calc(50% - 8px);
+            flex: 1 1 calc(50% - 8px);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            border: 2px solid transparent;
+        }
+        .path-card.analyze {
+            background: -webkit-linear-gradient(135deg,#eef2ff,#e8edf8);
+            background:         linear-gradient(135deg,#eef2ff,#e8edf8);
+            border-color: var(--primary);
+        }
+        .path-card.compare {
+            background: -webkit-linear-gradient(135deg,#f0faf4,#e8f5ed);
+            background:         linear-gradient(135deg,#f0faf4,#e8f5ed);
+            border-color: var(--accent-green);
+        }
+        .path-card .path-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-md);
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-bottom: 11px;
+        }
+        .path-card.analyze .path-icon { background-color: var(--primary);      color: #fff; }
+        .path-card.compare .path-icon { background-color: var(--accent-green); color: #fff; }
+        .path-card .path-badge {
+            display: inline-block;
+            font-size: 0.66rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            border-radius: var(--radius-pill);
+            margin-bottom: 9px;
+        }
+        .path-card.analyze .path-badge { background-color: var(--primary);      color: #fff; }
+        .path-card.compare .path-badge { background-color: var(--accent-green); color: #fff; }
+        .path-card h3 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            margin-bottom: 7px;
+            margin-top: 0 !important;
+        }
+        .path-card.analyze h3 { color: var(--secondary); }
+        .path-card.compare h3 { color: var(--accent-green); }
+        .path-card p {
+            font-size: 0.88rem !important;
+            color: #555 !important;
+            margin: 0 !important;
+            line-height: 1.65 !important;
+        }
+
+        /* ── Bullet list ── */
+        .case-list {
+            list-style: none;
+            padding: 0;
+            margin: 13px 0 20px;
+        }
+        .case-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 11px;
+            font-size: 0.99rem;
+            color: #444;
+            line-height: 1.75;
+        }
+        .case-list li::before {
+            content: '\2192';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ── Data callout ── */
+        .data-callout {
+            background-color: var(--off-white);
+            border-radius: var(--radius-lg);
+            padding: 26px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--light-blue-bg);
+            margin: 26px 0;
+        }
+        .data-callout .dc-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--grey-text);
+            margin-bottom: 16px;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 7px;
+        }
+        .data-callout .dc-title i { color: var(--primary); }
+        .data-row {
+            display: -webkit-flex;
+            display: flex;
+            gap: 16px;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .data-item {
+            -webkit-flex: 1 1 calc(50% - 8px);
+            flex: 1 1 calc(50% - 8px);
+            padding: 15px 17px;
+            border-radius: var(--radius-md);
+            border-left: 4px solid transparent;
+        }
+        .data-item.neg { border-left-color: var(--accent-red);   background-color: #fdf2f1; }
+        .data-item.pos { border-left-color: var(--accent-green); background-color: #f0faf4; }
+        .data-item .di-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 7px;
+        }
+        .data-item.neg .di-label { color: var(--accent-red); }
+        .data-item.pos .di-label { color: var(--accent-green); }
+        .data-item .di-metric {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+        .data-item.neg .di-metric { color: var(--accent-red); }
+        .data-item.pos .di-metric { color: var(--accent-green); }
+        .data-item .di-desc { font-size: 0.82rem; color: #666; line-height: 1.5; }
+
+        /* ── Phase timeline ── */
+        .phase-list { list-style: none; padding: 0; margin: 20px 0; }
+        .phase-list li {
+            display: -webkit-flex;
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .phase-list li:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 34px;
+            width: 2px;
+            height: calc(100% + 6px);
+            background: -webkit-linear-gradient(to bottom, var(--primary), transparent);
+            background:         linear-gradient(to bottom, var(--primary), transparent);
+            opacity: 0.22;
+        }
+        .phase-dot {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.78rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            margin-top: 2px;
+            box-shadow: 0 0 0 4px rgba(106,137,204,0.14);
+        }
+        .phase-content h3 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin: 4px 0 6px !important;
+        }
+        .phase-content p {
+            font-size: 0.96rem !important;
+            color: #555 !important;
+            margin: 0 !important;
+        }
+
+        /* ── Outcome stats ── */
+        .outcome-stats {
+            display: -webkit-flex;
+            display: flex;
+            gap: 13px;
+            margin: 26px 0;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .outcome-card {
+            -webkit-flex: 1 1 calc(33.333% - 9px);
+            flex: 1 1 calc(33.333% - 9px);
+            background-color: var(--off-white);
+            border: 1px solid var(--light-blue-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .outcome-card .oc-num {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+        .outcome-card .oc-lbl {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--grey-text);
+        }
+
+        /* ════════════════════════
+           CTA + FOOTER
+        ════════════════════════ */
+        .case-cta {
+            background: -webkit-linear-gradient(135deg, #34495e, #2c3e50);
+            background:         linear-gradient(135deg, #34495e, #2c3e50);
+            padding: 58px 0;
+            text-align: center;
+            color: #ffffff;
+        }
+        .case-cta h2 { font-size: 1.7rem; color: #ffffff; margin-bottom: 9px; }
+        .case-cta p  { font-size: 0.98rem; opacity: 0.8; margin-bottom: 26px; }
+
+        .btn {
+            display: inline-block;
+            background: -webkit-linear-gradient(45deg, var(--primary), var(--secondary));
+            background:         linear-gradient(45deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            padding: 13px 28px;
+            border-radius: var(--radius-md);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+            -webkit-transition: -webkit-transform 0.25s, box-shadow 0.25s;
+            transition: transform 0.25s, box-shadow 0.25s;
+            margin: 5px;
+        }
+        .btn:hover {
+            -webkit-transform: translateY(-2px);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.32);
+            color: #ffffff;
+        }
+        .btn-ghost {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.38);
+            color: rgba(255,255,255,0.85);
+            box-shadow: none;
+        }
+        .btn-ghost:hover {
+            border-color: rgba(255,255,255,0.78);
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .site-footer {
+            background-color: var(--charcoal);
+            color: #6c757d;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.85rem;
+        }
+
+        /* ── Scroll fade-in ── */
+        .fade-in {
+            opacity: 0;
+            -webkit-transform: translateY(16px);
+            transform: translateY(16px);
+            -webkit-transition: opacity 0.5s ease-out, -webkit-transform 0.5s ease-out;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        /* ════════════════════════
+           RESPONSIVE
+        ════════════════════════ */
+        @media screen and (max-width: 768px) {
+            .case-hero { padding: 50px 0 44px; }
+            .case-hero h1 { font-size: 1.9rem; }
+            .case-hero .subtitle { font-size: 0.98rem; }
+
+            /* Stack stats 2-per-row */
+            .stat-block { -webkit-flex: 1 1 50%; flex: 1 1 50%; }
+            .stat-block:nth-child(2) { border-right: none; }
+            .stat-block:nth-child(3) { border-top: 1px solid #e8edf2; border-right: 1px solid #e8edf2; }
+            .stat-block:nth-child(4) { border-top: 1px solid #e8edf2; border-right: none; }
+
+            .overview-card { -webkit-flex: 1 1 100%; flex: 1 1 100%; }
+
+            .path-card { -webkit-flex: 1 1 100%; flex: 1 1 100%; }
+
+            /* Stack phone pairs vertically */
+            .img-pair { -webkit-flex-direction: column; flex-direction: column; }
+            .img-pair .img-col { -webkit-flex: none; flex: none; }
+            .img-pair .img-col img { max-height: 380px; }
+
+            .img-phone { max-width: 260px; }
+
+            .data-item { -webkit-flex: 1 1 100%; flex: 1 1 100%; }
+            .outcome-card { -webkit-flex: 1 1 calc(50% - 7px); flex: 1 1 calc(50% - 7px); }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container { padding: 0 15px; }
+            .case-hero { padding: 38px 0 34px; }
+            .case-hero h1 { font-size: 1.6rem; }
+            .stat-block .number { font-size: 1.45rem; }
+            .case-body { padding: 42px 0 58px; }
+            .case-block { margin-bottom: 42px; padding-bottom: 42px; }
+            .section-label h2 { font-size: 1.2rem; }
+            .img-block img { max-height: 300px; }
+            .img-wide img  { max-height: 200px; }
+            .img-phone { max-width: 220px; }
+            .img-phone img { max-height: 380px; }
+            .data-callout { padding: 18px 14px; }
+            .outcome-card { -webkit-flex: 1 1 100%; flex: 1 1 100%; }
+            .btn { padding: 11px 20px; font-size: 0.83rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══ HEADER ══ -->
+    <header class="site-header">
+        <div class="container">
+            <span class="brand">Daniel Romeyn <i class="fas fa-magic"></i></span>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Portfolio
+            </a>
+        </div>
+    </header>
+
+    <!-- ══ HERO ══ -->
+    <section class="case-hero">
+        <div class="container">
+            <span class="tag">UX Strategy &amp; Product Design</span>
+            <h1>StatVerdict: Designing for <span>Flow State</span></h1>
+            <p class="subtitle">How radical simplicity and a data-driven two-path redesign transformed a 3-second bounce into 12-minute engaged sessions &mdash; with zero paid marketing.</p>
+            <div class="meta-strip">
+                <span class="meta-pill"><i class="fas fa-user"></i> Lead Product Designer &amp; Developer</span>
+                <span class="meta-pill"><i class="fas fa-calendar-alt"></i> Jan 2025 &ndash; Present</span>
+                <span class="meta-pill"><i class="fas fa-code"></i> Vanilla JS &middot; Gemini API</span>
+                <span class="meta-pill"><i class="fas fa-gamepad"></i> Diablo 4 / ARPG</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ STATS BAR ══ -->
+    <div class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-block">
+                    <span class="number">498</span>
+                    <span class="label">Organic Users (V0)</span>
+                </div>
+                <div class="stat-block">
+                    <span class="number">12m 47s</span>
+                    <span class="label">Avg. Engaged Session</span>
+                </div>
+                <div class="stat-block">
+                    <span class="number">55+</span>
+                    <span class="label">V1 Users (First 48hrs)</span>
+                </div>
+                <div class="stat-block">
+                    <span class="number">2</span>
+                    <span class="label">Distinct UX Paths</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ BODY ══ -->
+    <main class="case-body">
+        <div class="container">
+
+            <!-- ── 01 PROJECT OVERVIEW ── -->
+            <div class="case-block fade-in">
+                <div class="section-label">
+                    <span class="num">01</span>
+                    <h2>Project Overview</h2>
+                </div>
+                <p>StatVerdict (originally launched as Horadric AI) is a browser-based, AI-powered loot analysis tool built for players of Diablo 4 and similar Action RPGs. The product uses Google&rsquo;s Gemini API to evaluate item screenshots and return a clear, plain-language verdict &mdash; eliminating the manual stat-checking process that pulls players out of gameplay.</p>
+                <p>This case study documents the full design arc: from an initial V0 proof-of-concept that validated market demand, through a data-identified friction crisis, to a redesigned V1 built on radical simplicity &mdash; a streamlined, two-path UI that puts the right answer in front of the right user in under two seconds.</p>
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <div class="oc-label">Role</div>
+                        <div class="oc-value">Lead Product Designer &amp; Developer &mdash; end-to-end from research to production deployment</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="oc-label">Timeline</div>
+                        <div class="oc-value">Jan 2025 &ndash; Present &mdash; Started on a Friday night, iterated to V1 &amp; ongoing</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="oc-label">Tech Stack</div>
+                        <div class="oc-value">Vanilla JS &middot; Google Gemini API (2.5 Flash) &middot; Local Storage &middot; Mobile-First HTML/CSS</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="oc-label">Design Tools</div>
+                        <div class="oc-value">Figma &middot; Google Analytics &middot; User session review &middot; Reddit community testing</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 02 THE CHALLENGE ── -->
+            <div class="case-block fade-in">
+                <div class="section-label">
+                    <span class="num">02</span>
+                    <h2>The Challenge: Cognitive Load of Loot</h2>
+                </div>
+                <p>Diablo 4 is a game of relentless decision-making. Every hour of gameplay produces dozens of item drops, each containing 5&ndash;8 layered statistics that interact with a player&rsquo;s class, active skill build, paragon board investments, and current seasonal mechanics. The sheer volume and complexity creates a well-documented behavioral pattern: <strong>Analysis Paralysis</strong>.</p>
+                <p>Rather than engage with the complexity, players default to hoarding &mdash; keeping everything, equipping nothing, and gradually stalling their own progression. Existing third-party tools required players to manually transcribe stat values into calculators, demanding a context-switch that pulled them completely out of the game. The friction was the product.</p>
+
+                <div class="pull-quote">
+                    <p>&ldquo;Players weren&rsquo;t confused about what the stats meant. They were paralyzed by the mental effort required to evaluate what those stats meant <em>for them, right now.</em>&rdquo;</p>
+                </div>
+
+                <p>The core UX problem was not a lack of information &mdash; it was an absence of <em>actionable clarity</em>. The opportunity: replace cognitive effort with a confident, instantaneous verdict. The image below shows exactly what that verdict looks like &mdash; item identified, tier assigned, recommendation delivered, actions surfaced.</p>
+
+                <!-- image%2033.jpg: The Analysis Results panel showing "Harlequin Crest / mythic / KEEP / S-Tier"
+                     with Recent Scans history. This is the core product output — the verdict card itself.
+                     Placed here to show what we're designing toward: the answer the user actually needs. -->
+                <div class="img-phone">
+                    <img src="image%2033.jpg" alt="Horadric AI Analysis Results panel showing Harlequin Crest evaluated as S-Tier KEEP with Copy for Discord, Check Price, and Search Trade actions" loading="lazy">
+                    <div class="cap">The Visual Verdict output &mdash; item name, mythic rarity, binary recommendation (KEEP), tier score (S-Tier), and a plain-language insight. Scan history is logged automatically. This is the moment that replaces 15 minutes of manual research.</div>
+                </div>
+            </div>
+
+            <!-- ── 03 THE STRATEGY ── -->
+            <div class="case-block fade-in">
+                <div class="section-label">
+                    <span class="num">03</span>
+                    <h2>The Strategy: Clarifying Intent</h2>
+                </div>
+                <p>The initial V0 beta launched with a single all-purpose scanner. Users uploaded a screenshot, the AI analyzed the item, a result was displayed. Simple in concept &mdash; but the entry experience was burdened with complexity: API key configuration, class selection, loadout management options, and a dense landing screen presenting too many choices before the user had experienced any value.</p>
+                <p>Google Analytics revealed the problem precisely. Two distinct user populations were emerging within the same interface, each arriving with a fundamentally different question in mind:</p>
+
+                <div class="path-grid">
+                    <div class="path-card analyze">
+                        <span class="path-badge">Speed Intent</span>
+                        <div class="path-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Analyze Path</h3>
+                        <p>The mid-session user who wants one answer: <strong>&ldquo;Keep or Salvage?&rdquo;</strong> They need a verdict in under 2 seconds and have zero tolerance for friction. Every extra tap is a failure state.</p>
+                    </div>
+                    <div class="path-card compare">
+                        <span class="path-badge">Context Intent</span>
+                        <div class="path-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h3>Compare Path</h3>
+                        <p>The deliberate user who asks: <strong>&ldquo;Is this an upgrade over what I&rsquo;m wearing?&rdquo;</strong> They need side-by-side stat delta visualization before committing to a change.</p>
+                    </div>
+                </div>
+
+                <p>Combining these two intents into a single interface was the root cause of the bounce rate. The strategic pivot was surgical: <strong>separate the two flows entirely</strong> and let user intent drive the first interaction. The redesigned entry screen makes this split immediately visible.</p>
+
+                <!-- image%2035.jpg: First-run onboarding tooltip ("Welcome to Horadric AI! 1/8")
+                     overlaying the scanner with Analyze Item / Compare Item / Try Demo buttons visible beneath.
+                     Shows the exact moment a new user encounters the two-path structure with contextual guidance. -->
+                <div class="img-phone">
+                    <img src="image%2035.jpg" alt="Horadric AI first-run onboarding tooltip reading Welcome to Horadric AI overlaying the scanner entry with Analyze Item, Compare Item, and Try Demo buttons" loading="lazy">
+                    <div class="cap">First-run onboarding (step 1 of 8) introduces users to the tool before they scan. The two primary paths &mdash; Analyze Item and Compare Item &mdash; are visible beneath, with Try Demo as a zero-commitment fallback for hesitant new users.</div>
+                </div>
+
+                <h3>The Pivot: From One Button to Two Paths</h3>
+                <ul class="case-list">
+                    <li><strong>Removed the loadout manager</strong> &mdash; a feature no V0 user was actually requesting, whose presence added visual complexity that raised perceived difficulty.</li>
+                    <li><strong>Eliminated the API key gate</strong> &mdash; requiring API key configuration before experiencing any value was the single largest source of the 3-second bounce. A frictionless Demo Mode replaced it.</li>
+                    <li><strong>Separated Analyze and Compare into distinct, named entry points</strong> &mdash; users self-select their intent from the first screen, ensuring each flow is optimized for exactly one goal.</li>
+                    <li><strong>Migrated to Gemini 2.5 Flash</strong> &mdash; chosen for inference speed, keeping end-to-end analysis under the 2-second threshold required to compete with in-game momentum.</li>
+                </ul>
+            </div>
+
+            <!-- ── 04 THE SOLUTION ── -->
+            <div class="case-block fade-in">
+                <div class="section-label">
+                    <span class="num">04</span>
+                    <h2>The Solution: Zero-Friction Design</h2>
+                </div>
+                <p>The V1 design was built around one governing constraint: <strong>every element that did not directly serve the primary user action was removed.</strong> No dashboards, no navigation, no settings panels on the critical path. Just the scanner, the two paths, and the verdict.</p>
+
+                <h3>The Redesigned Scanner</h3>
+                <p>The V1 scanner presents users immediately with their choice: Analyze Item for a fast binary verdict, Compare Item for upgrade evaluation, or Try Demo for new users who want proof before commitment. The class selector and advanced options remain accessible but no longer obstruct the primary action. The screenshot upload zone is the dominant element &mdash; the first thing users see, the first thing they interact with.</p>
+
+                <!-- image%2032.jpg: V1 scanner with Harlequin Crest screenshot already loaded,
+                     showing the three-button entry: ANALYZE ITEM (red), COMPARE ITEM (red), TRY DEMO (grey).
+                     This is the core two-path UI as a returning user would encounter it. -->
+                <div class="img-phone">
+                    <img src="image%2036.jpg" alt="Horadric AI V1 scanner showing uploaded Harlequin Crest screenshot with Analyze Item, Compare Item, and Try Demo action buttons and Recent Scans history" loading="lazy">
+                    <div class="cap">The V1 scanner: screenshot loaded, class selected, three clear entry points. Analyze Item for speed, Compare Item for context, Try Demo for zero-commitment exploration. Scan history surfaces automatically for returning users.</div>
+                </div>
+
+                <h3>Mobile-First Architecture</h3>
+                <p>The target user is a console or PC gamer on a second screen &mdash; phone in hand, mid-session, with a loot drop waiting. Every layout decision was made for this context. Touch targets are oversized. The upload action is the first interaction. Text is scannable at arm&rsquo;s length. The tool runs entirely in-browser with no login, no account creation, and no server-side storage.</p>
+                <ul class="case-list">
+                    <li><strong>Browser-based, no install required</strong> &mdash; accessible on any device instantly via a shared URL.</li>
+                    <li><strong>Local Storage for privacy</strong> &mdash; class preferences and scan history stored client-side only. No data transmitted beyond the Gemini API call.</li>
+                    <li><strong>Demo Mode as default</strong> &mdash; new users experience full product value before being invited to configure an API key, not the reverse.</li>
+                    <li><strong>Sub-2 second analysis</strong> &mdash; Gemini 2.5 Flash keeps verdict delivery within the attention window of a user still actively playing.</li>
+                </ul>
+
+                <h3>The StatVerdict.com Landing Experience</h3>
+                <p>V1 launched with a dedicated landing page separate from the scanner &mdash; communicating value proposition, supported game titles, and community traction before asking users to engage. This replaces the old pattern of dropping users directly into a configuration screen with no context.</p>
+
+                <!-- image%2030.jpg (left): StatVerdict.com landing page with "Master Your ARPG Loot" hero,
+                         beta signup, and 10K+ items / 188 community members social proof.
+                     image%2031.jpg (right): Available Games section showing Diablo IV as LIVE
+                         with Horadric AI Season 11, feature list, and Path of Exile coming soon.
+                     Together they show the full V1 entry experience before the scanner. -->
+                <div class="img-pair">
+                    <div class="img-col">
+                        <img src="image%2030.jpg" alt="StatVerdict V1 landing page showing Master Your ARPG Loot hero, early access beta signup, and social proof metrics: 10K items analyzed, 188 community members" loading="lazy">
+                        <div class="cap">V1 landing &mdash; value communicated before the scanner is presented. Social proof (10K+ items analyzed, 188 community members) builds trust before any configuration is requested.</div>
+                    </div>
+                    <div class="img-col">
+                        <img src="image%2031.jpg" alt="StatVerdict Available Games section showing Diablo IV as Live with Horadric AI Season 11 feature list, and Path of Exile Universe coming soon" loading="lazy">
+                        <div class="cap">Game selection architecture &mdash; Diablo IV is live, expansion to Path of Exile and Immortal scoped for future releases. Platform framing positions StatVerdict as an ARPG ecosystem, not a single-game tool.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 05 VALIDATION & OUTCOMES ── -->
+            <div class="case-block fade-in">
+                <div class="section-label">
+                    <span class="num">05</span>
+                    <h2>Validation &amp; Outcomes</h2>
+                </div>
+                <p>The redesign was driven entirely by a data-identified contradiction in V0 beta analytics &mdash; not intuition. Google Analytics surfaced two radically different user behaviors coexisting within the same product, and that contradiction became the strategic foundation for everything that followed.</p>
+
+                <ul class="phase-list">
+                    <li>
+                        <span class="phase-dot">1</span>
+                        <div class="phase-content">
+                            <h3>V0 Beta &mdash; Proving Product-Market Fit</h3>
+                            <p>The initial version acquired <strong>nearly 500 active users</strong> through organic Reddit and social posts alone &mdash; zero paid marketing. This established that motivated demand existed. The audience was actively searching for a tool like this.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="phase-dot">2</span>
+                        <div class="phase-content">
+                            <h3>The Data Contradiction &mdash; Identifying the Friction</h3>
+                            <p>GA revealed two entirely different populations. <strong>60% of traffic</strong> bounced within <strong>3 seconds</strong> &mdash; never reaching core utility. The remaining <strong>40%</strong> who cleared the friction barrier stayed for an average of <strong>12 minutes and 47 seconds</strong>, scanning ~<strong>7 items per session</strong>. The product wasn&rsquo;t broken &mdash; the <em>entry</em> was.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="phase-dot">3</span>
+                        <div class="phase-content">
+                            <h3>V1 Launch &mdash; Radical Simplicity Validated</h3>
+                            <p>StatVerdict V1 launched with the streamlined two-path UI. Within <strong>24&ndash;48 hours</strong>, the product captured <strong>55+ active users</strong> with zero paid marketing, directly confirming that reducing entry friction translates into higher-quality user acquisition.</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- image%2034.jpg: The GA analytics dashboard showing 12m 47s as dominant metric,
+                     with "The Friction Point" callout (3s bounce / 12m+ session) and
+                     "Organic Reach" (498 users / 100% organic social traffic).
+                     Wide landscape image — placed here as the primary data evidence. -->
+                <div class="img-wide">
+                    <img src="image%2034.jpg" alt="Google Analytics dashboard showing 12m 47s average engagement time with upward trend line, 3s bounce rate on V0 landing page, 12m+ session time on V1 UI, and 498 active users from 100 percent organic social traffic" loading="lazy">
+                    <div class="cap">Google Analytics &mdash; V0 Beta. The 12m 47s average engagement for users who cleared the friction barrier sits in stark contrast to the 3-second bounce for the majority. 498 active users, 100% organic social traffic, zero ad spend.</div>
+                </div>
+
+                <div class="data-callout">
+                    <div class="dc-title"><i class="fas fa-chart-bar"></i> The UX Dichotomy &mdash; V0 Beta Google Analytics</div>
+                    <div class="data-row">
+                        <div class="data-item neg">
+                            <div class="di-label">The Bouncers &mdash; 60% of Traffic</div>
+                            <div class="di-metric">3 sec</div>
+                            <div class="di-desc">Average engagement time before exit. These users never reached the core utility. Every second of their experience was friction, not value.</div>
+                        </div>
+                        <div class="data-item pos">
+                            <div class="di-label">The Core Users &mdash; 40% of Traffic</div>
+                            <div class="di-metric">12m 47s</div>
+                            <div class="di-desc">Average session duration, scanning ~7 items per visit. Flow-state numbers &mdash; a product that disappears and lets the task take over.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pull-quote">
+                    <p>The 12-minute session data proved the core &ldquo;Analyze&rdquo; loop was already delivering exceptional value. The design challenge was removing every obstacle preventing the other 60% from reaching that same &ldquo;Aha!&rdquo; moment.</p>
+                </div>
+
+                <div class="outcome-stats">
+                    <div class="outcome-card">
+                        <span class="oc-num">~500</span>
+                        <span class="oc-lbl">V0 Organic Users</span>
+                    </div>
+                    <div class="outcome-card">
+                        <span class="oc-num">12m 47s</span>
+                        <span class="oc-lbl">Engaged Session Avg</span>
+                    </div>
+                    <div class="outcome-card">
+                        <span class="oc-num">55+</span>
+                        <span class="oc-lbl">V1 Users in 48hrs</span>
+                    </div>
+                </div>
+
+                <h3>Key Design Learnings</h3>
+                <ul class="case-list">
+                    <li><strong>Engagement time is a more meaningful signal than traffic volume.</strong> 12-minute sessions from 40% of users told a more important story than the raw 500-user headline.</li>
+                    <li><strong>Entry friction is not a feature problem &mdash; it is a trust problem.</strong> Asking users for API configuration before delivering value is asking for trust before earning it.</li>
+                    <li><strong>Separating user intents produces better experiences for everyone.</strong> Users who want speed get speed. Users who want context get context. No one compromises.</li>
+                    <li><strong>Real data beats assumed personas.</strong> The two-path strategy was not derived from user interviews &mdash; it was derived from behavioral evidence in analytics. The data revealed who the users actually were.</li>
+                </ul>
+            </div>
+
+        </div><!-- /container -->
+    </main>
+
+    <!-- ══ CTA ══ -->
+    <section class="case-cta">
+        <div class="container">
+            <h2>See the Product Live</h2>
+            <p>StatVerdict is live and free to use. No account required.</p>
+            <a href="https://www.statverdict.com" target="_blank" rel="noopener noreferrer" class="btn">Launch StatVerdict</a>
+            <a href="index.html" class="btn btn-ghost">Back to Portfolio</a>
+        </div>
+    </section>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="yr"></span> Daniel Romeyn. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('yr').textContent = new Date().getFullYear();
+
+        // IntersectionObserver fade-in with Safari fallback
+        var fadeEls = document.querySelectorAll('.fade-in');
+        if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.07 });
+            fadeEls.forEach(function(el) { io.observe(el); });
+        } else {
+            // Older Safari / IE fallback — show everything immediately
+            fadeEls.forEach(function(el) { el.classList.add('visible'); });
+        }
+    </script>
+
+</body>
+</html>

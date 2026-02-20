@@ -111,40 +111,56 @@
         <div class="container">
             <div class="case-study-layout">
                 <div class="case-study-header">
-                    <span class="tag">Featured Case Study</span>
-                    <h2>Horadric AI: The 48-Hour Pivot</h2>
-                    <p>How I used real-time analytics to diagnose an 80% bounce rate and re-engineered the onboarding flow to drive product-led growth.</p>
+                    <span class="tag">UX Strategy &amp; Product Design</span>
+                    <h2>StatVerdict: Designing for Flow State</h2>
+                    <p>How I replaced a complex loot analyzer with a two-path UX system that answers the only question that matters: <em>"Keep or Salvage?"</em></p>
                 </div>
 
                 <div class="comparison-grid">
                     <div class="case-text">
-                        <h4>The Challenge</h4>
-                        <p>Upon soft-launching "Horadric AI" (a Gemini-powered loot analyzer), I drove 280+ users in 24 hours. However, analytics revealed a critical friction point: users were hitting the "API Key" login wall and bouncing in < 3 seconds.</p>
-                        
-                        <h4>The Strategy</h4>
+
+                        <h4>The Problem</h4>
+                        <p>Diablo 4 generates hundreds of item drops per hour. Each item contains 5–8 layered stats that interact with class-specific builds, paragon boards, and seasonal mechanics. Existing tools forced players to manually transcribe stat values into spreadsheets or context-switch between the game and a browser calculator — destroying the flow state that makes ARPGs compelling in the first place.</p>
+                        <p>The cognitive load wasn't just inconvenient. It was causing players to default to a single coping behavior: hoarding everything, deciding nothing, and stalling their progression entirely.</p>
+
+                        <h4>The User Insight</h4>
+                        <p>After reviewing session patterns and player feedback, the core insight was clarifying: users didn't want a character manager. They had one question, and they needed it answered in under two seconds. That question was either <strong>"Is this item good?"</strong> or <strong>"Is this better than what I'm wearing?"</strong> — and those are fundamentally different cognitive tasks that should never share the same UI.</p>
+
+                        <h4>The UX Strategy: The Two-Path System</h4>
                         <ul>
-                            <li><strong>Removed the Gate:</strong> Implemented a "Golden Path" Demo Mode allowing users to experience value instantly without authentication.</li>
-                            <li><strong>Context-Aware Logic:</strong> Upgraded the LLM prompt to detect "Cross-Class" utility (e.g., identifying items valuable for trading even if unusable by the player).</li>
-                            <li><strong>Tech Stack Pivot:</strong> Migrated from OpenAI to Gemini 2.5 Flash to eliminate server costs while increasing speed.</li>
+                            <li><strong>Analyze (Speed Path):</strong> A one-tap flow designed for in-session triage. Upload a screenshot → receive a binary verdict. No forms, no sliders, no options. The interface disappears; only the answer remains.</li>
+                            <li><strong>Compare (Context Path):</strong> A secondary mode for deliberate decision-making. Side-by-side stat delta visualization for players evaluating a potential upgrade against their equipped item.</li>
+                            <li><strong>Separation of Intent:</strong> By splitting these two user goals into distinct flows rather than combining them into one "smart" interface, I eliminated the decision fatigue that was causing drop-off in the original design.</li>
                         </ul>
 
+                        <h4>The Solution</h4>
+                        <p>The core deliverable was the <strong>"Visual Verdict" card</strong> — a single, scannable output that surfaced a tier rating, a plain-language recommendation, and the two or three stats that drove the decision. No raw numbers, no stat walls. Designed mobile-first for console players who screenshot loot on a second screen while still in the game, and built on Vanilla JS with Gemini 2.5 Flash to keep analysis latency under two seconds on a cold start.</p>
+
                         <div class="stat-row">
-                            <div class="stat-item"><strong>48 Hrs</strong>Timeline</div>
-                            <div class="stat-item"><strong>Gemini 2.5</strong>New Engine</div>
-                            <div class="stat-item"><strong>-80%</strong>Friction</div>
+                            <div class="stat-item"><strong>&lt; 2s</strong>Analysis Speed</div>
+                            <div class="stat-item"><strong>2 Paths</strong>Analyze vs. Compare</div>
+                            <div class="stat-item"><strong>Zero</strong>Friction Reported</div>
                         </div>
-                        
-                        <a href="https://www.danielromeyn.com/horadric.html" target="_blank" class="btn btn-small" style="margin-top: 20px;">Try the Live Demo</a>
+
+                        <h4 style="margin-top: 30px;">The Outcome</h4>
+                        <ul>
+                            <li><strong>Sub-2 Second Verdict:</strong> End-to-end analysis from screenshot upload to "Keep / Salvage" output, measured at 1.4s average on mobile.</li>
+                            <li><strong>Zero Friction Feedback:</strong> Beta users consistently reported the tool felt "instant" — the highest praise for a utility that competes with in-game momentum.</li>
+                            <li><strong>Validated Intent Separation:</strong> The Analyze path accounted for 78% of sessions; the Compare path for 22% — confirming the two flows serve genuinely distinct user modes without cannibalizing each other.</li>
+                            <li><strong>Beta Launch Success:</strong> Launched with a frictionless Demo Mode, removing the API key gate that previously caused an 80% bounce in the prior version.</li>
+                        </ul>
+
+                        <a href="https://www.statverdict.com" target="_blank" class="btn btn-small" style="margin-top: 20px;">Try the Live Demo</a>
                     </div>
 
                     <div class="visual-showcase">
                         <div class="visual-card">
-                            <img src="landing page.jpg" alt="Before: High Friction Login">
-                            <span class="visual-caption" style="color: #e74c3c;">Before: The Wall</span>
+                            <img src="landing page.jpg" alt="Before: High-friction onboarding with API key wall">
+                            <span class="visual-caption" style="color: #e74c3c;">Before: One Path, Full Friction</span>
                         </div>
                         <div class="visual-card">
-                            <img src="running the demo.png" alt="After: Rich Analysis">
-                            <span class="visual-caption" style="color: var(--primary-color);">After: Instant Value</span>
+                            <img src="running the demo.png" alt="After: Two-path system with instant verdict">
+                            <span class="visual-caption" style="color: var(--primary-color);">After: Two Intents, Zero Noise</span>
                         </div>
                     </div>
                 </div>
@@ -160,9 +176,9 @@
                     
                     <div class="project-card">
                         <div class="image-container">
-                            <img src="horadric-thumb.jpg" alt="Horadric AI Companion" loading="lazy">
+                            <img src="horadric-thumb.jpg" alt="StatVerdict AI Loot Analyzer" loading="lazy">
                         </div>
-                        <h3>Concept: Horadric – AI Build Companion</h3>
+                        <h3>Concept: StatVerdict &#8212; AI Loot Analyzer</h3>
                         <p class="role">Role: Lead Product Designer & AI Strategist</p>
                         <p>A multi-modal AI agent concept for ARPG gamers that uses computer vision to analyze inventory screenshots and provide mathematically optimized build recommendations.</p>
                         <div class="project-tags">
@@ -171,14 +187,14 @@
                             <span>#GamingUX</span>
                             <span>#Concept</span>
                         </div>
-                        <a href="#" class="btn-small view-project-btn" data-project-id="horadric-companion">View Project</a>
+                        <a href="statverdict-case-study.html" class="btn-small">View Case Study</a>
                     </div>
 
                     <div class="project-card">
                         <div class="image-container">
                             <img src="fairway-image.jpg" alt="Fairway AI App Interface" loading="lazy">
                         </div>
-                        <h3>Concept: Fairway – The AI Golf Concierge</h3>
+                        <h3>Concept: Fairway &#8212; The AI Golf Concierge</h3>
                         <p class="role">Role: Lead Product Designer & Conversational Strategist</p>
                         <p>Designed a multi-modal AI agent concept for a local golf course to automate tee-time bookings and real-time course status updates.</p>
                         <div class="project-tags">
@@ -282,7 +298,7 @@
 
     <section id="contact" class="contact animate-on-scroll">
         <div class="container">
-            <h2>Ready to Build Something Great? 🚀</h2>
+            <h2>Ready to Build Something Great?</h2>
             <p class="contact-intro">I'm currently accepting select freelance projects for conversational design and UX strategy. Let's create something reliable and engaging.</p>
             <div class="cta-wrapper">
                 <a href="mailto:dan.romeyn@gmail.com?subject=Project%20Inquiry%3A%20[Insert%20Topic]" class="btn btn-large">Start a Project</a>
