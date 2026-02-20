@@ -1,6 +1,3 @@
-/* PORTFOLIO PROJECT: Daniel Romeyn's Portfolio */
-/* This file is part of the daniel-portfolio project, not the Horadric AI app */
-
 /* Basic Reset & Base Styles */
 :root {
     /* Colors */
@@ -56,6 +53,8 @@
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -106,6 +105,12 @@ p {
     line-height: 1.7em;
 }
 
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -119,6 +124,7 @@ a:hover {
 /* Buttons */
 .btn {
     display: inline-block;
+    touch-action: manipulation;
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: var(--off-white);
     padding: 14px 30px;
@@ -141,6 +147,7 @@ a:hover {
 
 .btn-small {
     display: inline-block;
+    touch-action: manipulation;
     background: #555;
     color: var(--off-white);
     padding: 8px 15px;
@@ -282,12 +289,12 @@ header .desktop-nav ul li a:hover::after {
 }
 
 .mobile-nav ul li {
-    margin: 25px 0;
+    margin: clamp(12px, 3vh, 25px) 0;
 }
 
 .mobile-nav ul li a {
     color: var(--off-white);
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
     font-weight: var(--font-weight-bold);
     transition: color 0.3s ease;
 }
@@ -303,6 +310,7 @@ header .desktop-nav ul li a:hover::after {
     text-align: center;
     padding: 120px 0;
     min-height: 500px;
+    min-height: min(500px, 90dvh);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -375,14 +383,14 @@ header .desktop-nav ul li a:hover::after {
 }
 
 .about-image img {
-    max-width: 100%;
-    height: auto;
+    max-width: min(350px, 100%);
+    width: 350px;
+    height: 350px;
     border-radius: 50%;
     border: 6px solid var(--primary-color);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     object-fit: cover;
-    width: 350px;
-    height: 350px;
+    -o-object-fit: cover;
     transition: transform 0.3s ease;
 }
 
@@ -514,9 +522,11 @@ header .desktop-nav ul li a:hover::after {
 }
 
 .portfolio-grid {
+    display: -webkit-flex;
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: var(--spacing-xl);
     padding-bottom: var(--spacing-lg); /* For scrollbar or just spacing */
@@ -553,7 +563,7 @@ header .desktop-nav ul li a:hover::after {
 .project-card .image-container {
     position: relative;
     width: 100%;
-    padding-bottom: 90%; /* Aspect ratio for the image (e.g., 4:3 or 16:9) */
+    padding-bottom: 65%; /* ~3:2 aspect ratio - works well for both portrait and landscape content */
     overflow: hidden;
     border-bottom: 1px solid #eee;
     margin-bottom: 15px; /* Space between image and text */
@@ -620,6 +630,7 @@ header .desktop-nav ul li a:hover::after {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    touch-action: manipulation;
     background: rgba(106, 137, 204, 0.9); /* Slightly transparent */
     color: var(--off-white);
     border: none;
@@ -1159,30 +1170,60 @@ footer p {
     /* --- End Mobile Contact Info Fixes --- */
 }
 
-/* --- FEATURED CASE STUDY SECTION --- */
+
+
+/* ── Landscape mobile: prevent oversized hero / nav ── */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        padding: 40px 0;
+        min-height: unset;
+    }
+    .hero h2 { font-size: 1.8rem; }
+    .hero p  { font-size: 1rem; margin-bottom: 20px; }
+
+    .mobile-nav-overlay {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .mobile-nav ul li {
+        margin: 10px 0;
+    }
+    .mobile-nav ul li a {
+        font-size: 1.4rem;
+    }
+    .featured-section {
+        padding: 50px 0;
+    }
+    .about {
+        padding: 60px 0;
+    }
+}
+
 .featured-section {
     padding: var(--section-padding) 0;
     background-color: var(--off-white);
-    border-top: 1px solid #eee; /* Separation from Career section */
+    border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
 
-.case-study-layout {
+/* ── Featured Hook Card ─────────────────────────────────── */
+.featured-hook {
+    display: -webkit-flex;
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    align-items: center;
+    gap: 50px;
 }
 
-.case-study-header {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+.featured-hook-text {
+    -webkit-flex: 1 1 50%;
+    flex: 1 1 50%;
+    min-width: 0;
 }
 
-.case-study-header .tag {
+.featured-hook-text .tag {
     display: inline-block;
     background: var(--primary-color);
-    color: white;
+    color: #fff;
     padding: 5px 15px;
     border-radius: var(--border-radius-pill);
     font-size: 0.85rem;
@@ -1193,121 +1234,160 @@ footer p {
     box-shadow: var(--shadow-sm);
 }
 
-.comparison-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-    margin-top: 20px;
+.featured-hook-text h2 {
+    text-align: left;
+    margin-bottom: 0.5em;
+    font-size: 2rem;
 }
 
-.case-text h4 {
-    font-size: 1.4rem;
-    color: var(--dark-blue);
-    margin-top: 20px;
-    margin-bottom: 15px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: var(--font-weight-bold);
-}
-
-.case-text ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 25px;
-}
-
-.case-text ul li {
-    margin-bottom: 12px;
-    position: relative;
-    padding-left: 25px;
+.featured-hook-text > p {
+    font-size: 1.1rem;
     color: #555;
+    margin-bottom: 1.5em;
+    max-width: 560px;
 }
 
-.case-text ul li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
-.visual-showcase {
+.hook-stats {
+    display: -webkit-flex;
     display: flex;
-    gap: 20px;
-    background: var(--lighter-blue-bg);
-    padding: 20px;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-    border: 1px solid #e0e6f1;
+    gap: 30px;
+    margin-bottom: 2em;
+    padding: 20px 0;
+    border-top: 1px solid #e8edf2;
+    border-bottom: 1px solid #e8edf2;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
-.visual-card {
-    flex: 1;
-    text-align: center;
+.hook-stat {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    min-width: 80px;
 }
 
-.visual-card img {
-    width: 100%;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer; /* Implies interaction */
-}
-
-.visual-card img:hover {
-    transform: scale(1.05);
-    z-index: 2;
-}
-
-.visual-caption {
-    display: block;
-    margin-top: 12px;
-    font-size: 0.85rem;
+.hook-stat strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
     font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.1;
+}
+
+.hook-stat span {
+    font-size: 0.82rem;
+    color: var(--grey-text);
+    margin-top: 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.stat-row {
+.hook-ctas {
+    display: -webkit-flex;
     display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
+    align-items: center;
+    gap: 20px;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
-.stat-item {
-    font-size: 0.9rem;
-    text-align: center;
-    color: var(--grey-text);
-}
+.hook-ctas .btn { margin-top: 0; }
 
-.stat-item strong {
-    display: block;
-    font-size: 1.6rem;
+.btn-link {
     color: var(--primary-color);
-    line-height: 1.2;
-    margin-bottom: 5px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    text-decoration: none;
+    -webkit-transition: color 0.25s;
+    transition: color 0.25s;
+    white-space: nowrap;
+    touch-action: manipulation;
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .comparison-grid {
-        grid-template-columns: 1fr;
-    }
-    .visual-showcase {
-        order: -1; /* Move visuals to top on mobile */
-    }
+.btn-link:hover { color: var(--secondary-color); }
+
+.featured-hook-image {
+    -webkit-flex: 1 1 45%;
+    flex: 1 1 45%;
+    min-width: 0;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
 }
 
-@media (max-width: 600px) {
-    .visual-showcase {
+.featured-hook-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--border-radius-lg);
+    -webkit-transition: -webkit-transform 0.4s ease;
+    transition: transform 0.4s ease;
+}
+
+.featured-hook-image:hover img {
+    -webkit-transform: scale(1.03);
+    transform: scale(1.03);
+}
+
+@media (max-width: 900px) {
+    .featured-hook {
+        -webkit-flex-direction: column;
         flex-direction: column;
+        gap: 36px;
     }
-    .stat-row {
-        flex-wrap: wrap;
+    .featured-hook-text h2 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+    .featured-hook-text > p {
+        text-align: center;
+        max-width: 100%;
+    }
+    .hook-stats {
+        -webkit-justify-content: center;
         justify-content: center;
     }
+    .hook-ctas {
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .featured-hook-image {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .hook-stats { gap: 18px; }
+    .hook-stat strong { font-size: 1.5rem; }
+    .hook-ctas { -webkit-flex-direction: column; flex-direction: column; align-items: center; }
+    .btn-link { white-space: normal; text-align: center; }
+}
+
+/* ── Landscape mobile ───────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        padding: 40px 0;
+        min-height: unset;
+    }
+    .hero h2 { font-size: 1.8rem; }
+    .hero p  { font-size: 1rem; margin-bottom: 20px; }
+
+    .mobile-nav-overlay {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        -webkit-justify-content: flex-start;
+        justify-content: flex-start;
+        padding-top: 60px;
+    }
+    .mobile-nav ul li { margin: 10px 0; }
+    .mobile-nav ul li a { font-size: 1.4rem; }
+
+    .featured-section { padding: 50px 0; }
+    .about { padding: 60px 0; }
+    .featured-hook { gap: 30px; }
+    .featured-hook-image img { max-height: 260px; }
 }
