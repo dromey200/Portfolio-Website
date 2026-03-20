@@ -99,7 +99,7 @@ function initializePortfolio() {
             // Fallback to hardcoded English
             const fallback = {
                 'horadric-companion': {
-                    title: 'Concept: Stat Verdict – AI Loot Analyzer',
+                    title: 'Concept: Horadric – AI Build Companion',
                     role: 'Lead Product Designer & AI Strategist'
                 },
                 'fairway-concierge': {

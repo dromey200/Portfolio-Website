@@ -37,7 +37,7 @@
     },
     "featuredCaseStudy": {
       "tag": "Featured Case Study",
-      "title": "Stat Verdict: The 48-Hour Pivot",
+      "title": "Horadric AI: The 48-Hour Pivot",
       "description": "How I used real-time analytics to diagnose an 80% bounce rate and re-engineered the onboarding flow to drive product-led growth.",
       "challenge": "The Challenge",
       "challengeText": "Upon soft-launching \"Horadric AI\" (a Gemini-powered loot analyzer), I drove 280+ users in 24 hours. However, analytics revealed a critical friction point: users were hitting the \"API Key\" login wall and bouncing in < 3 seconds.",
@@ -58,7 +58,7 @@
       "title": "My Work",
       "projects": {
         "horadric": {
-          "title": "Concept: Stat Verdict – AI Loot Analyzer",
+          "title": "Concept: Horadric – AI Build Companion",
           "role": "Lead Product Designer & AI Strategist",
           "description": "A multi-modal AI agent concept for ARPG gamers that uses computer vision to analyze inventory screenshots and provide mathematically optimized build recommendations."
         },
@@ -156,7 +156,7 @@
     },
     "featuredCaseStudy": {
       "tag": "Caso de Estudio Destacado",
-      "title": "Stat Verdict: El Pivote de 48 Horas",
+      "title": "Horadric AI: El Pivote de 48 Horas",
       "description": "Cómo utilicé análisis en tiempo real para diagnosticar una tasa de rebote del 80% e reingenié el flujo de incorporación para impulsar el crecimiento dirigido por el producto.",
       "challenge": "El Desafío",
       "challengeText": "Al lanzar suavemente \"Horadric AI\" (analizador de botín con tecnología Gemini), atraje a más de 280 usuarios en 24 horas. Sin embargo, el análisis reveló un punto crítico de fricción: los usuarios estaban golpeando la pared de inicio de sesión \"Clave API\" y rebotaban en < 3 segundos.",
@@ -177,7 +177,7 @@
       "title": "Mi Trabajo",
       "projects": {
         "horadric": {
-          "title": "Concepto: Stat Verdict – Analizador de Botín con IA",
+          "title": "Concepto: Horadric – Compañero de Construcción de IA",
           "role": "Diseñador de Producto Líder y Estratega de IA",
           "description": "Un concepto de agente de IA multimodal para jugadores de ARPG que utiliza visión por computadora para analizar capturas de pantalla de inventario y proporcionar recomendaciones de construcción optimizadas matemáticamente."
         },
@@ -275,7 +275,7 @@
     },
     "featuredCaseStudy": {
       "tag": "Étude de Cas Présentée",
-      "title": "Stat Verdict : Le Pivotage de 48 Heures",
+      "title": "Horadric AI : Le Pivotage de 48 Heures",
       "description": "Comment j'ai utilisé l'analyse en temps réel pour diagnostiquer un taux de rebond de 80% et réingénierie le flux d'intégration pour stimuler la croissance dirigée par le produit.",
       "challenge": "Le Défi",
       "challengeText": "En lançant doucement \"Horadric AI\" (analyseur de butin alimenté par Gemini), j'ai attiré 280+ utilisateurs en 24 heures. Cependant, l'analyse a révélé un point critique de friction : les utilisateurs frappaient le mur de connexion \"Clé API\" et rebondissaient en < 3 secondes.",
@@ -296,7 +296,7 @@
       "title": "Mon Travail",
       "projects": {
         "horadric": {
-          "title": "Concept : Stat Verdict – Analyseur de Butin IA",
+          "title": "Concept : Horadric – Compagnon de Build IA",
           "role": "Designer de Produit Principal et Stratège IA",
           "description": "Un concept d'agent IA multimodal pour les joueurs d'ARPG qui utilise la vision par ordinateur pour analyser les captures d'écran d'inventaire et fournir des recommandations de build optimisées mathématiquement."
         },
@@ -394,7 +394,7 @@
     },
     "featuredCaseStudy": {
       "tag": "Präsentierte Fallstudie",
-      "title": "Stat Verdict: Die 48-Stunden-Drehung",
+      "title": "Horadric KI: Die 48-Stunden-Drehung",
       "description": "Wie ich Echtzeit-Analysen nutzte, um eine Absprungrate von 80% zu diagnostizieren und den Onboarding-Fluss für produktgesteuerten Wachstum umgestaltete.",
       "challenge": "Die Herausforderung",
       "challengeText": "Bei der sanften Einführung von \"Horadric AI\" (einem Gemini-gesteuerten Loot-Analysator) zog ich 280+ Benutzer in 24 Stunden an. Allerdings ergab die Analyse einen kritischen Reibungspunkt: Benutzer schlugen gegen die \"API-Schlüssel\"-Anmeldewand und sprangen in < 3 Sekunden ab.",
@@ -415,7 +415,7 @@
       "title": "Meine Arbeit",
       "projects": {
         "horadric": {
-          "title": "Konzept: Stat Verdict – KI-Beute-Analysator",
+          "title": "Konzept: Horadric – KI-Build-Begleiter",
           "role": "Lead-Produktdesigner und KI-Stratege",
           "description": "Ein multimodes KI-Agenten-Konzept für ARPG-Spieler, das Computer Vision nutzt, um Inventar-Screenshots zu analysieren und mathematisch optimierte Build-Empfehlungen zu geben."
         },
@@ -513,7 +513,7 @@
     },
     "featuredCaseStudy": {
       "tag": "注目のケーススタディ",
-      "title": "Stat Verdict：48時間ピボット",
+      "title": "Horadric AI：48時間ピボット",
       "description": "リアルタイム分析を使用して80％のバウンス率を診断し、オンボーディングフローを再設計して製品主導の成長を促進した方法。",
       "challenge": "課題",
       "challengeText": "Horadric AI（Gemini搭載のルート分析ツール）をソフトローンチすると、24時間で280以上のユーザーを獲得しました。ただし、分析により重大な摩擦点が明らかになりました。ユーザーが「APIキー」ログインウォールにぶつかり、3秒以内にバウンスしていました。",
@@ -534,7 +534,7 @@
       "title": "作品",
       "projects": {
         "horadric": {
-          "title": "コンセプト：Stat Verdict – AIルートアナライザー",
+          "title": "コンセプト：Horadric – AIビルドコンパニオン",
           "role": "リード製品デザイナー兼AIストラテジスト",
           "description": "ARPGゲーマー向けのマルチモーダルAIエージェントコンセプトで、コンピュータビジョンを使用してインベントリスクリーンショットを分析し、数学的に最適化されたビルド推奨を提供します。"
         },
@@ -632,7 +632,7 @@
     },
     "featuredCaseStudy": {
       "tag": "Estudo de Caso em Destaque",
-      "title": "Stat Verdict: O Pivô de 48 Horas",
+      "title": "Horadric IA: O Pivô de 48 Horas",
       "description": "Como usei análise em tempo real para diagnosticar uma taxa de rejeição de 80% e reingeniei o fluxo de integração para impulsionar o crescimento orientado por produtos.",
       "challenge": "O Desafio",
       "challengeText": "Ao lançar suavemente \"Horadric AI\" (um analisador de saques alimentado por Gemini), atraí 280+ usuários em 24 horas. No entanto, a análise revelou um ponto crítico de atrito: os usuários estavam atingindo a parede de login \"Chave de API\" e pulando em < 3 segundos.",
@@ -653,7 +653,7 @@
       "title": "Meu Trabalho",
       "projects": {
         "horadric": {
-          "title": "Conceito: Stat Verdict – Analisador de Saque de IA",
+          "title": "Conceito: Horadric – Companheiro de Build de IA",
           "role": "Designer de Produto Líder e Estrategista de IA",
           "description": "Um conceito de agente de IA multimodal para jogadores de ARPG que usa visão computacional para analisar capturas de tela de inventário e fornecer recomendações de build otimizadas matematicamente."
         },
