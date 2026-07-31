@@ -379,7 +379,9 @@ header .desktop-nav ul li a:hover::after {
 .about-image {
     flex: 1;
     min-width: 280px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .about-image img {
@@ -392,6 +394,8 @@ header .desktop-nav ul li a:hover::after {
     object-fit: cover;
     -o-object-fit: cover;
     transition: transform 0.3s ease;
+    margin: 0 auto;
+    display: block;
 }
 
 .about-image img:hover {
@@ -400,39 +404,39 @@ header .desktop-nav ul li a:hover::after {
 
 .about-text {
     flex: 2;
-    min-width: 320px;
+    min-width: 0;
 }
 
 .about-text h3 {
-    text-align: center;
+    text-align: left;
 }
 
 .about-text ul {
     list-style: none;
     padding-left: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
+    flex-direction: column;
+    gap: 12px;
     margin-top: 1.5em;
     margin-bottom: 2em;
 }
 
 .about-text ul li {
-    background: var(--light-blue-bg);
-    color: var(--secondary-color);
-    padding: 10px 18px;
-    border-radius: var(--border-radius-pill);
+    background: var(--lighter-blue-bg);
+    color: var(--text-color);
+    padding: 14px 18px;
+    border-radius: var(--border-radius-md);
     font-size: 0.95rem;
-    font-weight: var(--font-weight-semibold);
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    will-change: transform, background, box-shadow;
+    font-weight: var(--font-weight-regular);
+    border-left: 4px solid var(--primary-color);
     box-shadow: var(--shadow-sm);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .about-text ul li:hover {
-    background: #c3d2e9;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: #dde6f3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Brands Section (Now Career Section) */
@@ -1026,7 +1030,7 @@ footer p {
 
     .about-content {
         flex-direction: column;
-        text-align: center;
+        align-items: center;
         gap: var(--spacing-xl);
     }
 
@@ -1035,8 +1039,13 @@ footer p {
         height: 280px;
     }
 
-    .about-text ul {
-        justify-content: center;
+    .about-text {
+        text-align: left;
+        width: 100%;
+    }
+
+    .about-text h3 {
+        text-align: center;
     }
 
     .desktop-nav {
@@ -1084,8 +1093,8 @@ footer p {
         padding: var(--section-padding-mobile) 0;
     }
     .about-image img {
-        width: 250px;
-        height: 250px;
+        width: 240px;
+        height: 240px;
     }
 
     .portfolio {
@@ -1132,7 +1141,8 @@ footer p {
         min-height: 350px;
     }
     .hero h2 {
-        font-size: 2rem;
+        font-size: 1.55rem;
+        line-height: 1.3;
     }
     .hero p {
         font-size: 1rem;
